@@ -1,0 +1,57 @@
+﻿<Window x:Class="ProjectChallenge102.Vragen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Vragen" Icon="Afbeeldingen/icon.ico" Height="285" Width="600" WindowStyle="None" ResizeMode="NoResize" Background="#FFC7BBD1" >
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="Afbeeldingen/Vragen-Venster.png"/>
+        </Grid.Background>
+        <Label x:Name="LBLAntwoord" Content="Antwoord" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="24,151,0,0"/>
+        <Label x:Name="LBLOnderwerpTitel" Content="Onderwerp:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,26,0,0"/>
+        <Label x:Name="LBLMoeilijkheidTitel" Content="Moeilijkheid:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,47,0,0"/>
+        <Button x:Name="CMDVolgende" Content="Volgende" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Margin="430,213,0,0" Height="62" Click="CMDVolgende_Click" Visibility="Collapsed" BorderBrush="{x:Null}" AllowDrop="True" BorderThickness="0" FontSize="30">
+            <Button.Background>
+                <ImageBrush ImageSource="Afbeeldingen/CMDLarge.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="CMDBevestig" Content="Bevestig" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Margin="430,213,0,0" Height="62" Click="CMDBevestig_Click" Visibility="Collapsed" BorderBrush="{x:Null}" AllowDrop="True" BorderThickness="0" FontSize="30">
+            <Button.Background>
+                <ImageBrush ImageSource="Afbeeldingen/CMDLarge.png"/>
+            </Button.Background>
+        </Button>
+        <TextBox x:Name="TXTAntwoord" CharacterCasing="Lower" Height="23" TextWrapping="Wrap" Text="Hier schrijf je het antwoord." Width="547" Margin="26,179,0,0" Background="White" ToolTip="Hier schrijf je het antwoord op de vraag." VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left" FontSize="14" BorderThickness="0" VerticalAlignment="Top"/>
+        <Label x:Name="LBLVraag" Content="Hier komt de vraag te staan." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,106,0,0" FontSize="16" FontFamily="Verdana"/>
+        <Label x:Name="LBLOnderwerp" Content="{}{onderwerp}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="92,26,0,0" ToolTip="Dit is het gekozen onderwerp."/>
+        <Label x:Name="LBLMoeilijkheid" Content="{}{moeilijkheid}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="92,47,0,0" ToolTip="Dit is uw moeilijkheidsgraad."/>
+        <ProgressBar x:Name="PGBTijd" HorizontalAlignment="Left" Height="24" Margin="269,41,0,0" VerticalAlignment="Top" Width="300" Value="75" RenderTransformOrigin="0.5,0.5" Maximum="75" Foreground="#FFD6D600" BorderBrush="#FF444444" BorderThickness="5,20" ToolTip="Dit is de tijd die u nog over heeft.">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="-7.595"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="1.867"/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
+        <Label x:Name="LBLVraagAantal" Content="Vraag 0/10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="500,14,0,0"/>
+        <TextBox x:Name="TXTFouteVragen" HorizontalAlignment="Left" Height="254" TextWrapping="Wrap" Text="Naam" VerticalAlignment="Top" Width="195" Margin="587,5,0,0" Visibility="Collapsed"/>
+        <Button x:Name="CMDStart" Content="Start" HorizontalAlignment="Left" Margin="221,213,0,0" VerticalAlignment="Top" Width="138" Height="62" Click="CMDStart_Click" ToolTip="Druk om de vragenreeks te starten." FontSize="30" BorderBrush="{x:Null}" BorderThickness="0">
+            <Button.Background>
+                <ImageBrush ImageSource="Afbeeldingen/CMDLarge.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="CMDSluiten" Content="Sluiten" HorizontalAlignment="Left" Margin="221,213,0,0" VerticalAlignment="Top" Width="138" Height="62" Click="CMDSluiten_Click" Visibility="Collapsed" BorderBrush="{x:Null}" AllowDrop="True" BorderThickness="0" FontSize="30">
+            <Button.Background>
+                <ImageBrush ImageSource="Afbeeldingen/CMDLarge.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="CMDInfo" Content="i" HorizontalAlignment="Left" Margin="24,213,0,0" VerticalAlignment="Top" Width="50" Height="63" Click="CMDInfo_Click" ToolTip="Druk voor meer informatie i.v.m. de vragenlijst." FontSize="40" BorderBrush="{x:Null}" BorderThickness="0" Foreground="White" FontFamily="Times New Roman" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Button.Background>
+                <ImageBrush ImageSource="Afbeeldingen/CMDLarge.png"/>
+            </Button.Background>
+        </Button>
+        <Label x:Name="LBLJuisteAntwoord" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="24,206,0,0"/>
+        <Label x:Name="LBLWiskundeTip" Visibility="Collapsed" Content="Tip: Geef het antwoord in de vorm van een breuk. (0.5 -&gt; 1/2)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,75,0,0" FontSize="16" FontFamily="Verdana"/>
+
+    </Grid>
+</Window>

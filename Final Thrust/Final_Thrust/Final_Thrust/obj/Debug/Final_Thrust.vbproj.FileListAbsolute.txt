@@ -1,0 +1,32 @@
+c:\users\hermg\documents\visual studio 2015\Projects\Final_Thrust\Final_Thrust\bin\Debug\Final_Thrust.exe.config
+G:\Game\Final_Thrust\Final_Thrust\bin\Debug\Final_Thrust.exe.config
+G:\Game\Final_Thrust\Final_Thrust\bin\Debug\Final_Thrust.exe
+G:\Game\Final_Thrust\Final_Thrust\bin\Debug\Final_Thrust.pdb
+G:\Game\Final_Thrust\Final_Thrust\bin\Debug\Final_Thrust.xml
+G:\Game\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.vbprojResolveAssemblyReference.cache
+G:\Game\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.Form1.resources
+G:\Game\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.Resources.resources
+G:\Game\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.vbproj.GenerateResource.Cache
+G:\Game\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.exe
+G:\Game\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.xml
+G:\Game\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.pdb
+G:\Final Thrust\Final_Thrust\Final_Thrust\bin\Debug\Final_Thrust.exe.config
+G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.exe
+G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.xml
+G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.pdb
+G:\Final Thrust\Final_Thrust\Final_Thrust\bin\Debug\Final_Thrust.exe
+G:\Final Thrust\Final_Thrust\Final_Thrust\bin\Debug\Final_Thrust.pdb
+G:\Final Thrust\Final_Thrust\Final_Thrust\bin\Debug\Final_Thrust.xml
+G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.vbprojResolveAssemblyReference.cache
+G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.Form1.resources
+G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.Resources.resources
+G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.vbproj.GenerateResource.Cache
+G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.Character_Select.resources
+G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.Splash_Final_Thrust.resources
+G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.Achievements.resources
+G:\Final Thrust\Final_Thrust\Final_Thrust\bin\Debug\Interop.WMPLib.dll
+G:\Final Thrust\Final_Thrust\Final_Thrust\bin\Debug\AxInterop.WMPLib.dll
+G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Interop.WMPLib.dll
+G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\AxInterop.WMPLib.dll
+G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.vbproj.ResolveComReference.cache
+G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.Useable_items.resources

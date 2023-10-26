@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="Music_Volume" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="SFX_Mute" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Mastery_String" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0000000000000</Value>
+    </Setting>
+    <Setting Name="Alysha_last_played" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/17/2020 16:00:00</Value>
+    </Setting>
+    <Setting Name="Makyr_last_played" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/18/2020 16:00:00</Value>
+    </Setting>
+    <Setting Name="Nardina_last_played" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/18/2020 16:00:00</Value>
+    </Setting>
+    <Setting Name="Nylathria_last_played" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/18/2020 16:00:00</Value>
+    </Setting>
+    <Setting Name="Sagraxes_last_played" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/18/2020 16:00:00</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

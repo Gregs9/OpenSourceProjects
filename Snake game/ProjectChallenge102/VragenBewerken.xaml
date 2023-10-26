@@ -1,0 +1,13 @@
+﻿<Window x:Class="ProjectChallenge102.VragenBewerken"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="VragenBewerken" Icon="Afbeeldingen/icon.ico" Height="500" Width="595" Background="#FFC7BBD1">
+    <Grid Background="#FFEEA2FF">
+        <Label x:Name="LBLBestand" Content="Inhoud" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,15,0,0" FontSize="20" FontWeight="SemiBold"/>
+        <Button x:Name="CMDOpslaan" Content="Opslaan" HorizontalAlignment="Left" Margin="88,425,0,0" VerticalAlignment="Top" Width="73" Height="34" Click="CMDOpslaan_Click" TabIndex="2" ToolTip="Druk om de aanpassingen op te slaan."/>
+        <Button x:Name="CMDSluiten" Content="Sluiten" HorizontalAlignment="Left" Margin="10,425,0,0" VerticalAlignment="Top" Width="73" Height="34" Click="CMDSluiten_Click" TabIndex="1" ToolTip="Druk om het venster te sluiten."/>
+        <TextBox x:Name="TXTBestand" TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="363" Margin="10,57,0,0" VerticalAlignment="Top" Width="568" ScrollViewer.CanContentScroll="True" FontSize="14" HorizontalScrollBarVisibility="Auto" TabIndex="0"/>
+        <TextBox x:Name="TXTPad" IsReadOnly="True" HorizontalAlignment="Left" Height="34" Margin="244,425,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="334" Text="Pad" VerticalContentAlignment="Stretch" TabIndex="-1" ToolTip="Dit is de locatie van het bestand."/>
+        <Button x:Name="CMDOpen" Content="Open" HorizontalAlignment="Left" Margin="166,425,0,0" VerticalAlignment="Top" Width="73" Height="34" Click="CMDOpen_Click" TabIndex="3" ToolTip="Druk om het vragenbestand te openen."/>
+    </Grid>
+</Window>

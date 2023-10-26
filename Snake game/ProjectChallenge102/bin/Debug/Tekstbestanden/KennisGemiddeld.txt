@@ -1,0 +1,174 @@
+/
+Welk eurobiljet bestaat niet? 50, 200 of 1000.
+1000
+/
+Is een mens een zoogdier? (Ja/Nee)
+ja
+/
+Hoe noemt men een mannelijke kat?
+kater
+/
+Waarin verandert een rups als hij gaat poppen?
+vlinder
+/
+Welk dier werd vroeger gebruikt op berichten te vervoeren?
+duif
+/
+De grote Oceaan is de oceaan tussen Azië en... ?
+amerika
+/
+In welk werelddeel liggen de Pyreneeën?
+europa
+/
+In welk werelddeel leven de pinguins?
+antartica
+/
+In welk land leven de kangeroe's?
+australie
+/
+Hoeveel spelers zitten er in een voetbalteam?
+11
+/
+Wat is de hoofdstad van Albanië?
+tirana
+/
+Wat is de hoofdstad van Andorra?
+andorra la vella
+/
+Wat is de hoofdstad van Azerbeidzjan?
+bakoe
+/
+Wat is de hoofdstad van België?
+brussel
+/
+Wat is de hoofdstad van Bosnië en Herzegovina?
+sarajevo
+/
+Wat is de hoofdstad van Bulgarije?
+sofia
+/
+Wat is de hoofdstad van Denemarken?
+kopenhagen
+/
+Wat is de hoofdstad van Duitsland?
+berlijn
+/
+Wat is de hoofdstad van Estland?
+tallinn
+/
+Wat is de hoofdstad van Finland?
+helsinki
+/
+Wat is de hoofdstad van Frankrijk?
+parijs
+/
+Wat is de hoofdstad van Griekenland?
+athene
+/
+Wat is de hoofdstad van Hongarije?
+boedapest
+/
+Wat is de hoofdstad van Ierland?
+dublin
+/
+Wat is de hoofdstad van IJsland?
+reykjavik
+/
+Wat is de hoofdstad van Italië?
+rome
+/
+Wat is de hoofdstad van Kazachstan?
+astana
+/
+Wat is de hoofdstad van Kosovo?
+pristina
+/
+Wat is de hoofdstad van Kroatië?
+zagreb
+/
+Wat is de hoofdstad van Letland?
+riga
+/
+Wat is de hoofdstad van Liechtenstein?
+vaduz
+/
+Wat is de hoofdstad van Litouwen?
+vilnius
+/
+Wat is de hoofdstad van Luxemburg?
+luxemburg
+/
+Wat is de hoofdstad van Macedonië?
+skopje
+/
+Wat is de hoofdstad van Malta?
+valletta
+/
+Wat is de hoofdstad van Moldavië?
+chisinau
+/
+Wat is de hoofdstad van Monaco?
+monaco
+/
+Wat is de hoofdstad van Montenegro?
+podgorica
+/
+Wat is de hoofdstad van Nederland?
+amsterdam
+/
+Wat is de hoofdstad van Noorwegen?
+oslo
+/
+Wat is de hoofdstad van Oekraïne?
+kiev
+/
+Wat is de hoofdstad van Oostenrijk?
+wenen
+/
+Wat is de hoofdstad van Polen?
+warschau
+/
+Wat is de hoofdstad van Portugal?
+lissabon
+/
+Wat is de hoofdstad van Roemenië?
+boekarest
+/
+Wat is de hoofdstad van Rusland?
+moskou
+/
+Wat is de hoofdstad van San Marino?
+san marino
+/
+Wat is de hoofdstad van Servië?
+belgrado
+/
+Wat is de hoofdstad van Slovenië?
+ljubljana
+/
+Wat is de hoofdstad van Slowakije?
+bratislava
+/
+Wat is de hoofdstad van Spanje?
+madrid
+/
+Wat is de hoofdstad van Tsjechië?
+praag
+/
+Wat is de hoofdstad van Turkije?
+ankara
+/
+Wat is de hoofdstad van Vaticaanstad?
+vaticaanstad
+/
+Wat is de hoofdstad van Verenigd Koninkrijk?
+londen
+/
+Wat is de hoofdstad van Wit-Rusland?
+minsk
+/
+Wat is de hoofdstad van Zweden?
+stockholm
+/
+Wat is de hoofdstad van Zwitserland?
+bern

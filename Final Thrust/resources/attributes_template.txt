@@ -1,0 +1,17 @@
+>current HP (max HP is calculated with stats and doesn't need to be saved)
+>Experience (level is deducted from total xp and is calculated after)
+>strength
+>dexterity
+>Constitution
+>intelligence
+>wisdom
+>charisma
+>equipment slot Head
+>equipment slot Shoulders
+>equipment slot Chest
+>equipment slot Legs
+>equipment slot Boots
+>equipment slot Main Hand
+>equipment slot Off Hand
+
+(inventory and gold is shared across all characters)

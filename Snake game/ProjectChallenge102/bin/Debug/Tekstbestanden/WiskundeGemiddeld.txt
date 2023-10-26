@@ -1,0 +1,300 @@
+/
+Vermenigvuldig: 1 x 1 = ?
+1
+/
+Vermenigvuldig: 1 x 2 = ?
+2
+/
+Vermenigvuldig: 1 x 3 = ?
+3
+/
+Vermenigvuldig: 1 x 4 = ?
+4
+/
+Vermenigvuldig: 1 x 5 = ?
+5
+/
+Vermenigvuldig: 1 x 6 = ?
+6
+/
+Vermenigvuldig: 1 x 7 = ?
+7
+/
+Vermenigvuldig: 1 x 8 = ?
+8
+/
+Vermenigvuldig: 1 x 9 = ?
+9
+/
+Vermenigvuldig: 1 x 10 = ?
+10
+/
+Vermenigvuldig: 2 x 1 = ?
+2
+/
+Vermenigvuldig: 2 x 2 = ?
+4
+/
+Vermenigvuldig: 2 x 3 = ?
+6
+/
+Vermenigvuldig: 2 x 4 = ?
+8
+/
+Vermenigvuldig: 2 x 5 = ?
+10
+/
+Vermenigvuldig: 2 x 6 = ?
+12
+/
+Vermenigvuldig: 2 x 7 = ?
+14
+/
+Vermenigvuldig: 2 x 8 = ?
+16
+/
+Vermenigvuldig: 2 x 9 = ?
+18
+/
+Vermenigvuldig: 2 x 10 = ?
+20
+/
+Vermenigvuldig: 3 x 1 = ?
+3
+/
+Vermenigvuldig: 3 x 2 = ?
+6
+/
+Vermenigvuldig: 3 x 3 = ?
+9
+/
+Vermenigvuldig: 3 x 4 = ?
+12
+/
+Vermenigvuldig: 3 x 5 = ?
+15
+/
+Vermenigvuldig: 3 x 6 = ?
+18
+/
+Vermenigvuldig: 3 x 7 = ?
+21
+/
+Vermenigvuldig: 3 x 8 = ?
+24
+/
+Vermenigvuldig: 3 x 9 = ?
+27
+/
+Vermenigvuldig: 3 x 10 = ?
+30
+/
+Vermenigvuldig: 4 x 1 = ?
+4
+/
+Vermenigvuldig: 4 x 2 = ?
+8
+/
+Vermenigvuldig: 4 x 3 = ?
+12
+/
+Vermenigvuldig: 4 x 4 = ?
+16
+/
+Vermenigvuldig: 4 x 5 = ?
+20
+/
+Vermenigvuldig: 4 x 6 = ?
+24
+/
+Vermenigvuldig: 4 x 7 = ?
+28
+/
+Vermenigvuldig: 4 x 8 = ?
+32
+/
+Vermenigvuldig: 4 x 9 = ?
+36
+/
+Vermenigvuldig: 4 x 10 = ?
+40
+/
+Vermenigvuldig: 5 x 1 = ?
+5
+/
+Vermenigvuldig: 5 x 2 = ?
+10
+/
+Vermenigvuldig: 5 x 3 = ?
+15
+/
+Vermenigvuldig: 5 x 4 = ?
+20
+/
+Vermenigvuldig: 5 x 5 = ?
+25
+/
+Vermenigvuldig: 5 x 6 = ?
+30
+/
+Vermenigvuldig: 5 x 7 = ?
+35
+/
+Vermenigvuldig: 5 x 8 = ?
+40
+/
+Vermenigvuldig: 5 x 9 = ?
+45
+/
+Vermenigvuldig: 5 x 10 = ?
+50
+/
+Vermenigvuldig: 6 x 1 = ?
+6
+/
+Vermenigvuldig: 6 x 2 = ?
+12
+/
+Vermenigvuldig: 6 x 3 = ?
+18
+/
+Vermenigvuldig: 6 x 4 = ?
+24
+/
+Vermenigvuldig: 6 x 5 = ?
+30
+/
+Vermenigvuldig: 6 x 6 = ?
+36
+/
+Vermenigvuldig: 6 x 7 = ?
+42
+/
+Vermenigvuldig: 6 x 8 = ?
+48
+/
+Vermenigvuldig: 6 x 9 = ?
+54
+/
+Vermenigvuldig: 6 x 10 = ?
+60
+/
+Vermenigvuldig: 7 x 1 = ?
+7
+/
+Vermenigvuldig: 7 x 2 = ?
+14
+/
+Vermenigvuldig: 7 x 3 = ?
+21
+/
+Vermenigvuldig: 7 x 4 = ?
+28
+/
+Vermenigvuldig: 7 x 5 = ?
+35
+/
+Vermenigvuldig: 7 x 6 = ?
+42
+/
+Vermenigvuldig: 7 x 7 = ?
+49
+/
+Vermenigvuldig: 7 x 8 = ?
+56
+/
+Vermenigvuldig: 7 x 9 = ?
+63
+/
+Vermenigvuldig: 7 x 10 = ?
+70
+/
+Vermenigvuldig: 8 x 1 = ?
+8
+/
+Vermenigvuldig: 8 x 2 = ?
+16
+/
+Vermenigvuldig: 8 x 3 = ?
+24
+/
+Vermenigvuldig: 8 x 4 = ?
+32
+/
+Vermenigvuldig: 8 x 5 = ?
+40
+/
+Vermenigvuldig: 8 x 6 = ?
+48
+/
+Vermenigvuldig: 8 x 7 = ?
+56
+/
+Vermenigvuldig: 8 x 8 = ?
+64
+/
+Vermenigvuldig: 8 x 9 = ?
+72
+/
+Vermenigvuldig: 8 x 10 = ?
+80
+/
+Vermenigvuldig: 9 x 1 = ?
+9
+/
+Vermenigvuldig: 9 x 2 = ?
+18
+/
+Vermenigvuldig: 9 x 3 = ?
+27
+/
+Vermenigvuldig: 9 x 4 = ?
+36
+/
+Vermenigvuldig: 9 x 5 = ?
+45
+/
+Vermenigvuldig: 9 x 6 = ?
+54
+/
+Vermenigvuldig: 9 x 7 = ?
+63
+/
+Vermenigvuldig: 9 x 8 = ?
+72
+/
+Vermenigvuldig: 9 x 9 = ?
+81
+/
+Vermenigvuldig: 9 x 10 = ?
+90
+/
+Vermenigvuldig: 10 x 1 = ?
+10
+/
+Vermenigvuldig: 10 x 2 = ?
+20
+/
+Vermenigvuldig: 10 x 3 = ?
+30
+/
+Vermenigvuldig: 10 x 4 = ?
+40
+/
+Vermenigvuldig: 10 x 5 = ?
+50
+/
+Vermenigvuldig: 10 x 6 = ?
+60
+/
+Vermenigvuldig: 10 x 7 = ?
+70
+/
+Vermenigvuldig: 10 x 8 = ?
+80
+/
+Vermenigvuldig: 10 x 9 = ?
+90
+/
+Vermenigvuldig: 10 x 10 = ?
+100

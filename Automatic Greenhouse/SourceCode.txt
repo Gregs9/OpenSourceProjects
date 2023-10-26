@@ -1,0 +1,1091 @@
+'DISCLAIMER: THIS IS ONLY PARTIAL SOURCE CODE, RECOVERED FROM A LONG TIME AGO'
+
+Public Class Form1
+    'TIMERS verklaring'
+    'Timer1 zorgt voor de drukknoppen'
+    'Timer2 zorgt voor de voltage metingen van de analoge ingangen'
+    'Timer3 zorgt voor de output test'
+    'Timer4 zorgt voor de vertraging van de output test'
+    'Timer5 zorgt voor de connectie van de bordjes'
+    'Timer6 zorgt voor de output test 2'
+    'Timer7 zorgt voor de vertraging van de output test 2'
+
+    'geheugenplaatsen voor de kaart te connecten'
+    Dim n As Integer
+    Dim cbi(5) As CheckBox
+    Dim cbo(8) As CheckBox
+
+    'alle functies verklaren'
+    Private Declare Function OpenDevice Lib "k8055d.dll" (ByVal CardAddress As Integer) As Integer
+    Private Declare Sub CloseDevice Lib "k8055d.dll" ()
+    Private Declare Function ReadAnalogChannel Lib "k8055d.dll" (ByVal Channel As Integer) As Integer
+    Private Declare Sub ReadAllAnalog Lib "k8055d.dll" (ByRef Data1 As Integer, ByRef Data2 As Integer)
+    Private Declare Sub OutputAnalogChannel Lib "k8055d.dll" (ByVal Channel As Integer, ByVal Data As Integer)
+    Private Declare Sub OutputAllAnalog Lib "k8055d.dll" (ByVal Data1 As Integer, ByVal Data2 As Integer)
+    Private Declare Sub ClearAnalogChannel Lib "k8055d.dll" (ByVal Channel As Integer)
+    Private Declare Sub SetAllAnalog Lib "k8055d.dll" ()
+    Private Declare Sub ClearAllAnalog Lib "k8055d.dll" ()
+    Private Declare Sub SetAnalogChannel Lib "k8055d.dll" (ByVal Channel As Integer)
+    Private Declare Sub WriteAllDigital Lib "k8055d.dll" (ByVal Data As Integer)
+    Private Declare Sub ClearDigitalChannel Lib "k8055d.dll" (ByVal Channel As Integer)
+    Private Declare Sub ClearAllDigital Lib "k8055d.dll" ()
+    Private Declare Sub SetDigitalChannel Lib "k8055d.dll" (ByVal Channel As Integer)
+    Private Declare Sub SetAllDigital Lib "k8055d.dll" ()
+    Private Declare Function ReadDigitalChannel Lib "k8055d.dll" (ByVal Channel As Integer) As Boolean
+    Private Declare Function ReadAllDigital Lib "k8055d.dll" () As Integer
+    Private Declare Function ReadCounter Lib "k8055d.dll" (ByVal CounterNr As Integer) As Integer
+    Private Declare Sub ResetCounter Lib "k8055d.dll" (ByVal CounterNr As Integer)
+    Private Declare Sub SetCounterDebounceTime Lib "k8055d.dll" (ByVal CounterNr As Integer, ByVal DebounceTime As Integer)
+
+    '2 geheugenplaatsen voor de voltages van beide analoge kanalen weer te geven'
+    Dim decvoltAK1 As Decimal
+    Dim decvoltAK2 As Decimal
+
+    'geheugenplaatsen voor knop 2 en 3 te laten lopen'
+    Dim bytsleutel As Byte = 0
+    Dim bytsleutel2 As Byte = 0
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'kopie uit de demo om verschillende kaarten te kunnen aansluiten'
+        n = 7
+        Dim i As Integer
+        For i = 1 To 5
+            cbi(i) = New System.Windows.Forms.CheckBox
+            cbi(i).Size = New System.Drawing.Size(30, 16)
+            cbi(i).Text = CStr(i)
+            cbi(i).Cursor = System.Windows.Forms.Cursors.No
+            cbi(i).Location = New System.Drawing.Point(30 * i - 20, 15)
+        Next
+        For i = 1 To 8
+            cbo(i) = New System.Windows.Forms.CheckBox
+            cbo(i).Size = New System.Drawing.Size(30, 16)
+            cbo(i).Text = CStr(i)
+            cbo(i).Tag = 2 ^ (i - 1)
+            cbo(i).Location = New System.Drawing.Point(30 * i - 20, 15)
+        Next
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles CMDAllesAan.Click
+        'ingangen uitzetten als er op "alles aan" word gedrukt'
+        Timer1.Stop()
+
+        'alle uitgangen resetten en op aan zetten'
+        ClearAllAnalog()
+        ClearAllDigital()
+        SetAllDigital()
+        SetAllAnalog()
+
+        'het display van de lampjes juist zetten'
+        Out1.BackgroundImage = My.Resources.LED1AAN
+        Out2.BackgroundImage = My.Resources.LED2AAN
+        Out3.BackgroundImage = My.Resources.LED3AAN
+        Out4.BackgroundImage = My.Resources.LED4AAN
+        Out5.BackgroundImage = My.Resources.LED5AAN
+        Out6.BackgroundImage = My.Resources.LED6AAN
+        Out7.BackgroundImage = My.Resources.LED7AAN
+        Out8.BackgroundImage = My.Resources.LED8AAN
+        Pwm1.BackgroundImage = My.Resources.PWM1AAN
+        Pwm2.BackgroundImage = My.Resources.PWM2AAN
+
+        'enkele knoppen en menutaken uitzetten'
+        CMDJohnsonCounter.Visible = False
+        CMDOutputTest.Visible = False
+        CMDJohnsonCounterDisabled.Visible = True
+        CMDOutputTestDisabled.Visible = True
+        MNUBesturingJohnsonCounter.Enabled = False
+        MNUBesturingOutputTest.Enabled = False
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles CMDAllesUit.Click
+        'de knoppen terug bruikbaar maken door de timer te starten'
+        Timer1.Start()
+
+        'alle uitgangen uitzetten als er op alles uit word gedrukt'
+        ClearAllAnalog()
+        ClearAllDigital()
+
+        'het display van de uitgangen goed zetten'
+        Out1.BackgroundImage = My.Resources.LED1UIT
+        Out2.BackgroundImage = My.Resources.LED2UIT
+        Out3.BackgroundImage = My.Resources.LED3UIT
+        Out4.BackgroundImage = My.Resources.LED4UIT
+        Out5.BackgroundImage = My.Resources.LED5UIT
+        Out6.BackgroundImage = My.Resources.LED6UIT
+        Out7.BackgroundImage = My.Resources.LED7UIT
+        Out8.BackgroundImage = My.Resources.LED8UIT
+        Pwm1.BackgroundImage = My.Resources.PWM1UIT
+        Pwm2.BackgroundImage = My.Resources.PWM2UIT
+
+        'enekele knoppen en menutaken aanzetten'
+        CMDJohnsonCounter.Visible = True
+        CMDOutputTest.Visible = True
+        CMDJohnsonCounterDisabled.Visible = False
+        CMDOutputTestDisabled.Visible = False
+        MNUBesturingJohnsonCounter.Enabled = True
+        MNUBesturingOutputTest.Enabled = True
+
+    End Sub
+
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        'indien er op ingang 1 word gedrukt, gaat uitgang 1 hoog'
+        If ReadDigitalChannel(1) Then
+            SetDigitalChannel(1)
+            'display aanpassen'
+            Out1.BackgroundImage = My.Resources.LED1AAN
+
+        Else : ClearDigitalChannel(1)
+            'display aanpassen'
+            Out1.BackgroundImage = My.Resources.LED1UIT
+        End If
+
+        'indien er op ingang 2 word gedrukt, volgt de output test door timer 3 te starten'
+        If ReadDigitalChannel(2) Then
+            Timer3.Start()
+        End If
+
+        'indien er op ingang 3 word gedrukt, volgt de output test 2 door timer 6 te starten'
+        If ReadDigitalChannel(3) Then
+            Timer6.Start()
+        End If
+    End Sub
+    Private Sub Timer2_Tick_2(sender As Object, e As EventArgs) Handles Timer2.Tick
+        'waarde van analoog kanaal 1 omzetten in volt en in de juiste label plaatsen'
+        LBLWaardeAnaloog1.Text = ReadAnalogChannel(1)
+        decvoltAK1 = ((CDec(LBLWaardeAnaloog1.Text) / 255) * 5)
+        LBLWaardeAnaloog1.Text = Math.Round(decvoltAK1, 2) & " Volt"
+
+        'waarde van analoog kanaal 2 omzetten in volt en in de juiste label plaatsen'
+        LBLWaardeAnaloog2.Text = ReadAnalogChannel(2)
+        decvoltAK2 = ((CDec(LBLWaardeAnaloog2.Text) / 255) * 5)
+        LBLWaardeAnaloog2.Text = Math.Round(decvoltAK2, 2) & " Volt"
+    End Sub
+    Private Sub CMDSluiten_Click(sender As Object, e As EventArgs) Handles CMDSluiten.Click
+        'alle uitgangen op 0 zetten'
+        ClearAllAnalog()
+        ClearAllDigital()
+
+        'programma sluiten indien er op sluiten word gedrukt'
+        Close()
+    End Sub
+
+    Private Sub Timer3_Tick(sender As Object, e As EventArgs) Handles Timer3.Tick
+        'drukknoppen uitzetten'
+        Timer1.Stop()
+
+        'vertraging starten'
+        Timer4.Start()
+
+        'loop starten'
+        If bytsleutel = 0 Then
+            SetDigitalChannel(1)
+            Out1.BackgroundImage = My.Resources.LED1AAN
+
+        ElseIf bytsleutel = 1 Then
+            SetDigitalChannel(2)
+            Out2.BackgroundImage = My.Resources.LED2AAN
+
+        ElseIf bytsleutel = 2 Then
+            SetDigitalChannel(3)
+            Out3.BackgroundImage = My.Resources.LED3AAN
+
+        ElseIf bytsleutel = 3 Then
+            SetDigitalChannel(4)
+            Out4.BackgroundImage = My.Resources.LED4AAN
+
+        ElseIf bytsleutel = 4 Then
+            SetDigitalChannel(5)
+            Out5.BackgroundImage = My.Resources.LED5AAN
+
+        ElseIf bytsleutel = 5 Then
+            SetDigitalChannel(6)
+            Out6.BackgroundImage = My.Resources.LED6AAN
+
+        ElseIf bytsleutel = 6 Then
+            SetDigitalChannel(7)
+            Out7.BackgroundImage = My.Resources.LED7AAN
+
+        ElseIf bytsleutel = 7 Then
+            SetDigitalChannel(8)
+            Out8.BackgroundImage = My.Resources.LED8AAN
+
+        ElseIf bytsleutel = 8 Then
+            SetAnalogChannel(1)
+            Pwm1.BackgroundImage = My.Resources.PWM1AAN
+
+        ElseIf bytsleutel = 9 Then
+            SetAnalogChannel(2)
+            Pwm2.BackgroundImage = My.Resources.PWM2AAN
+
+        ElseIf bytsleutel = 10 Then
+            ClearDigitalChannel(1)
+            Out1.BackgroundImage = My.Resources.LED1UIT
+
+        ElseIf bytsleutel = 11 Then
+            ClearDigitalChannel(2)
+            Out2.BackgroundImage = My.Resources.LED2UIT
+
+        ElseIf bytsleutel = 12 Then
+            ClearDigitalChannel(3)
+            Out3.BackgroundImage = My.Resources.LED3UIT
+
+        ElseIf bytsleutel = 13 Then
+            ClearDigitalChannel(4)
+            Out4.BackgroundImage = My.Resources.LED4UIT
+
+        ElseIf bytsleutel = 14 Then
+            ClearDigitalChannel(5)
+            Out5.BackgroundImage = My.Resources.LED5UIT
+
+        ElseIf bytsleutel = 15 Then
+            ClearDigitalChannel(6)
+            Out6.BackgroundImage = My.Resources.LED6UIT
+
+        ElseIf bytsleutel = 16 Then
+            ClearDigitalChannel(7)
+            Out7.BackgroundImage = My.Resources.LED7UIT
+
+        ElseIf bytsleutel = 17 Then
+            ClearDigitalChannel(8)
+            Out8.BackgroundImage = My.Resources.LED8UIT
+
+        ElseIf bytsleutel = 18 Then
+            ClearAnalogChannel(1)
+            Pwm1.BackgroundImage = My.Resources.PWM1UIT
+
+        ElseIf bytsleutel = 19 Then
+            ClearAnalogChannel(2)
+            Pwm2.BackgroundImage = My.Resources.PWM2UIT
+
+        ElseIf bytsleutel = 20 Then
+            '1 bij de sleutel optellen zodat het meteen stopt'
+            bytsleutel = bytsleutel + 1
+            MsgBox("Johnson Counter klaar.", MsgBoxStyle.Information)
+
+            'knoppen terug aanzetten'
+            CMDAllesAan.Visible = True
+            CMDAllesUit.Visible = True
+            CMDOutputTest.Visible = True
+            CMDJohnsonCounter.Visible = True
+
+            CMDOutputTestDisabled.Visible = False
+            CMDAllesAanDisabled.Visible = False
+            CMDAllesUitDisabled.Visible = False
+            CMDJohnsonCounterDisabled.Visible = False
+
+            MNUBesturingAllesAan.Enabled = True
+            MNUBesturingAllesUit.Enabled = True
+            MNUBesturingJohnsonCounter.Enabled = True
+            MNUBesturingOutputTest.Enabled = True
+
+            'sleutel resetten'
+        Else : bytsleutel = 0
+
+            'output test stoppen'
+            Timer4.Stop()
+            Timer3.Stop()
+
+            'drukknoppen terug aanzetten'
+            Timer1.Start()
+        End If
+    End Sub
+
+    Private Sub Timer4_Tick(sender As Object, e As EventArgs) Handles Timer4.Tick
+        '1 bij de sleutel optellen van de output test'
+        bytsleutel = bytsleutel + 1
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles CMDJohnsonCounter.Click
+        'alles klaarzetten'
+        ClearAllDigital()
+        ClearAllAnalog()
+        Out1.BackgroundImage = My.Resources.LED1UIT
+        Out2.BackgroundImage = My.Resources.LED2UIT
+        Out3.BackgroundImage = My.Resources.LED3UIT
+        Out4.BackgroundImage = My.Resources.LED4UIT
+        Out5.BackgroundImage = My.Resources.LED5UIT
+        Out6.BackgroundImage = My.Resources.LED6UIT
+        Out7.BackgroundImage = My.Resources.LED7UIT
+        Out8.BackgroundImage = My.Resources.LED8UIT
+        Pwm1.BackgroundImage = My.Resources.PWM1UIT
+        Pwm2.BackgroundImage = My.Resources.PWM2UIT
+
+        'alle knoppen afzetten en na de Johnson counter terug aanzetten'
+        CMDAllesAan.Visible = False
+        CMDAllesUit.Visible = False
+        CMDOutputTest.Visible = False
+        CMDJohnsonCounter.Visible = False
+
+        CMDOutputTestDisabled.Visible = True
+        CMDAllesAanDisabled.Visible = True
+        CMDAllesUitDisabled.Visible = True
+        CMDJohnsonCounterDisabled.Visible = True
+
+        MNUBesturingAllesAan.Enabled = False
+        MNUBesturingAllesUit.Enabled = False
+        MNUBesturingJohnsonCounter.Enabled = False
+        MNUBesturingOutputTest.Enabled = False
+
+        'timer 3 starten om outpust test aan te zetten'
+        Timer3.Start()
+    End Sub
+
+    Private Sub CMDHelp_Click(sender As Object, e As EventArgs) Handles CMDHelp.Click
+        'messagebox tonen met de besturing van alle knoppen'
+        MsgBox("Druk op knop 1 om uitgang 1 hoog to maken." & vbCrLf & "Druk op knop 2 om de johnson counter uit te voeren." & vbCrLf & "Druk op knop 3 om de output test uit te voeren." & vbCrLf & vbCrLf & "Druk op V om verbinding te maken." & vbCrLf & "Druk op M om het menu te openen." & vbCrLf & "Druk op B om het besturingspaneel te openen." & vbCrLf & "Druk op O om het opties menu te openen." & vbCrLf & "Druk op I om het info paneel te openen." & vbCrLf & "Druk op CTRL+S om het programma af te sluiten." & vbCrLf & "Druk op CTRL+A om alle ingangen hoog te maken." & vbCrLf & "Druk op CTRL+B om alle ingangen uit te zetten." & vbCrLf & "Druk op CTRL+J om de Johnson Teller te starten." & vbCrLf & "Druk op CTRL+O om de output test te starten." & vbCrLf & "Druk op CTRL+H om dit hulpvenster te openen." & vbCrLf & "Druk op CTRL+K om het kredietenvenster te openen." & vbCrLf & vbCrLf & "Thema's:" & vbCrLf & "ALT+B = Blauw" & vbCrLf & "ALT+R = Rood" & vbCrLf & "ALT+R = Groen" & vbCrLf & "ALT+G = Geel", MsgBoxStyle.Information)
+    End Sub
+
+    Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles CMDVerbinden.Click
+        'kopie uit de demo om verschillende kaarten aan te kunnen sluiten'
+        Dim CardAddress As Integer
+        Dim h As Integer
+        CardAddress = 3
+        If CheckBox1.Checked Then CardAddress = CardAddress - 1
+        If CheckBox2.Checked Then CardAddress = CardAddress - 2
+        h = OpenDevice(CardAddress)
+        Select Case h
+            Case 0, 1, 2, 3
+                LBLConnectie.Text = "Kaart" & Str(h) & " Verbonden"
+                LBLKaart.Text = "Kaart" & Str(h) & ":"
+                CMDAllesAan.Visible = True
+                CMDAllesUit.Visible = True
+                CMDHelp.Visible = True
+                CMDOutputTest.Visible = True
+                CMDJohnsonCounter.Visible = True
+
+                CMDOutputTestDisabled.Visible = False
+                CMDAllesAanDisabled.Visible = False
+                CMDAllesUitDisabled.Visible = False
+                CMDHelpDisabled.Visible = False
+                CMDJohnsonCounterDisabled.Visible = False
+
+                MNUBesturingAllesAan.Enabled = True
+                MNUBesturingAllesUit.Enabled = True
+                MNUBesturingJohnsonCounter.Enabled = True
+                MNUBesturingOutputTest.Enabled = True
+                'timer 1 starten voor knop 1 te bedienen'
+                Timer1.Start()
+
+                'timer 2 starten voor de waardes van beide analoge kanalen weer te geven'
+                Timer2.Start()
+            Case -1
+                LBLConnectie.Text = "Kaart" & Str(CardAddress) & " Niet Gevonden"
+                CloseDevice()
+                CMDAllesAan.Visible = False
+                CMDAllesUit.Visible = False
+                CMDHelp.Visible = False
+                CMDOutputTest.Visible = False
+                CMDJohnsonCounter.Visible = False
+
+                CMDOutputTestDisabled.Visible = True
+                CMDAllesAanDisabled.Visible = True
+                CMDAllesUitDisabled.Visible = True
+                CMDHelpDisabled.Visible = True
+                CMDJohnsonCounterDisabled.Visible = True
+
+                MNUBesturingAllesAan.Enabled = False
+                MNUBesturingAllesUit.Enabled = False
+                MNUBesturingJohnsonCounter.Enabled = False
+                MNUBesturingOutputTest.Enabled = False
+
+                'analoge voltmeters stoppen indien er geen kaart verbonden wordt'
+                LBLWaardeAnaloog1.Text = "? Volt"
+                LBLWaardeAnaloog2.Text = "? Volt"
+
+                'label resetten'
+                LBLKaart.Text = "Kaart" & Str(CardAddress) & ":"
+
+                'timer 2 stoppen omdat er geen kaart verbonden is'
+                Timer2.Stop()
+
+                'timer 1 stoppen omdat er geen kaart verbonden is'
+                Timer1.Stop()
+        End Select
+        If h >= 0 Then Timer5.Enabled = True
+    End Sub
+
+    Private Sub Timer5_Tick(sender As Object, e As EventArgs) Handles Timer5.Tick
+        'kopie uit de demo om verschillende kaarten te kunnen aansluiten'
+        Timer5.Enabled = False
+        Dim i As Integer
+        Dim Data1 As Integer
+        Dim Data2 As Integer
+        i = ReadAllDigital
+        cbi(1).Checked = (i And 1)
+        cbi(2).Checked = (i And 2) \ 2
+        cbi(3).Checked = (i And 4) \ 4
+        cbi(4).Checked = (i And 8) \ 8
+        cbi(5).Checked = (i And 16) \ 16
+        ReadAllAnalog(Data1, Data2)
+        Timer5.Enabled = True
+    End Sub
+
+    Private Sub CMDOutputTest2_Click(sender As Object, e As EventArgs) Handles CMDOutputTest.Click
+        'alles klaarzetten'
+        ClearAllDigital()
+        ClearAllAnalog()
+        Out1.BackgroundImage = My.Resources.LED1UIT
+        Out2.BackgroundImage = My.Resources.LED2UIT
+        Out3.BackgroundImage = My.Resources.LED3UIT
+        Out4.BackgroundImage = My.Resources.LED4UIT
+        Out5.BackgroundImage = My.Resources.LED5UIT
+        Out6.BackgroundImage = My.Resources.LED6UIT
+        Out7.BackgroundImage = My.Resources.LED7UIT
+        Out8.BackgroundImage = My.Resources.LED8UIT
+        Pwm1.BackgroundImage = My.Resources.PWM1UIT
+        Pwm2.BackgroundImage = My.Resources.PWM2UIT
+
+        'knoppen tijdelijk uitschakelen'
+        CMDAllesAan.Visible = False
+        CMDAllesUit.Visible = False
+        CMDOutputTest.Visible = False
+        CMDJohnsonCounter.Visible = False
+
+        CMDOutputTestDisabled.Visible = True
+        CMDAllesAanDisabled.Visible = True
+        CMDAllesUitDisabled.Visible = True
+        CMDJohnsonCounterDisabled.Visible = True
+
+        MNUBesturingAllesAan.Enabled = False
+        MNUBesturingAllesUit.Enabled = False
+        MNUBesturingJohnsonCounter.Enabled = False
+        MNUBesturingOutputTest.Enabled = False
+
+        'timer 6 starten voor de 2e output test'
+        Timer6.Start()
+    End Sub
+
+    Private Sub Timer6_Tick_2(sender As Object, e As EventArgs) Handles Timer6.Tick
+        'drukknoppen uitzetten'
+        Timer1.Stop()
+
+        'vertraging starten'
+        Timer7.Start()
+
+        'loop starten'
+        If bytsleutel2 = 0 Then
+            SetDigitalChannel(1)
+            Out1.BackgroundImage = My.Resources.LED1AAN
+
+        ElseIf bytsleutel2 = 1 Then
+            ClearDigitalChannel(1)
+            SetDigitalChannel(2)
+            Out1.BackgroundImage = My.Resources.LED1UIT
+            Out2.BackgroundImage = My.Resources.LED2AAN
+
+        ElseIf bytsleutel2 = 2 Then
+            ClearDigitalChannel(2)
+            SetDigitalChannel(3)
+            Out2.BackgroundImage = My.Resources.LED2UIT
+            Out3.BackgroundImage = My.Resources.LED3AAN
+
+        ElseIf bytsleutel2 = 3 Then
+            ClearDigitalChannel(3)
+            SetDigitalChannel(4)
+            Out3.BackgroundImage = My.Resources.LED3UIT
+            Out4.BackgroundImage = My.Resources.LED4AAN
+
+        ElseIf bytsleutel2 = 4 Then
+            ClearDigitalChannel(4)
+            SetDigitalChannel(5)
+            Out4.BackgroundImage = My.Resources.LED4UIT
+            Out5.BackgroundImage = My.Resources.LED5AAN
+
+        ElseIf bytsleutel2 = 5 Then
+            ClearDigitalChannel(5)
+            SetDigitalChannel(6)
+            Out5.BackgroundImage = My.Resources.LED5UIT
+            Out6.BackgroundImage = My.Resources.LED6AAN
+
+        ElseIf bytsleutel2 = 6 Then
+            ClearDigitalChannel(6)
+            SetDigitalChannel(7)
+            Out6.BackgroundImage = My.Resources.LED6UIT
+            Out7.BackgroundImage = My.Resources.LED7AAN
+
+        ElseIf bytsleutel2 = 7 Then
+            ClearDigitalChannel(7)
+            SetDigitalChannel(8)
+            Out7.BackgroundImage = My.Resources.LED7UIT
+            Out8.BackgroundImage = My.Resources.LED8AAN
+
+        ElseIf bytsleutel2 = 8 Then
+            ClearDigitalChannel(8)
+            SetAnalogChannel(1)
+            Out8.BackgroundImage = My.Resources.LED8UIT
+            Pwm1.BackgroundImage = My.Resources.PWM1AAN
+
+        ElseIf bytsleutel2 = 9 Then
+            ClearAnalogChannel(1)
+            SetAnalogChannel(2)
+            Pwm1.BackgroundImage = My.Resources.PWM1UIT
+            Pwm2.BackgroundImage = My.Resources.PWM2AAN
+
+        ElseIf bytsleutel2 = 10 Then
+            ClearAnalogChannel(2)
+            Pwm2.BackgroundImage = My.Resources.PWM2UIT
+
+        ElseIf bytsleutel2 = 11 Then
+            SetAnalogChannel(2)
+            Pwm2.BackgroundImage = My.Resources.PWM2AAN
+
+        ElseIf bytsleutel2 = 12 Then
+            ClearAnalogChannel(2)
+            SetAnalogChannel(1)
+            Out1.BackgroundImage = My.Resources.LED1UIT
+            Pwm1.BackgroundImage = My.Resources.PWM1AAN
+            Pwm2.BackgroundImage = My.Resources.PWM2UIT
+
+        ElseIf bytsleutel2 = 13 Then
+            ClearAnalogChannel(1)
+            SetDigitalChannel(8)
+            Out8.BackgroundImage = My.Resources.LED8AAN
+            Pwm1.BackgroundImage = My.Resources.PWM1UIT
+
+        ElseIf bytsleutel2 = 14 Then
+            ClearDigitalChannel(8)
+            SetDigitalChannel(7)
+            Out7.BackgroundImage = My.Resources.LED7AAN
+            Out8.BackgroundImage = My.Resources.LED8UIT
+
+        ElseIf bytsleutel2 = 15 Then
+            ClearDigitalChannel(7)
+            SetDigitalChannel(6)
+            Out6.BackgroundImage = My.Resources.LED6AAN
+            Out7.BackgroundImage = My.Resources.LED7UIT
+
+        ElseIf bytsleutel2 = 16 Then
+            ClearDigitalChannel(6)
+            SetDigitalChannel(5)
+            Out5.BackgroundImage = My.Resources.LED5AAN
+            Out6.BackgroundImage = My.Resources.LED6UIT
+
+        ElseIf bytsleutel2 = 17 Then
+            ClearDigitalChannel(5)
+            SetDigitalChannel(4)
+            Out4.BackgroundImage = My.Resources.LED4AAN
+            Out5.BackgroundImage = My.Resources.LED5UIT
+
+        ElseIf bytsleutel2 = 18 Then
+            ClearDigitalChannel(4)
+            SetDigitalChannel(3)
+            Out3.BackgroundImage = My.Resources.LED3AAN
+            Out4.BackgroundImage = My.Resources.LED4UIT
+
+        ElseIf bytsleutel2 = 19 Then
+            ClearDigitalChannel(3)
+            SetDigitalChannel(2)
+            Out2.BackgroundImage = My.Resources.LED2AAN
+            Out3.BackgroundImage = My.Resources.LED3UIT
+
+        ElseIf bytsleutel2 = 20 Then
+            ClearDigitalChannel(2)
+            SetDigitalChannel(1)
+            Out1.BackgroundImage = My.Resources.LED1AAN
+            Out2.BackgroundImage = My.Resources.LED2UIT
+
+        ElseIf bytsleutel2 = 21 Then
+            ClearDigitalChannel(1)
+            Out1.BackgroundImage = My.Resources.LED1UIT
+
+            '1 bij de sleutel optellen zodat het meteen stopt + melding'
+            bytsleutel2 = bytsleutel2 + 1
+            MsgBox("output test 2 klaar", MsgBoxStyle.Information)
+
+            'knoppen terug aanzetten'
+            CMDAllesAan.Visible = True
+            CMDAllesUit.Visible = True
+            CMDOutputTest.Visible = True
+            CMDJohnsonCounter.Visible = True
+
+            CMDOutputTestDisabled.Visible = False
+            CMDAllesAanDisabled.Visible = False
+            CMDAllesUitDisabled.Visible = False
+            CMDJohnsonCounterDisabled.Visible = False
+
+            MNUBesturingAllesAan.Enabled = True
+            MNUBesturingAllesUit.Enabled = True
+            MNUBesturingJohnsonCounter.Enabled = True
+            MNUBesturingOutputTest.Enabled = True
+
+        Else : ClearAllAnalog()
+
+            'sleutel resetten'
+            bytsleutel2 = 0
+
+            'output test stoppen'
+            Timer7.Stop()
+            Timer6.Stop()
+
+            'drukknoppen terug aanzetten'
+            Timer1.Start()
+        End If
+    End Sub
+
+    Private Sub Timer7_Tick(sender As Object, e As EventArgs) Handles Timer7.Tick
+        '1 bij de sleutel optellen van de output test'
+        bytsleutel2 = bytsleutel2 + 1
+    End Sub
+
+    Private Sub HelpToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MNUInfoHelp.Click
+        'messagebox tonen met de besturing van alle knoppen'
+        MsgBox("Druk op knop 1 om uitgang 1 hoog to maken." & vbCrLf & "Druk op knop 2 om de johnson counter uit te voeren." & vbCrLf & "Druk op knop 3 om de output test uit te voeren." & vbCrLf & vbCrLf & "Druk op V om verbinding te maken." & vbCrLf & "Druk op M om het menu te openen." & vbCrLf & "Druk op B om het besturingspaneel te openen." & vbCrLf & "Druk op O om het opties menu te openen." & vbCrLf & "Druk op I om het info paneel te openen." & vbCrLf & "Druk op CTRL+S om het programma af te sluiten." & vbCrLf & "Druk op CTRL+A om alle ingangen hoog te maken." & vbCrLf & "Druk op CTRL+B om alle ingangen uit te zetten." & vbCrLf & "Druk op CTRL+J om de Johnson Teller te starten." & vbCrLf & "Druk op CTRL+O om de output test te starten." & vbCrLf & "Druk op CTRL+H om dit hulpvenster te openen." & vbCrLf & "Druk op CTRL+K om het kredietenvenster te openen." & vbCrLf & vbCrLf & "Thema's:" & vbCrLf & "ALT+B = Blauw" & vbCrLf & "ALT+R = Rood" & vbCrLf & "ALT+R = Groen" & vbCrLf & "ALT+G = Geel", MsgBoxStyle.Information)
+    End Sub
+
+    Private Sub CredietToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MNUInfoKrediet.Click
+        'messagebox tonen met de credieten'
+        MsgBox("------------------------------------" & vbCrLf & "Programma gemaakt door: " & vbCrLf & "• Gregory Hermans" & vbCrLf & "• Leander Daniels" & vbCrLf & "------------------------------------", MsgBoxStyle.Information)
+    End Sub
+
+    Private Sub SluitenToolStripMenuItem_Click_1(sender As Object, e As EventArgs) Handles MNUMenuSluiten.Click
+        'alle uitgangen op 0 zetten'
+        ClearAllAnalog()
+        ClearAllDigital()
+
+        'programma sluiten indien er op sluiten word gedrukt'
+        Close()
+    End Sub
+
+    Private Sub MNUAllesAan_Click(sender As Object, e As EventArgs) Handles MNUBesturingAllesAan.Click
+        'ingangen uitzetten als er op "alles aan" word gedrukt'
+        Timer1.Stop()
+
+        'alle uitgangen resetten en op aan zetten'
+        ClearAllAnalog()
+        ClearAllDigital()
+        SetAllDigital()
+        SetAllAnalog()
+
+        'het display van de lampjes juist zetten'
+        Out1.BackgroundImage = My.Resources.LED1AAN
+        Out2.BackgroundImage = My.Resources.LED2AAN
+        Out3.BackgroundImage = My.Resources.LED3AAN
+        Out4.BackgroundImage = My.Resources.LED4AAN
+        Out5.BackgroundImage = My.Resources.LED5AAN
+        Out6.BackgroundImage = My.Resources.LED6AAN
+        Out7.BackgroundImage = My.Resources.LED7AAN
+        Out8.BackgroundImage = My.Resources.LED8AAN
+        Pwm1.BackgroundImage = My.Resources.PWM1AAN
+        Pwm2.BackgroundImage = My.Resources.PWM2AAN
+
+        'enkele knoppen en menutaken uitzetten'
+        CMDJohnsonCounter.Visible = False
+        CMDOutputTest.Visible = False
+        CMDJohnsonCounterDisabled.Visible = True
+        CMDOutputTestDisabled.Visible = True
+        MNUBesturingJohnsonCounter.Enabled = False
+        MNUBesturingOutputTest.Enabled = False
+    End Sub
+
+    Private Sub MNUAllesUit_Click(sender As Object, e As EventArgs) Handles MNUBesturingAllesUit.Click
+        'de knoppen terug bruikbaar maken door de timer te starten'
+        Timer1.Start()
+
+        'alle uitgangen uitzetten als er op alles uit word gedrukt'
+        ClearAllAnalog()
+        ClearAllDigital()
+
+        'het display van de uitgangen goed zetten'
+        Out1.BackgroundImage = My.Resources.LED1UIT
+        Out2.BackgroundImage = My.Resources.LED2UIT
+        Out3.BackgroundImage = My.Resources.LED3UIT
+        Out4.BackgroundImage = My.Resources.LED4UIT
+        Out5.BackgroundImage = My.Resources.LED5UIT
+        Out6.BackgroundImage = My.Resources.LED6UIT
+        Out7.BackgroundImage = My.Resources.LED7UIT
+        Out8.BackgroundImage = My.Resources.LED8UIT
+        Pwm1.BackgroundImage = My.Resources.PWM1UIT
+        Pwm2.BackgroundImage = My.Resources.PWM2UIT
+
+        'enekele knoppen en menutaken aanzetten'
+        CMDJohnsonCounter.Visible = True
+        CMDOutputTest.Visible = True
+        CMDJohnsonCounterDisabled.Visible = False
+        CMDOutputTestDisabled.Visible = False
+        MNUBesturingJohnsonCounter.Enabled = True
+        MNUBesturingOutputTest.Enabled = True
+    End Sub
+
+    Private Sub MNUJohnsonCounter_Click(sender As Object, e As EventArgs) Handles MNUBesturingJohnsonCounter.Click
+        'alles klaarzetten'
+        ClearAllDigital()
+        ClearAllAnalog()
+        Out1.BackgroundImage = My.Resources.LED1UIT
+        Out2.BackgroundImage = My.Resources.LED2UIT
+        Out3.BackgroundImage = My.Resources.LED3UIT
+        Out4.BackgroundImage = My.Resources.LED4UIT
+        Out5.BackgroundImage = My.Resources.LED5UIT
+        Out6.BackgroundImage = My.Resources.LED6UIT
+        Out7.BackgroundImage = My.Resources.LED7UIT
+        Out8.BackgroundImage = My.Resources.LED8UIT
+        Pwm1.BackgroundImage = My.Resources.PWM1UIT
+        Pwm2.BackgroundImage = My.Resources.PWM2UIT
+
+        'alle knoppen afzetten en na de Johnson counter terug aanzetten'
+        CMDAllesAan.Visible = False
+        CMDAllesUit.Visible = False
+        CMDOutputTest.Visible = False
+        CMDJohnsonCounter.Visible = False
+
+        CMDOutputTestDisabled.Visible = True
+        CMDAllesAanDisabled.Visible = True
+        CMDAllesUitDisabled.Visible = True
+        CMDJohnsonCounterDisabled.Visible = True
+
+        MNUBesturingAllesAan.Enabled = False
+        MNUBesturingAllesUit.Enabled = False
+        MNUBesturingJohnsonCounter.Enabled = False
+        MNUBesturingOutputTest.Enabled = False
+
+        'timer 3 starten om outpust test aan te zetten'
+        Timer3.Start()
+    End Sub
+
+    Private Sub MNUOutputTest_Click(sender As Object, e As EventArgs) Handles MNUBesturingOutputTest.Click
+        'alles klaarzetten'
+        ClearAllDigital()
+        ClearAllAnalog()
+        Out1.BackgroundImage = My.Resources.LED1UIT
+        Out2.BackgroundImage = My.Resources.LED2UIT
+        Out3.BackgroundImage = My.Resources.LED3UIT
+        Out4.BackgroundImage = My.Resources.LED4UIT
+        Out5.BackgroundImage = My.Resources.LED5UIT
+        Out6.BackgroundImage = My.Resources.LED6UIT
+        Out7.BackgroundImage = My.Resources.LED7UIT
+        Out8.BackgroundImage = My.Resources.LED8UIT
+        Pwm1.BackgroundImage = My.Resources.PWM1UIT
+        Pwm2.BackgroundImage = My.Resources.PWM2UIT
+
+        'knoppen tijdelijk uitschakelen'
+        CMDAllesAan.Visible = False
+        CMDAllesUit.Visible = False
+        CMDOutputTest.Visible = False
+        CMDJohnsonCounter.Visible = False
+
+        CMDOutputTestDisabled.Visible = True
+        CMDAllesAanDisabled.Visible = True
+        CMDAllesUitDisabled.Visible = True
+        CMDJohnsonCounterDisabled.Visible = True
+
+        MNUBesturingAllesAan.Enabled = False
+        MNUBesturingAllesUit.Enabled = False
+        MNUBesturingJohnsonCounter.Enabled = False
+        MNUBesturingOutputTest.Enabled = False
+
+        'timer 6 starten voor de 2e output test'
+        Timer6.Start()
+    End Sub
+
+    Private Sub BlauwToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MNUOptiesThemaRood.Click
+        'Kleurencheck juist zetten'
+        MNUOptiesThemaBlauw.Checked = False
+        MNUOptiesThemaGroen.Checked = False
+        MNUOptiesThemaRood.Checked = True
+        MNUOptiesThemaGeel.Checked = False
+
+        'achtergrond rood maken'
+        Me.BackgroundImage = My.Resources.BackgroundRed
+
+        'knoppen rood maken'
+        CMDAllesUit.BackgroundImage = My.Resources.ButtonRed
+        CMDAllesAan.BackgroundImage = My.Resources.ButtonRed
+        CMDHelp.BackgroundImage = My.Resources.ButtonRed
+        CMDJohnsonCounter.BackgroundImage = My.Resources.ButtonRed
+        CMDOutputTest.BackgroundImage = My.Resources.ButtonRed
+        CMDSluiten.BackgroundImage = My.Resources.ButtonRed
+        CMDVerbinden.BackgroundImage = My.Resources.ButtonRed
+
+        CMDAllesUit.ForeColor = Color.Red
+        CMDAllesAan.ForeColor = Color.Red
+        CMDHelp.ForeColor = Color.Red
+        CMDJohnsonCounter.ForeColor = Color.Red
+        CMDOutputTest.ForeColor = Color.Red
+        CMDSluiten.ForeColor = Color.Red
+        CMDVerbinden.ForeColor = Color.Red
+
+        'Labels rood maken'
+        LBLKaart.ForeColor = Color.Red
+        LBLAnaloogKanaal1Titel.ForeColor = Color.Red
+        LBLAnaloogKanaal2Titel.ForeColor = Color.Red
+        LBLConnectie.ForeColor = Color.Red
+        LBLWaardeAnaloog1.ForeColor = Color.Red
+        LBLWaardeAnaloog2.ForeColor = Color.Red
+
+        'andere rood maken'
+        GRBJumpers.ForeColor = Color.Red
+        CheckBox1.ForeColor = Color.Red
+        CheckBox2.ForeColor = Color.Red
+
+        'menustrip rood maken'
+        MenuStrip1.ForeColor = Color.Red
+        MenuStrip1.BackColor = Color.Black
+        MNUMenu.ForeColor = Color.Red
+        MNUMenu.BackColor = Color.Black
+        MNUMenuSluiten.ForeColor = Color.Red
+        MNUMenuSluiten.BackColor = Color.Black
+        MNUBesturing.ForeColor = Color.Red
+        MNUBesturing.BackColor = Color.Black
+        MNUBesturingAllesAan.ForeColor = Color.Red
+        MNUBesturingAllesAan.BackColor = Color.Black
+        MNUBesturingAllesUit.ForeColor = Color.Red
+        MNUBesturingAllesUit.BackColor = Color.Black
+        MNUBesturingJohnsonCounter.ForeColor = Color.Red
+        MNUBesturingJohnsonCounter.BackColor = Color.Black
+        MNUBesturingOutputTest.ForeColor = Color.Red
+        MNUBesturingOutputTest.BackColor = Color.Black
+        MNUOpties.ForeColor = Color.Red
+        MNUOpties.BackColor = Color.Black
+        MNUOptiesThema.ForeColor = Color.Red
+        MNUOptiesThema.BackColor = Color.Black
+        MNUOptiesThemaBlauw.ForeColor = Color.Red
+        MNUOptiesThemaBlauw.BackColor = Color.Black
+        MNUOptiesThemaGroen.ForeColor = Color.Red
+        MNUOptiesThemaGroen.BackColor = Color.Black
+        MNUOptiesThemaRood.ForeColor = Color.Red
+        MNUOptiesThemaRood.BackColor = Color.Black
+        MNUOptiesThemaGeel.ForeColor = Color.Red
+        MNUOptiesThemaGeel.BackColor = Color.Black
+        MNUInfo.ForeColor = Color.Red
+        MNUInfo.BackColor = Color.Black
+        MNUInfoHelp.ForeColor = Color.Red
+        MNUInfoHelp.BackColor = Color.Black
+        MNUInfoKrediet.ForeColor = Color.Red
+        MNUInfoKrediet.BackColor = Color.Black
+    End Sub
+
+    Private Sub GeelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MNUOptiesThemaBlauw.Click
+        'Kleurencheck juist zetten'
+        MNUOptiesThemaBlauw.Checked = True
+        MNUOptiesThemaGroen.Checked = False
+        MNUOptiesThemaRood.Checked = False
+        MNUOptiesThemaGeel.Checked = False
+
+        'achtergrond blauw maken'
+        Me.BackgroundImage = My.Resources.BackgroundBlue
+
+        'knoppen blauw maken'
+        CMDAllesUit.BackgroundImage = My.Resources.ButtonBlue
+        CMDAllesAan.BackgroundImage = My.Resources.ButtonBlue
+        CMDHelp.BackgroundImage = My.Resources.ButtonBlue
+        CMDJohnsonCounter.BackgroundImage = My.Resources.ButtonBlue
+        CMDOutputTest.BackgroundImage = My.Resources.ButtonBlue
+        CMDSluiten.BackgroundImage = My.Resources.ButtonBlue
+        CMDVerbinden.BackgroundImage = My.Resources.ButtonBlue
+
+        CMDAllesUit.ForeColor = Color.Cyan
+        CMDAllesAan.ForeColor = Color.Cyan
+        CMDHelp.ForeColor = Color.Cyan
+        CMDJohnsonCounter.ForeColor = Color.Cyan
+        CMDOutputTest.ForeColor = Color.Cyan
+        CMDSluiten.ForeColor = Color.Cyan
+        CMDVerbinden.ForeColor = Color.Cyan
+
+        'Labels blauw maken'
+        LBLKaart.ForeColor = Color.Cyan
+        LBLAnaloogKanaal1Titel.ForeColor = Color.Cyan
+        LBLAnaloogKanaal2Titel.ForeColor = Color.Cyan
+        LBLConnectie.ForeColor = Color.Cyan
+        LBLWaardeAnaloog1.ForeColor = Color.Cyan
+        LBLWaardeAnaloog2.ForeColor = Color.Cyan
+
+        'andere blauw maken'
+        GRBJumpers.ForeColor = Color.Cyan
+        CheckBox1.ForeColor = Color.Cyan
+        CheckBox2.ForeColor = Color.Cyan
+
+        'menustrip blauw maken'
+        MenuStrip1.ForeColor = Color.Cyan
+        MenuStrip1.BackColor = Color.Black
+        MNUMenu.ForeColor = Color.Cyan
+        MNUMenu.BackColor = Color.Black
+        MNUMenuSluiten.ForeColor = Color.Cyan
+        MNUMenuSluiten.BackColor = Color.Black
+        MNUBesturing.forecolor = Color.Cyan
+        MNUBesturing.backcolor = Color.Black
+        MNUBesturingAllesAan.ForeColor = Color.Cyan
+        MNUBesturingAllesAan.BackColor = Color.Black
+        MNUBesturingAllesUit.ForeColor = Color.Cyan
+        MNUBesturingAllesUit.BackColor = Color.Black
+        MNUBesturingJohnsonCounter.ForeColor = Color.Cyan
+        MNUBesturingJohnsonCounter.BackColor = Color.Black
+        MNUBesturingOutputTest.ForeColor = Color.Cyan
+        MNUBesturingOutputTest.BackColor = Color.Black
+        MNUOpties.ForeColor = Color.Cyan
+        MNUOpties.BackColor = Color.Black
+        MNUOptiesThema.ForeColor = Color.Cyan
+        MNUOptiesThema.BackColor = Color.Black
+        MNUOptiesThemaBlauw.ForeColor = Color.Cyan
+        MNUOptiesThemaBlauw.BackColor = Color.Black
+        MNUOptiesThemaGroen.ForeColor = Color.Cyan
+        MNUOptiesThemaGroen.BackColor = Color.Black
+        MNUOptiesThemaRood.ForeColor = Color.Cyan
+        MNUOptiesThemaRood.BackColor = Color.Black
+        MNUOptiesThemaGeel.ForeColor = Color.Cyan
+        MNUOptiesThemaGeel.BackColor = Color.Black
+        MNUInfo.ForeColor = Color.Cyan
+        MNUInfo.BackColor = Color.Black
+        MNUInfoHelp.ForeColor = Color.Cyan
+        MNUInfoHelp.BackColor = Color.Black
+        MNUInfoKrediet.ForeColor = Color.Cyan
+        MNUInfoKrediet.BackColor = Color.Black
+
+    End Sub
+
+    Private Sub MNUOptiesThemaGroen_Click(sender As Object, e As EventArgs) Handles MNUOptiesThemaGroen.Click
+        'Kleurencheck juist zeten'
+        MNUOptiesThemaBlauw.Checked = False
+        MNUOptiesThemaGroen.Checked = True
+        MNUOptiesThemaRood.Checked = False
+        MNUOptiesThemaGeel.Checked = False
+
+        'achtergrond groen maken'
+        Me.BackgroundImage = My.Resources.BackgroundGreen
+
+        'knoppen groen maken'
+        CMDAllesUit.BackgroundImage = My.Resources.ButtonGreen
+        CMDAllesAan.BackgroundImage = My.Resources.ButtonGreen
+        CMDHelp.BackgroundImage = My.Resources.ButtonGreen
+        CMDJohnsonCounter.BackgroundImage = My.Resources.ButtonGreen
+        CMDOutputTest.BackgroundImage = My.Resources.ButtonGreen
+        CMDSluiten.BackgroundImage = My.Resources.ButtonGreen
+        CMDVerbinden.BackgroundImage = My.Resources.ButtonGreen
+
+        CMDAllesUit.ForeColor = Color.Lime
+        CMDAllesAan.ForeColor = Color.Lime
+        CMDHelp.ForeColor = Color.Lime
+        CMDJohnsonCounter.ForeColor = Color.Lime
+        CMDOutputTest.ForeColor = Color.Lime
+        CMDSluiten.ForeColor = Color.Lime
+        CMDVerbinden.ForeColor = Color.Lime
+
+        'Labels groen maken'
+        LBLKaart.ForeColor = Color.Lime
+        LBLAnaloogKanaal1Titel.ForeColor = Color.Lime
+        LBLAnaloogKanaal2Titel.ForeColor = Color.Lime
+        LBLConnectie.ForeColor = Color.Lime
+        LBLWaardeAnaloog1.ForeColor = Color.Lime
+        LBLWaardeAnaloog2.ForeColor = Color.Lime
+
+        'andere groen maken'
+        GRBJumpers.ForeColor = Color.Lime
+        CheckBox1.ForeColor = Color.Lime
+        CheckBox2.ForeColor = Color.Lime
+
+        'menustrip groen maken'
+        MenuStrip1.ForeColor = Color.Lime
+        MenuStrip1.BackColor = Color.Black
+        MNUMenu.ForeColor = Color.Lime
+        MNUMenu.BackColor = Color.Black
+        MNUMenuSluiten.ForeColor = Color.Lime
+        MNUMenuSluiten.BackColor = Color.Black
+        MNUBesturing.ForeColor = Color.Lime
+        MNUBesturing.BackColor = Color.Black
+        MNUBesturingAllesAan.ForeColor = Color.Lime
+        MNUBesturingAllesAan.BackColor = Color.Black
+        MNUBesturingAllesUit.ForeColor = Color.Lime
+        MNUBesturingAllesUit.BackColor = Color.Black
+        MNUBesturingJohnsonCounter.ForeColor = Color.Lime
+        MNUBesturingJohnsonCounter.BackColor = Color.Black
+        MNUBesturingOutputTest.ForeColor = Color.Lime
+        MNUBesturingOutputTest.BackColor = Color.Black
+        MNUOpties.ForeColor = Color.Lime
+        MNUOpties.BackColor = Color.Black
+        MNUOptiesThema.ForeColor = Color.Lime
+        MNUOptiesThema.BackColor = Color.Black
+        MNUOptiesThemaBlauw.ForeColor = Color.Lime
+        MNUOptiesThemaBlauw.BackColor = Color.Black
+        MNUOptiesThemaGroen.ForeColor = Color.Lime
+        MNUOptiesThemaGroen.BackColor = Color.Black
+        MNUOptiesThemaRood.ForeColor = Color.Lime
+        MNUOptiesThemaRood.BackColor = Color.Black
+        MNUOptiesThemaGeel.ForeColor = Color.Lime
+        MNUOptiesThemaGeel.BackColor = Color.Black
+        MNUInfo.ForeColor = Color.Lime
+        MNUInfo.BackColor = Color.Black
+        MNUInfoHelp.ForeColor = Color.Lime
+        MNUInfoHelp.BackColor = Color.Black
+        MNUInfoKrediet.ForeColor = Color.Lime
+        MNUInfoKrediet.BackColor = Color.Black
+    End Sub
+
+    Private Sub MNUOptiesThemaGeel_Click(sender As Object, e As EventArgs) Handles MNUOptiesThemaGeel.Click
+        'Kleurencheck juist zeten'
+        MNUOptiesThemaBlauw.Checked = False
+        MNUOptiesThemaGroen.Checked = False
+        MNUOptiesThemaRood.Checked = False
+        MNUOptiesThemaGeel.Checked = True
+
+        'achtergrond geel maken'
+        Me.BackgroundImage = My.Resources.BackgroundYellow
+
+        'knoppen geel maken'
+        CMDAllesUit.BackgroundImage = My.Resources.ButtonYellow
+        CMDAllesAan.BackgroundImage = My.Resources.ButtonYellow
+        CMDHelp.BackgroundImage = My.Resources.ButtonYellow
+        CMDJohnsonCounter.BackgroundImage = My.Resources.ButtonYellow
+        CMDOutputTest.BackgroundImage = My.Resources.ButtonYellow
+        CMDSluiten.BackgroundImage = My.Resources.ButtonYellow
+        CMDVerbinden.BackgroundImage = My.Resources.ButtonYellow
+
+        CMDAllesUit.ForeColor = Color.Yellow
+        CMDAllesAan.ForeColor = Color.Yellow
+        CMDHelp.ForeColor = Color.Yellow
+        CMDJohnsonCounter.ForeColor = Color.Yellow
+        CMDOutputTest.ForeColor = Color.Yellow
+        CMDSluiten.ForeColor = Color.Yellow
+        CMDVerbinden.ForeColor = Color.Yellow
+
+        'Labels geel maken'
+        LBLKaart.ForeColor = Color.Yellow
+        LBLAnaloogKanaal1Titel.ForeColor = Color.Yellow
+        LBLAnaloogKanaal2Titel.ForeColor = Color.Yellow
+        LBLConnectie.ForeColor = Color.Yellow
+        LBLWaardeAnaloog1.ForeColor = Color.Yellow
+        LBLWaardeAnaloog2.ForeColor = Color.Yellow
+
+        'andere geel maken'
+        GRBJumpers.ForeColor = Color.Yellow
+        CheckBox1.ForeColor = Color.Yellow
+        CheckBox2.ForeColor = Color.Yellow
+
+        'menustrip geel maken'
+        MenuStrip1.ForeColor = Color.Yellow
+        MenuStrip1.BackColor = Color.Black
+        MNUMenu.ForeColor = Color.Yellow
+        MNUMenu.BackColor = Color.Black
+        MNUMenuSluiten.ForeColor = Color.Yellow
+        MNUMenuSluiten.BackColor = Color.Black
+        MNUBesturing.ForeColor = Color.Yellow
+        MNUBesturing.BackColor = Color.Black
+        MNUBesturingAllesAan.ForeColor = Color.Yellow
+        MNUBesturingAllesAan.BackColor = Color.Black
+        MNUBesturingAllesUit.ForeColor = Color.Yellow
+        MNUBesturingAllesUit.BackColor = Color.Black
+        MNUBesturingJohnsonCounter.ForeColor = Color.Yellow
+        MNUBesturingJohnsonCounter.BackColor = Color.Black
+        MNUBesturingOutputTest.ForeColor = Color.Yellow
+        MNUBesturingOutputTest.BackColor = Color.Black
+        MNUOpties.ForeColor = Color.Yellow
+        MNUOpties.BackColor = Color.Black
+        MNUOptiesThema.ForeColor = Color.Yellow
+        MNUOptiesThema.BackColor = Color.Black
+        MNUOptiesThemaBlauw.ForeColor = Color.Yellow
+        MNUOptiesThemaBlauw.BackColor = Color.Black
+        MNUOptiesThemaGroen.ForeColor = Color.Yellow
+        MNUOptiesThemaGroen.BackColor = Color.Black
+        MNUOptiesThemaRood.ForeColor = Color.Yellow
+        MNUOptiesThemaRood.BackColor = Color.Black
+        MNUOptiesThemaGeel.ForeColor = Color.Yellow
+        MNUOptiesThemaGeel.BackColor = Color.Black
+        MNUInfo.ForeColor = Color.Yellow
+        MNUInfo.BackColor = Color.Black
+        MNUInfoHelp.ForeColor = Color.Yellow
+        MNUInfoHelp.BackColor = Color.Black
+        MNUInfoKrediet.ForeColor = Color.Yellow
+        MNUInfoKrediet.BackColor = Color.Black
+    End Sub
+
+    Private Sub CMDHelpDisabled_Click(sender As Object, e As EventArgs) Handles CMDHelpDisabled.Click
+
+    End Sub
+End Class
+

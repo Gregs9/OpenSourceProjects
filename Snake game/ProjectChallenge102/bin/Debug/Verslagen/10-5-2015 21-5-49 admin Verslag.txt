@@ -1,0 +1,35 @@
+Gebruiker: admin
+Deze vragen had deze gebruiker fout:
+
+Deel: 8 / 9 = ?                
+
+
+Deel: 5 / 10 = ?                
+
+
+Deel: 7 / 2 = ?                
+
+
+Deel: 2 / 9 = ?                
+
+
+Deel: 8 / 3 = ?                
+
+
+Deel: 8 / 4 = ?                
+
+
+Deel: 4 / 1 = ?                
+
+
+Deel: 4 / 8 = ?                
+
+
+Deel: 4 / 4 = ?                
+
+
+Deel: 7 / 8 = ?                
+
+
+
+Totale score: 0/10

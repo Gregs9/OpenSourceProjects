@@ -1,0 +1,48 @@
+﻿/
+Vanaf hoeveel graden Celcius begint water te koken?
+100
+/
+Hoeveel dagen zitten er in 1 jaar?
+365
+/
+Waar staat het Atomium?
+brussel
+/
+In welk land vind je de Eiffeltoren?
+frankrijk
+/
+Hoeveel jaar moet je zijn om volwassen te zijn?
+18
+/
+Van welke soort plant word papier gemaakt?
+boom
+/
+Wat is de hoofdstad van Antwerpen?
+antwerpen
+/
+Wat is de hoofdstad van Limburg?
+hasselt
+/
+Wat is de hoofdstad van Oost-Vlaanderen?
+gent
+/
+Wat is de hoofdstad van Vlaams-Brabant?
+leuven
+/
+Wat is de hoofdstad van West-Vlaanderen?
+brugge
+/
+Wat is de hoofdstad van Henegouwen?
+bergen
+/
+Wat is de hoofdstad van Luik?
+luik
+/
+Wat is de hoofdstad van Luxemburg?
+aarlen
+/
+Wat is de hoofdstad van Namen?
+namen
+/
+Wat is de hoofdstad van Waals-Brabant?
+waver

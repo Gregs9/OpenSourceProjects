@@ -1,0 +1,34 @@
+﻿<Window x:Class="ProjectChallenge102.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525" ResizeMode="NoResize" Icon="Afbeeldingen/icon.ico" WindowStyle="None">
+    <Window.Background>
+        <ImageBrush ImageSource="Afbeeldingen/ProjectChallengeLogin.png" Stretch="Uniform"/>
+    </Window.Background>
+    
+    <Grid MaxHeight="351" MaxWidth="526" MinHeight="350" MinWidth="525">
+        <Button x:Name="CMDWachtwoordVergeten" Content="Wachtwoord Vergeten" HorizontalAlignment="Left" VerticalAlignment="Top" Width="195" Margin="35,273,0,0" Click="CMDWachtwoordVergeten_Click" Height="26" BorderBrush="{x:Null}" BorderThickness="0" ToolTip="Druk indien je je wachtwoord vergeten bent." TabIndex="3">
+            <Button.Background>
+                <ImageBrush ImageSource="Afbeeldingen/CMDLarge.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="CMDRegistreer" Content="Registreer" HorizontalAlignment="Left" VerticalAlignment="Top" Width="94" Height="26" Margin="35,304,0,0" Click="CMDRegistreer_Click" BorderBrush="{x:Null}" BorderThickness="0" ToolTip="Druk als je je wilt registreren." TabIndex="4">
+            <Button.Background>
+                <ImageBrush ImageSource="Afbeeldingen/CMDSmall.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="CMDSluiten" Content="Sluiten" HorizontalAlignment="Left" VerticalAlignment="Top" Width="94" Height="26" Margin="136,304,0,0" Click="CMDSluiten_Click" BorderBrush="{x:Null}" BorderThickness="0" ToolTip="Druk als je het programma wilt afsluiten" TabIndex="5">
+            <Button.Background>
+                <ImageBrush ImageSource="Afbeeldingen/CMDSmall.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="CMDLogin" Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Width="195" Margin="35,242,0,0" Click="CMDLogin_Click" Height="26" AllowDrop="True" BorderBrush="{x:Null}" BorderThickness="0" ToolTip="Druk om in te loggen." TabIndex="2">
+            <Button.Background>
+                <ImageBrush ImageSource="Afbeeldingen/CMDLarge.png"/>
+            </Button.Background>
+        </Button>
+        <TextBox x:Name="TXTGebruikersnaam" Height="23" TextWrapping="Wrap" Text="Bv. Emma" VerticalAlignment="Top" Width="175" Margin="46,128,0,0" BorderThickness="0" FontSize="15" ToolTip="Hier geef je je gebruikersnaam in." TabIndex="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left" VerticalContentAlignment="Stretch"/>
+        <PasswordBox x:Name="TXTWachtwoord" HorizontalAlignment="Left" Margin="46,189,0,0" Width="175" Height="23" BorderThickness="0" FontSize="15" ToolTip="Hier geef je je wachtwoord in." TabIndex="1" VerticalContentAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Stretch"/>
+
+    </Grid>
+</Window>

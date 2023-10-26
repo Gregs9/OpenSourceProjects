@@ -1,0 +1,23 @@
+Gebruiker: greg
+Deze vragen had deze gebruiker fout:
+
+Wat is de meest voorkomende stof op aarde?
+koolstof
+
+In welke windrichting gaat de zon onder?
+west
+
+Is Pluto een planeet? (ja/nee)
+ja
+
+Hoeveel sterren heeft de Europeese vlag?
+13
+
+Hoe wordt de hevigheid van een aardbeving gemeten?
+richter
+
+Wat is de populatie van Europa? (Tip: _ _ 0 miljoen naar boven afgerond)
+200 miljoen
+
+
+Totale score: 4/10

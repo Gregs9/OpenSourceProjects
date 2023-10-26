@@ -1,0 +1,108 @@
+/
+Vertaal naar het frans: goededag
+bonjour
+/
+Vertaal naar het frans: het gaat
+ça va
+/
+Vertaal naar het frans: ja
+oui
+/
+Vertaal naar het frans: hallo, dag
+salut
+/
+Vertaal naar het frans: waar ga je heen?
+où vas-tu?
+/
+Vertaal naar het frans: een huis
+une maison
+/
+Vertaal naar het frans: het postkantoor
+la poste
+/
+Vertaal naar het frans: de school
+l'école
+/
+Vertaal naar het frans: tot ziens
+au revoir
+/
+Vertaal naar het frans: goedenavond
+bonsoir
+/
+Vertaal naar het frans: de garage
+le garage
+/
+Vertaal naar het frans: ben je daar?
+tu es là?
+/
+Vertaal naar het frans: met wie spreek ik?
+qui est à l'appareil?
+/
+Vertaal naar het frans: het is
+c'est
+/
+Vertaal naar het frans: gelukkige verjaardag
+bon anniversaire
+/
+Vertaal naar het frans: graag gedaan
+de rien
+/
+Vertaal naar het frans: voor jou
+pour toi
+/
+Vertaal naar het frans: ik ben 21 jaar
+j' ai 21 ans
+/
+Vertaal naar het frans: ik heet
+je m'appelle
+/
+Vertaal naar het frans: ik woon in Parijs
+j' habite à Paris
+/
+Vertaal naar het frans: waar woon je?
+où habites-tu?
+/
+Vertaal naar het frans: hoe oud ben je?
+tu as quel âge?
+/
+Vertaal naar het frans: zij is sterk
+elle est forte
+/
+Vertaal naar het frans: hij is groot
+il est grand
+/
+Vertaal naar het frans: zij is mooi
+elle est jolie
+/
+Vertaal naar het frans: hij is klein
+il est petit
+/
+Vertaal naar het frans: een kopje koffie
+une tasse de café
+/
+Vertaal naar het frans: hij is er niet
+il n'est pas là
+/
+Vertaal naar het frans: gaat u zitten
+asseyez-vous
+/
+Vertaal naar het frans: het is tijd
+il est temps
+/
+Vertaal naar het frans: ik weet het
+je sais
+/
+Vertaal naar het frans: excuseer
+excusez-moi
+/
+Vertaal naar het frans: zijn jullie klaar?
+vous êtes prêts?
+/
+Vertaal naar het frans: een les Frans
+une leçon de français
+/
+Vertaal naar het frans: kijk!
+regarde!
+/
+Vertaal naar het frans: help je me?
+tu m'aides?
