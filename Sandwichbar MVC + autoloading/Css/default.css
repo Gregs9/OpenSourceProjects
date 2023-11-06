@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@300&display=swap');
+
+
+/*1. ALGEMEEN*/
+/*Verwijder alle margins en paddings by default*/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.4rem;
+}
+
+.wrapper {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 1440px;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+table {
+    width: 100%;
+
+}
+
+.scroller {
+    max-height: 500px;
+    overflow: auto;
+}
+
+form {
+    width: 40%;
+}
+
+h1 {
+    color: #008080;
+    font-family: 'Bungee', sans-serif;
+    font-weight: 1;
+    font-size: 2.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+h2 {
+    color: #008080;
+    font-family: 'Bungee', sans-serif;
+    font-size: 1.5rem;
+    width: 100%;
+}
+
+p,
+label,
+td,
+tr,
+th {
+    color: #008080;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.4rem;
+}
+
+td,
+th {
+    padding: 1rem;
+    outline: 1px solid #008080;
+    margin: 0;
+}
+
+form input[type=text],
+form input[type=email],
+form input[type=password] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #008080;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+}
+
+form input[type=submit] {
+    background-color: #008080;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    width: 30%;
+}
+
+form input[type=submit]:hover {
+    background-color: #00c4c4;
+}
+
+select {
+    color: #008080;
+    font-family: 'Nunito', sans-serif;
+    font-size: 2rem;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+#broodjesInfo tbody tr {
+    transition: background-color 200ms;
+}
+
+#broodjesInfo tbody tr:hover {
+    background-color: #c6ffff;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #ebebeb;
+}
+
+
+tbody tr:nth-child(even) {
+    background-color: #cecece;
+}
+
+thead {
+    background-color: #d8f3ff;
+}
+
+#feedback {
+    align-items: flex-end;
+    width: 100%;
+    margin: 0 5% 0 5%;
+    text-align: center;
+}
