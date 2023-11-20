@@ -1,0 +1,19 @@
+
+footer {
+    height: 7.5rem;
+    padding: 1rem;
+    background-color: #5f1707;
+    bottom: 0;
+}
+
+footer p {
+    font-size: small;
+    text-align: center;
+    color: white;
+    width: 80%;
+    margin: auto;
+}
+
+footer a {
+    color: rgb(137, 222, 255);
+}

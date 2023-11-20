@@ -1,0 +1,77 @@
+.title {
+    margin-left: 5%;
+    margin-bottom: 2rem;
+}
+
+article {
+    width: 90%;
+    margin: 0 auto;
+
+}
+
+section {
+    width: 80%;
+    height: 30rem;
+    background-color: #5f1707;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 2rem;
+    border-radius: 16px;
+    overflow-y: scroll;
+    margin: 10rem auto 10rem auto;
+}
+
+section h1, section h2 {
+    width: 100%;
+    text-align: center;
+    color: #faf0ca;
+}
+
+.review-container {
+    padding: 1rem;
+    width: 30%;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.review-container:hover {
+    border-bottom: 5px solid #faf0ca;
+
+    box-shadow: 0 5px 15px rgba(252, 144, 3, 0.4);
+}
+
+.review-container p {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #faf0ca;
+}
+
+.review-container label {
+    font-weight: bolder;
+    display: block;
+    width: 100%;
+    color: #faf0ca;
+    
+
+    text-align: center;
+}
+
+/*CUSTOM SCROLLBAR GLOBALLY*/
+section::-webkit-scrollbar {
+    width: 20px;
+}
+
+section::-webkit-scrollbar-thumb {
+    background-color: #faf0ca;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+
+section::-webkit-scrollbar-corner {
+    background: rgba(0, 0, 0, 0);
+}
+

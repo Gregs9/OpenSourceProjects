@@ -1,0 +1,41 @@
+.title {
+    margin-left: 5%;
+}
+
+.promo h1 {
+    color: white;
+    width: 90%;
+    margin: auto;
+    padding-top: 2rem;
+    cursor: default;
+
+
+}
+
+#promo1 h1 {
+    text-align: left;
+}
+
+#promo2 h1 {
+    text-align: right;
+}
+
+.promo {
+    width: 90%;
+    height: 400px;
+    margin: 0 auto;
+    border-radius: 16px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+#promo1 {
+    background-image: url("../assets/promo1.png");;
+    background-size: cover;
+}
+
+#promo2 {
+    background-image: url("../assets/promo2.png");
+    background-size: cover;
+
+}

@@ -1,0 +1,48 @@
+/*COLOR PALLETTE : #5f1707 #faf0ca*/
+
+/*2. MENU */
+header {
+    top: 0;
+    background-color: #5f1707;
+
+}
+
+nav {
+    width: 100%;
+    align-items: flex-end;
+    text-align: center;
+
+}
+
+nav li {
+    list-style: none;
+    display: inline-block;
+    font-size: 2rem;
+    font-weight: bold;
+    width: 12rem;
+}
+
+#home, #promoties, #overons {
+    display: block;
+    height: 100%;
+    font-family: 'Rancho';
+    color: #faf0ca;
+    font-weight: 50;
+    padding: 0 1rem 0 1rem;
+    transition: color 200ms;
+    border-radius: 8px 8px 0 0;
+
+    transition: color 500ms;
+    transition: background-color 500ms;
+
+}
+
+#home:hover, #promoties:hover, #overons:hover {
+    color: #5f1707;
+    background-color: #bcb597;
+}
+
+#logo {
+    width: 120px;
+}
+

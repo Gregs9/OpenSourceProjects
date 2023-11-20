@@ -1,0 +1,71 @@
+.titel {
+    text-align: center;
+}
+
+#pizza-info {
+    width: 100%;
+    overflow: visible;
+    margin-top: 2rem;
+}
+
+.thumbnail {
+    height: 100%;
+    float: left;
+}
+
+.pizza-info {
+    width: 90%;
+    margin: 2rem auto;
+    height: 15rem;
+}
+
+.pizza-info p {
+    display: inline-block;
+    padding-left: 1rem;
+}
+
+#outer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5rem;
+}
+
+#lever-info {
+    margin-top: 5rem;
+    padding-bottom: 5rem;
+    text-align: center;
+}
+
+textarea {
+    width: 20rem;
+    height: 5rem;
+    resize: none;
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+#bestel-link {
+    font-size: 1.5rem;
+}
+
+#wijzig-info {
+    width: 20%;
+    margin: 5rem auto;
+}
+
+#wijzig-info label {
+    display: inline-block;
+    display: flex;
+    justify-content: space-between;
+}
+
+.button {
+    font-size: 1rem;
+}
+
+#bevestig, #annuleren {
+    margin-top: 1rem;
+}
+
+
