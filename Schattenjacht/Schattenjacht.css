@@ -1,0 +1,231 @@
+@import url('https://fonts.cdnfonts.com/css/doom-2016-left');
+@import url('https://fonts.cdnfonts.com/css/doom');
+
+* {
+    font-family: 'DooM', sans-serif;
+    font-size: 1.2rem;
+}
+
+body {
+    background-color: black;
+    /*background-image: url(assets/background.jpg);*/
+    background-size: cover;
+    color: white;
+}
+
+
+
+h1 {
+    font-family: 'Doom 2016 Text', sans-serif;
+    font-size: 5rem;
+    letter-spacing: .5rem;
+    text-align: center;
+}
+
+select {
+    background-color: green;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    padding: 0.2rem;
+    text-align: center;
+}
+
+.button {
+    background-color: rgb(128, 0, 0);
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    padding: 0.4rem;
+    transition: background-color 200ms;
+    color: white;
+
+}
+
+.button:hover {
+    background-color: rgb(255, 0, 0);
+}
+
+#start-menu {
+    width: 50%;
+    margin: 0 auto;
+}
+
+#game {
+    text-align: center;
+}
+
+#game_settings {
+    text-align: center;
+}
+
+
+
+#speelveld {
+    margin: 0 auto;
+    border: 10px solid rgb(73, 73, 73);
+    background-image: url("assets/background.jpg");
+}
+
+#spelinfo {
+    margin: auto;
+}
+
+#win-screen, #kill-screen {
+    width: 50%;
+    padding: 2rem;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.527);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#speelveld {
+    padding: 0;
+    line-height: 0;
+    display: block;
+}
+
+
+.cel {
+    display: inline-block;
+    margin: 0;
+    background-color: rgb(255, 255, 255);
+    height: 50px;
+    width: 50px;
+}
+
+.gras {
+    background-image: url(assets/gras.png);
+    background-size: contain;
+    border-radius: 0;
+}
+
+.muur {
+    background-image: url(assets/muur.png);
+    background-size: contain;
+    border-radius: 0;
+}
+
+.schat {
+    background-image: url(assets/schat.png);
+    background-size: contain;
+}
+
+.speler {
+    background-image: url(assets/speler_onder.png);
+    background-size: contain;
+}
+
+.speleronder {
+    background-image: url(assets/speler_onder.png);
+}
+
+.spelerboven {
+    background-image: url(assets/speler_boven.png);
+}
+
+.spelerlinks {
+    background-image: url(assets/speler_links.png);
+}
+
+.spelerrechts {
+    background-image: url(assets/speler_rechts.png);
+}
+
+.jager {
+    background-image: url(assets/jager_onder.png);
+    background-size: contain;
+}
+.jagerlinks {
+    background-image: url(assets/jager_links.png);
+}
+
+.jagerrechts {
+    background-image: url(assets/jager_rechts.png);
+}
+
+.jagerboven {
+    background-image: url(assets/jager_boven.png);
+}
+
+.jageronder {
+    background-image: url(assets/jager_onder.png);
+}
+
+
+
+.heart {
+    background-size: contain;
+    height: 60px;
+    width: 60px;
+}
+
+.full {
+    background-image: url(assets/heart_full.png);
+}
+
+.empty {
+    background-image: url(assets/heart_empty.png);
+}
+
+#levens {
+    width: 180px;
+    height: 60px;
+    margin: 0 auto;
+}
+
+
+
+
+.slider {
+    -webkit-appearance: none;
+    width: 90%;
+    height: 15px;
+    border-radius: 5px;
+    background: #363636;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    cursor: pointer;
+  }
+  
+  .slider:hover {
+    opacity: 1;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #c50000;
+    cursor: pointer;
+  }

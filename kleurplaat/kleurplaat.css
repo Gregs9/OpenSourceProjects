@@ -1,0 +1,29 @@
+.wrapper {
+    width: 90%;
+    margin: 0 auto;
+
+    background-color: rgb(231, 231, 231);
+    border-radius: 2%;
+    padding: 2rem;
+}
+
+
+#kleurplaat {
+
+    padding: 0;
+    line-height: 0;
+    display: inline-block;
+
+}
+
+.cell {
+    outline: 1px solid black;
+    display: inline-block;
+    margin: 0;
+    cursor:pointer;
+    background-color: white;
+}
+
+label, input[type=radio] {
+    cursor: pointer;
+}
