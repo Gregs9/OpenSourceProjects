@@ -1,0 +1,257 @@
+@font-face {
+    font-family: "warcraft";
+    src: url("../assets/LifeCraft_Font.ttf");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "warcraft";
+    color: rgb(255, 218, 218);
+
+}
+
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.805), rgba(0, 0, 0, 1)), url("../assets/background.jpg");
+    height: 100vh;
+    width: 100%;
+    /* extended code */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#start-menu {
+    width: 50%;
+    margin: 1rem auto;
+    text-align: center;
+    font-size: 3rem;
+}
+
+
+
+#game_settings>div>input[type=range] {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+#volume-container {
+    font-size: 2rem;
+    text-align: left;
+}
+
+
+
+
+
+#grid {
+    margin: 1rem auto;
+    outline: 10px solid black;
+    line-height: 0;
+}
+
+.cell {
+    outline: 0.005rem solid rgba(255, 255, 255, 0.228);
+    display: inline-block;
+    margin: 0;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+#win-screen,
+#kill-screen {
+    width: 50%;
+    height: 50%;
+    padding: 2rem;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.527);
+    text-align: center;
+    font-size: 3rem;
+}
+
+.button {
+    width: 15rem;
+    height: 5rem;
+    font-size: 3rem;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(158, 58, 0);
+    cursor: pointer;
+    color: white;
+
+    transition: background-color 200ms ease-in;
+}
+
+.button:hover {
+    background-color: rgb(255, 94, 0);
+}
+
+input[type=range] {
+    cursor: pointer;
+    -webkit-appearance: none;
+    background: #ff6f0063;
+    border-radius: 5px;
+    color: red;
+    transition: box-shadow 200ms ease-in-out;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: goldenrod;
+
+    margin: -4px 0 -4px 0;
+}
+
+input[type=range]:focus {
+    -webkit-box-shadow: 0px 0px 8px 0px rgba(255, 238, 0, 0.9);
+    -moz-box-shadow: 0px 0px 8px 0px rgba(255, 238, 0, 0.9);
+    box-shadow: 0px 0px 8px 0px rgba(255, 238, 0, 0.9);
+}
+
+#game_info {
+    margin: 1rem auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+#game_info>div {
+    display: flex;
+    align-items: center;
+}
+
+
+#game_info>div>label {
+    font-size: 3rem;
+    margin-left: 1rem;
+    width: 5rem;
+    padding-top: 0.3rem;
+    /*Offset for font not being centered*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.Prox0,
+.Prox1,
+.Prox2,
+.Prox3,
+.Prox4,
+.Prox5,
+.Prox6,
+.Prox7,
+.Prox8 {
+    background-color: rgba(255, 190, 111, 0.435);
+    background-size: contain;
+    -webkit-box-shadow: inset 0px 0px 10px 5px rgba(255,255,255,0.37);
+    -moz-box-shadow: inset 0px 0px 10px 5px rgba(255,255,255,0.37);
+    box-shadow: inset 0px 0px 10px 5px rgba(255,255,255,0.37);
+}
+
+
+.Prox1 {
+    background-image: url('../assets/1.png');
+    -webkit-box-shadow: inset 0px 0px 10px 5px rgba(255,255,255,0.37);
+    -moz-box-shadow: inset 0px 0px 10px 5px rgba(255,255,255,0.37);
+    box-shadow: inset 0px 0px 10px 5px rgba(255,255,255,0.37);
+}
+
+.Prox2 {
+    background-image: url('../assets/2.png');
+    -webkit-box-shadow: inset 0px 0px 10px 5px rgba(26, 176, 0, 0.37);
+    -moz-box-shadow: inset 0px 0px 10px 5px rgba(26, 176, 0, 0.37);
+    box-shadow: inset 0px 0px 10px 5px rgba(26, 176, 0, 0.37);
+}
+
+.Prox3 {
+    background-image: url('../assets/3.png');
+    -webkit-box-shadow: inset 0px 0px 10px 5px rgba(207, 200, 17, 0.37);
+    -moz-box-shadow: inset 0px 0px 10px 5px rgba(207, 200, 17, 0.37);
+    box-shadow: inset 0px 0px 10px 5px rgba(207, 200, 17, 0.37);
+}
+
+.Prox4 {
+    background-image: url('../assets/4.png');
+    -webkit-box-shadow: inset 0px 0px 10px 5px rgba(207, 109, 17, 0.37);
+    -moz-box-shadow: inset 0px 0px 10px 5px rgba(207, 109, 17, 0.37);
+    box-shadow: inset 0px 0px 10px 5px rgba(207, 109, 17, 0.37);
+}
+
+.Prox5 {
+    background-image: url('../assets/5.png');
+    -webkit-box-shadow: inset 0px 0px 10px 5px rgba(255, 1, 1, 0.37);
+    -moz-box-shadow: inset 0px 0px 10px 5px rgba(255, 1, 1, 0.37);
+    box-shadow: inset 0px 0px 10px 5px rgba(255, 1, 1, 0.37);
+}
+
+.Prox6 {
+    background-image: url('../assets/6.png');
+    -webkit-box-shadow: inset 0px 0px 10px 5px rgba(179, 0, 206, 0.37);
+    -moz-box-shadow: inset 0px 0px 10px 5px rgba(179, 0, 206, 0.37);
+    box-shadow: inset 0px 0px 10px 5px rgba(179, 0, 206, 0.37);
+}
+
+.Prox7 {
+    background-image: url('../assets/7.png');
+    -webkit-box-shadow: inset 0px 0px 10px 5px rgba(20, 20, 255, 0.37);
+    -moz-box-shadow: inset 0px 0px 10px 5px rgba(20, 20, 255, 0.37);
+    box-shadow: inset 0px 0px 10px 5px rgba(20, 20, 255, 0.37);
+}
+
+.Prox8 {
+    background-image: url('../assets/8.png');
+    background-image: url('../assets/7.png');
+    -webkit-box-shadow: inset 0px 0px 10px 5px rgba(0, 0, 0, 0.37);
+    -moz-box-shadow: inset 0px 0px 10px 5px rgba(0, 0, 0, 0.37);
+    box-shadow: inset 0px 0px 10px 5px rgba(0, 0, 0, 0.37);
+}
+
+.bomb {
+    background-image: url('../assets/bomb.jpg');
+    background-size: contain;
+    -webkit-box-shadow: inset 0px 0px 10px 5px rgba(255, 1, 1, 0.37);
+    -moz-box-shadow: inset 0px 0px 10px 5px rgba(255, 1, 1, 0.37);
+    box-shadow: inset 0px 0px 10px 5px rgba(255, 1, 1, 0.37);
+}
+
+.flagged {
+    background-image: url('../assets/flag.jpg');
+    background-size: contain;
+    -webkit-box-shadow: inset 0px 0px 10px 5px rgba(26, 176, 0, 0.37);
+    -moz-box-shadow: inset 0px 0px 10px 5px rgba(26, 176, 0, 0.37);
+    box-shadow: inset 0px 0px 10px 5px rgba(26, 176, 0, 0.37);
+}
