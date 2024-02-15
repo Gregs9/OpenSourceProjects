@@ -1,0 +1,36 @@
+#overzicht {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+
+.pizza-info {
+    padding: 1rem;
+    width: 20%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 500ms;
+}
+
+.thumbnail:hover {
+    transform: scale(1.2);
+}
+
+.thumbnail {
+    width: 100%; 
+    transition: transform 500ms;
+}
+
+p {
+    width: 100%;
+    text-align: center;
+}
+
+h1 {
+    margin-left: 5%;
+    margin-bottom: 2rem;
+}

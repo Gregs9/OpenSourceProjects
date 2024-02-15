@@ -1,0 +1,17 @@
+.wrapper h1 {
+    width: 100%;
+    text-align: center;
+}
+
+.wrapper p {
+    margin-top: 5rem;
+    width: 100%;
+    text-align: center;
+}
+
+#back {
+    margin-top: 5rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

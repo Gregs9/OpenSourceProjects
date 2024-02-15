@@ -1,0 +1,41 @@
+
+#forms {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+}
+
+form {
+    margin-top: 2rem;
+    border-radius: 16px;
+    padding: 1rem;
+    height: 25rem;
+    width: 35%;
+}
+
+label {
+    display: inline-block;
+    width: 50%;
+}
+
+h1 {
+    width: 100%;
+}
+
+#include-register {
+    display: none;
+}
+
+input[type=checkbox] {
+    cursor: pointer;
+}
+
+input[type=text], input[type=password], input[type=email] {
+    width: 40%;
+}
+
+#checkbox {
+    cursor: pointer;
+}
+
