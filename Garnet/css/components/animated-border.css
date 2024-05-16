@@ -1,0 +1,100 @@
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~ just me having some good old fun ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+
+/*
+HOW TO USE:
+• Add the following elements inside the container you want to glow:
+  <span class="border-top"></span>
+  <span class="border-right"></span>
+  <span class="border-bottom"></span>
+  <span class="border-left"></span>
+
+•Link this css file to the document:
+  <link rel="stylesheet" href="css/animated-border.css">
+
+*/
+
+
+div>.border-top {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, #F39211, #b03ffc);
+    animation: animate-border-top 2s linear infinite;
+}
+
+@keyframes animate-border-top {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+
+
+div>.border-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 1px;
+    background: linear-gradient(to bottom, #F39211, #b03ffc);
+    animation: animate-border-right 2s linear infinite
+}
+
+@keyframes animate-border-right {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+
+div>.border-bottom {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to left, #F39211, #b03ffc);
+    animation: animate-border-bottom 2s linear infinite;
+}
+
+@keyframes animate-border-bottom {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+
+div>.border-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 1px;
+    background: linear-gradient(to top, #F39211, #b03ffc);
+    animation: animate-border-left 2s linear infinite;
+}
+
+@keyframes animate-border-left {
+    0% {
+        transform: translateY(100%);
+    }
+
+    100% {
+        transform: translateY(-100%);
+    }
+}

@@ -1,0 +1,58 @@
+/*TAG BUILDER PROPERTIES*/
+
+#tag-builder {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+    margin: 1rem 0 1rem 0;
+}
+
+#available-tags-container,
+#selected-tags-container {
+    width: 50%;
+}
+
+#available-tags,
+#submitted-tags {
+    width: 100%;
+    height: 20rem;
+    overflow-y: scroll;
+    border-top: 1px solid var(--housecolor-white);
+    border-bottom: 1px solid var(--housecolor-white);
+    border-radius: 5px;
+}
+
+#available-tags a,
+#submitted-tags a {
+    height: 3rem;
+    width: 100%;
+    font-size: 1vw;
+    background-color: var(--housecolor-brownred);
+}
+
+#available-tags a:hover,
+#submitted-tags a:hover {
+    background: #800000;
+}
+
+
+
+/*--------------------------------FOR MOBILE DEVICES--------------------------------*/
+@media (max-width: 1000px) {
+    #tag-builder {
+        flex-direction: column;
+    }
+
+    #available-tags-container,
+    #selected-tags-container {
+        width: 100%;
+    }
+
+    .tag {
+        font-size: 3rem;
+        height: 4rem;
+        min-height: 4rem;
+        margin: 1rem 0 1rem 0;
+    }
+}

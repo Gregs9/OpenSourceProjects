@@ -1,0 +1,74 @@
+/* Color schemes */
+/*
+:root {
+  --housecolor-brightred: #800000;
+  --housecolor-darkred: #380000;
+  --housecolor-brownred: #160000;
+  --housecolor-white: #e9e9e9;
+  --housecolor-taggrey: #252525;
+  --housecolor-linkhover: #ff7d7d;
+}
+*/
+.cookie {
+  background-color: rgba(0, 0, 0, 0.651);
+  padding: 1rem;
+  display: block; 
+  bottom: 0;
+  left: 0; 
+  right: 0; 
+  margin: 1rem auto; 
+  position: fixed;
+  animation: 1s ease-out 0s 1 slideInFromBottom;
+  overflow: hidden;
+}
+
+#cookie_info {
+  color: var(--housecolor-white);
+  display: inline;
+  font-size: 1rem;
+}
+
+#cookie_info>a {
+  transition: all 200ms ease-in-out;
+  color: var(--housecolor-brightred);
+}
+
+#cookie_info>a:hover {
+  color: var(--housecolor-linkhover);
+  
+}
+
+#accept-cookies {
+  width: 5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: lighter;
+  padding: 10px;
+  background-color: var(--housecolor-darkred);
+  color: var(--housecolor-white);
+  border-radius: 7px;
+  border: 0;
+  cursor: pointer;
+  transition: background-color 200ms;
+  display: inline;
+  margin-left: 1rem;
+}
+
+#accept-cookies:hover {
+  background-color: var(--housecolor-brightred);
+}
+
+
+
+button:hover {
+  background-color: var(--housecolor-brightred);
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}

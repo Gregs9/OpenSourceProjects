@@ -1,0 +1,49 @@
+
+
+
+form {
+    width: 40%;
+    margin: auto;
+    padding: 5% 10% 5% 10%;
+    border: 1px solid rgba(255, 255, 255, 0.144);
+    border-radius: 14px;
+    margin-top: 2rem;
+}
+
+
+#thumbnail-preview {
+    width: 100%;
+}
+
+#creator_name {
+    width: 50%;
+}
+
+label {
+    width: 30%;
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+input[type=text],
+input[type=number],
+input[type=file],
+input[type=date] {
+    width: 60%;
+}
+
+#actions {
+    margin-top: 2rem;
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+}
+
+input[type=submit] {
+    width: 30%;
+}
+
+form a {
+    display: grid;
+    place-items: center;
+}

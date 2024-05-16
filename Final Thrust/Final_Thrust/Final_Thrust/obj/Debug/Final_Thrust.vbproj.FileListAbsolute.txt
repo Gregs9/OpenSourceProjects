@@ -30,3 +30,10 @@ G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Interop.WMPLib.dll
 G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\AxInterop.WMPLib.dll
 G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.vbproj.ResolveComReference.cache
 G:\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.Useable_items.resources
+D:\OpenSourceProjects\Final Thrust\Final_Thrust\Final_Thrust\bin\Debug\Final_Thrust.exe.config
+D:\OpenSourceProjects\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Interop.WMPLib.dll
+D:\OpenSourceProjects\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\AxInterop.WMPLib.dll
+D:\OpenSourceProjects\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.vbproj.ResolveComReference.cache
+D:\OpenSourceProjects\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.exe
+D:\OpenSourceProjects\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.xml
+D:\OpenSourceProjects\Final Thrust\Final_Thrust\Final_Thrust\obj\Debug\Final_Thrust.pdb

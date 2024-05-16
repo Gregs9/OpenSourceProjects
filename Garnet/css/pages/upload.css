@@ -1,0 +1,87 @@
+.uploadform {
+    width: 40%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-weight: lighter;
+    padding: 5% 10% 5% 10%;
+    border: 1px solid rgba(255, 255, 255, 0.144);
+    border-radius: 14px;
+    background-color: var(--housecolor-darkred);
+}
+
+#upload-video {
+    /*Title*/
+    width: 60%;
+    margin: auto;
+    padding: 2rem 0 2rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+#videoPreview {
+    width: 100%;
+}
+
+#thumbnailPreviewContainer {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+#thumbnailPreview {
+    width: 100%;
+    object-fit: contain;
+    border: 1px solid black;
+}
+
+.uploadform label {
+    width: 100%;
+    display: inline;
+    font-size: 1.5rem;
+    margin: 1rem 0 0 0;
+}
+
+input, textarea {
+    width: 100%;
+}
+
+#upload-button-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+input[type=submit] {
+    width: 30%;
+}
+
+
+/*--------------------------------FOR MOBILE DEVICES--------------------------------*/
+@media (max-width: 1000px) {
+
+    .wrapper {
+        width: 100%;
+    }
+
+    .uploadform {
+        width: 90%;
+        padding: 2rem;
+    }
+
+    .uploadform label {
+        font-size: 3rem;
+    }
+
+    input {
+        font-size: 3rem;
+    }
+
+    input[type=submit] {
+        width: 50%;
+    }
+
+    h2 {
+        font-size: 3rem;
+    }
+}

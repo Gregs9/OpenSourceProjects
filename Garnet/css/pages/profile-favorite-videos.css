@@ -1,0 +1,12 @@
+.search-container {
+    text-align: right;
+    margin-right: 1rem;
+}
+
+.no-indent {
+    margin-left: 0;
+}
+
+.info-container {
+    text-align: center;
+}
