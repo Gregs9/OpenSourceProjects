@@ -1,7 +1,7 @@
 .wrapper {
-    min-height: 68vh !important;
-    max-height: 68vh !important;
-    height: 68vh !important;
+    min-height: 70vh !important;
+    max-height: 70vh !important;
+    height: 70vh !important;
     padding: 0 !important;
     background: none !important;
 }
@@ -80,4 +80,17 @@
 
 .creator:hover {
     filter: brightness(1.50);
+}
+
+#scroll-icon {
+    width: 5rem;
+    object-fit: contain;
+    position: absolute;
+    bottom: 0;
+    
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.516);
+    padding: 1rem 0 1rem 0;
+    border-radius: 16px;
+
 }

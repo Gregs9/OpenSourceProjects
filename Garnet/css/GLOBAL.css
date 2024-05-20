@@ -42,23 +42,23 @@ body {
     background-size: cover;
 }
 
-/*CUSTOM SCROLLBAR GLOBALLY*/
-::-webkit-scrollbar {
+/*CUSTOM SCROLLBAR GLOBALLY, EXCEPT THE BROWSER SCROLLBAR*/
+*:not(html):not(body)::-webkit-scrollbar {
     width: 20px;
 }
 
-::-webkit-scrollbar-thumb {
+*:not(html):not(body)::-webkit-scrollbar-thumb {
     background-color: #800000;
     border-radius: 20px;
     border: 6px solid transparent;
     background-clip: content-box;
 }
 
-::-webkit-scrollbar-corner {
+*:not(html):not(body)::-webkit-scrollbar-corner {
     background: rgba(0, 0, 0, 0);
 }
 
-::-webkit-scrollbar-track {
+*:not(html):not(body)::-webkit-scrollbar-track {
     display: none !important;
 }
 
@@ -79,6 +79,7 @@ body {
     width: 90%;
     margin: 1rem auto;
     max-height: 100vh;
+    height: 70vh;
     overflow-y: scroll;
     scroll-behavior: smooth;
     background-color: var(--housecolor-darkred);

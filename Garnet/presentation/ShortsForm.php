@@ -50,7 +50,11 @@
 
       </div>
 
+      <img id="scroll-icon" src="assets/scroll.png" title="Scroll down to go to the next video." alt="scroll-tutorial" onclick="this.style.display='none';">
+
     </div>
+
+    
 
 
 

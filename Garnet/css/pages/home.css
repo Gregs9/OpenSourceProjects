@@ -106,6 +106,12 @@
     place-items: center center;
 }
 
+.message-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 4rem;
+}
+
 
 /*--------------------------------FOR MOBILE DEVICES--------------------------------*/
 @media (max-width: 1000px) {

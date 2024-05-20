@@ -73,13 +73,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'remove_tag') {
 
     $headers = getallheaders();
     $csrfToken = $headers['X-CSRF-Token'] ?? '';
-/*
-    if (!validateCsrfToken($csrfToken)) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-        exit;
-    }
-*/
+    /*
+        if (!validateCsrfToken($csrfToken)) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
+            exit;
+        }
+    */
     $tagSvc = new TagService();
     $videoSvc = new VideoService();
     $logSvc = new LogService();
@@ -128,13 +128,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_last_score') {
 
     $headers = getallheaders();
     $csrfToken = $headers['X-CSRF-Token'] ?? '';
-/*
-    if (!validateCsrfToken($csrfToken)) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-        exit;
-    }
-*/
+    /*
+        if (!validateCsrfToken($csrfToken)) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
+            exit;
+        }
+    */
     //Retrieve user data
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
@@ -166,13 +166,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_score') {
 
     $headers = getallheaders();
     $csrfToken = $headers['X-CSRF-Token'] ?? '';
-/*
-    if (!validateCsrfToken($csrfToken)) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-        exit;
-    }
-*/
+    /*
+        if (!validateCsrfToken($csrfToken)) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
+            exit;
+        }
+    */
     // Retrieve posted data
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
@@ -215,13 +215,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'fetch_creator_stats') {
 
     $headers = getallheaders();
     $csrfToken = $headers['X-CSRF-Token'] ?? '';
-/*
-    if (!validateCsrfToken($csrfToken)) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-        exit;
-    }
-*/
+    /*
+        if (!validateCsrfToken($csrfToken)) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
+            exit;
+        }
+    */
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
     $creatorSvc = new CreatorService;
@@ -229,15 +229,17 @@ if (isset($_GET['action']) && $_GET['action'] === 'fetch_creator_stats') {
 
     if ($creator) {
         http_response_code(200);
-        echo json_encode(['message' =>
-        '<ul>
+        echo json_encode([
+            'message' =>
+                '<ul>
             <li>Starred in <strong>' . $creatorSvc->getAmountStarredIn($creator) . '</strong> videos</li>
             <li><strong>' . $creatorSvc->getTotalViewsOfCreator($creator) . '</strong> total views</li>
             <li><strong>Score: ' . $creatorSvc->getTotalScoreOfCreator($creator) . '</strong></li>
-        </ul>']);
+        </ul>'
+        ]);
     } else {
         http_response_code(400);
-        echo json_encode(['error'=> 'Creator not found.']);
+        echo json_encode(['error' => 'Creator not found.']);
     }
 }
 //For fetching creator data -- DONE
@@ -245,13 +247,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'fetch_creator_data') {
 
     $headers = getallheaders();
     $csrfToken = $headers['X-CSRF-Token'] ?? '';
-/*
-    if (!validateCsrfToken($csrfToken)) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-        exit;
-    }
-*/
+    /*
+        if (!validateCsrfToken($csrfToken)) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
+            exit;
+        }
+    */
     $creatorSvc = new CreatorService;
     $arr_simplified_creators = [];
     foreach ($creatorSvc->getAll() as $creator) {
@@ -274,13 +276,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'favorite_creator') {
 
     $headers = getallheaders();
     $csrfToken = $headers['X-CSRF-Token'] ?? '';
-/*
-    if (!validateCsrfToken($csrfToken)) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-        exit;
-    }
-*/
+    /*
+        if (!validateCsrfToken($csrfToken)) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
+            exit;
+        }
+    */
     // Retrieve posted data
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
@@ -306,13 +308,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'unfavorite_creator') {
 
     $headers = getallheaders();
     $csrfToken = $headers['X-CSRF-Token'] ?? '';
-/*
-    if (!validateCsrfToken($csrfToken)) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-        exit;
-    }
-*/
+    /*
+        if (!validateCsrfToken($csrfToken)) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
+            exit;
+        }
+    */
     // Retrieve posted data
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
@@ -337,13 +339,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'favorite_video') {
 
     $headers = getallheaders();
     $csrfToken = $headers['X-CSRF-Token'] ?? '';
-/*
-    if (!validateCsrfToken($csrfToken)) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-        exit;
-    }
-*/
+    /*
+        if (!validateCsrfToken($csrfToken)) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
+            exit;
+        }
+    */
     // Retrieve posted data
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
@@ -370,13 +372,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'unfavorite_video') {
 
     $headers = getallheaders();
     $csrfToken = $headers['X-CSRF-Token'] ?? '';
-/*
-    if (!validateCsrfToken($csrfToken)) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-        exit;
-    }
-*/
+    /*
+        if (!validateCsrfToken($csrfToken)) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
+            exit;
+        }
+    */
     // Retrieve posted data
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
@@ -401,13 +403,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'search_favorited_video') {
 
     $headers = getallheaders();
     $csrfToken = $headers['X-CSRF-Token'] ?? '';
-/*
-    if (!validateCsrfToken($csrfToken)) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-        exit;
-    }
-*/
+    /*
+        if (!validateCsrfToken($csrfToken)) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
+            exit;
+        }
+    */
     // Retrieve posted data
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
@@ -439,15 +441,16 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_short') {
 
     $headers = getallheaders();
     $csrfToken = $headers['X-CSRF-Token'] ?? '';
-/*
-    if (!validateCsrfToken($csrfToken)) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-        exit;
-    }
-*/
+    /*
+        if (!validateCsrfToken($csrfToken)) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
+            exit;
+        }
+    */
     //no data is currently being received, but I implemented it in case we do want to send data, like when we want to pick videos depending on user preferences.
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
+
     require ('components/DBNameSnippet.php');
     $videoSvc = new VideoService;
     $userSvc = new UserService;
@@ -507,3 +510,110 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_short') {
     http_response_code(200);
     echo json_encode(['message' => $video_simplified]);
 }
+
+
+
+
+//For fetching home page video results
+if (isset($_GET['action']) && $_GET['action'] === 'getAllVideosPerPageWithFilter') {
+
+    $headers = getallheaders();
+    $csrfToken = $headers['X-CSRF-Token'] ?? '';
+    /*
+        if (!validateCsrfToken($csrfToken)) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
+            exit;
+        }
+    */
+
+    //required components
+    require ('components/DBNameSnippet.php');
+    $videoSvc = new VideoService;
+    $videoPerformanceDAO = new VideoPerformanceDAO();
+    $creatorSvc = new CreatorService;
+    $tagSvc = new TagService;
+
+    //retrieve post data
+    $postData = json_decode(file_get_contents('php://input'), true);
+    $page_no = (int) $postData['page_no'];
+    $array_selected_tags_string = $postData['selected_tags']; // has to be an array of tag objects
+    $query = $postData['query'];
+    $order_by = $postData['order_by'];
+    $exclude_shorts = $postData['exclude_shorts'] ? 'true' : 'false';
+
+
+    //covert string array of tags to array of tag objects
+    $tag_array = [];
+    foreach ($array_selected_tags_string as $string_tag) {
+        $tag = $tagSvc->getTagByName($string_tag);
+        if ($tag) {
+            array_push($tag_array, $tag);
+        }
+    }
+
+    $results_per_page = 25;
+
+    $video_list = $videoPerformanceDAO->getAllVideosPerPageWithFilter($page_no, $results_per_page, $tag_array, $query, $order_by, $exclude_shorts);
+
+    $total_records = $videoPerformanceDAO->getTotalRecordsPerPageWithFilter($tag_array, $query, $exclude_shorts);
+    $total_pages = ceil($total_records / $results_per_page);
+
+    $results = [];
+
+    foreach ($video_list as $video) {
+
+        $video_simplified = [
+            'source' => $contentPath . '/Videos/' . $video->getFilename() . $video->getExtension(),
+            'id' => $video->getId(),
+            'filename' => $video->getFilename(),
+            'extension' => $video->getExtension(),
+            'dateAdded' => $video->getDateAdded()->format('d/m/Y'),
+            'score' => $video->getScore(),
+            'description' => $video->getDescription(),
+            'tags' => [],
+            'views' => $video->getViews(),
+            'title' => $video->getTitle(),
+            'duration' => $video->getDuration(),
+            'filesize' => $video->getFileSize(),
+            'uploadedBy' => $video->getUploadedBy(),
+            'aspectRatio' => $video->getAspectRatio(),
+            'thumbnail' => $video->getThumbnail(),
+            'creators' => []
+        ];
+
+        foreach ($video->getTags() as $tag) {
+            $video_simplified['tags'][] = [
+                'id' => $tag->getId(),
+                'name' => $tag->getName(),
+                'weight' => $tag->getWeight(),
+                'description' => $tag->getDescription(),
+                'dateAdded' => $tag->getDateAdded()->format(''),
+            ];
+        }
+
+        foreach ($creatorSvc->getCreatorsByVideoId($video->getId()) as $creator) {
+            $video_simplified['creators'][] = [
+                'id' => $creator->getId(),
+                'name' => $creator->getName(),
+                'alias' => $creator->getAlias(),
+                'description' => $creator->getDescription(),
+                'profile_pic' => $creator->getProfilePic(),
+            ];
+        }
+
+        array_push($results, $video_simplified);
+    }
+
+    http_response_code(200);
+
+    echo 
+    json_encode([
+        'result' => $results,
+        'total_records' => $total_records,
+        'total_pages' => $total_pages,
+    ]);
+
+
+}
+

@@ -13,6 +13,7 @@ declare(strict_types=1);
   <link rel="icon" href="assets/logo.ico" type="image/x-icon">
   <meta name="theme-color" content="#800000">
   <script src="scripts/home_TagSelector.js" defer></script>
+  <script src="scripts/home_Filter.js" defer></script>
 </head>
 
 <body>
@@ -41,79 +42,58 @@ declare(strict_types=1);
 
     <h1 class="title">Filters</h1>
 
-    <!--Populated with JS-->
-    <form id="search-by-tags" method="post" action="home.php?action=filter">
+
+    <div id="search-by-tags">
       <label>Selected tags</label>
-      <div id="selected-tags" name="Here are the tags you have selected.">
-        <?php
-        if (isset($_SESSION['request-tags']) && $_SESSION['request-tags'] !== '') {
-          $arr_ret_tags = explode(';', $_SESSION['request-tags']);
-          foreach ($arr_ret_tags as $ret_tag) {
-            echo '<a class="tag">' . $ret_tag . '</a>';
-          }
-        }
-        ?>
-      </div>
-      <!--Hidden input element to mirror requested tags-->
-      <input type=text id="input-selected-tags" name="input-selected-tags" readonly hidden required>
+
+      <!--Selected tags populated with JS-->
+      <div id="selected-tags" name="Here are the tags you have selected."></div>
+
+      <!--Hidden input element to mirror requested tags in string format-->
+      <input type=text id="input-selected-tags" name="input-selected-tags" readonly hidden>
 
 
       <!--Searchbar for searching options-->
       <label>Search</label>
       <div id="search-container">
-        <input id="search" name="search" type="search" value="<?php if (isset($_SESSION['search'])) {
-          echo $_SESSION['search'];
-        } ?>" placeholder="Search.." title="Enter what you wish to search for." maxlength="100">
+        <input id="search" name="search" type="search" value="" placeholder="Search.." title="Enter what you wish to search for." maxlength="100">
       </div>
 
       <label>Order by</label>
       <!--Select for sorting options-->
       <div id="select-container">
         <select id="order-by" name="order-by">
-          <option <?php echo $order_by == "date_added desc" ? 'selected' : '' ?> value="date_added desc">Newest first
-          </option>
-          <option <?php echo $order_by == "date_added asc" ? 'selected' : '' ?> value="date_added asc">Oldest first
-          </option>
-          <option <?php echo $order_by == "views desc" ? 'selected' : '' ?> value="views desc">Most views first</option>
-          <option <?php echo $order_by == "views asc" ? 'selected' : '' ?> value="views asc">Least views first</option>
-          <option <?php echo $order_by == "score desc" ? 'selected' : '' ?> value="score desc">Highest score first
-          </option>
-          <option <?php echo $order_by == "score asc" ? 'selected' : '' ?> value="score asc">Least score first</option>
+          <option selected value="date_added desc">Newest first</option>
+          <option value="date_added asc">Oldest first</option>
+          <option value="views desc">Most views first</option>
+          <option value="views asc">Least views first</option>
+          <option value="score desc">Highest score first</option>
+          <option value="score asc">Least score first</option>
         </select>
       </div>
 
       <label title="Exclude videos shorter than 30 seconds which have a vertical aspect ratio.">Exclude shorts</label>
-      <input id="exclude-shorts" name="exclude-shorts" type="checkbox" <?php echo $excludeShorts == 'true' ? 'checked' : null; ?>>
+      <input id="exclude-shorts" name="exclude-shorts" type="checkbox">
 
 
       <!--Submit button-->
       <div id="submit-button-container">
-        <input type=submit value="Go" id="get_requested_tags" class="button">
+        <input type=submit value="Go" id="filter" class="button">
       </div>
-    </form>
 
-
-
-
-    <h1 class="title">
-      <?php echo $total_records ?> Results
-    </h1>
-    <main class="video-list">
-      <?php
-      foreach ($video_list as $video) {
-        include ('components/thumbnail.php');
-      } ?>
-    </main>
-
-    <div id="page_numbers">
-      <?php
-      echo $page > 1 ? '<a href="home?page=' . ($page - 1) . '"> < </a>' : null;
-      for ($i = 1; $i <= $total_pages; $i++) {
-        echo '<a ' . ($i == $page ? 'class="active-page" ' : '') . 'href="home?page=' . $i . '">' . $i . '</a>';
-      }
-      echo $page < $total_pages ? '<a href="home?page=' . ($page + 1) . '"> > </a>' : null;
-      ?>
+      <!--END FILTERS-->
     </div>
+
+
+
+    <!--Amount of results populated by JS-->
+    <h1 class="title" id="total-results"></h1>
+
+    <!--Videos populated by JS-->
+    <main class="video-list"></main>
+
+    <!--Pagination populated by JS-->
+    <div id="page_numbers"></div>
 
 
     <?php include ('components/recommendedVideosOnHomePage.php') ?>
