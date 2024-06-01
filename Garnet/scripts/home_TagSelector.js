@@ -40,7 +40,7 @@ $('#tag-list a').on('click', function () {
     }
 });
 
-//If there is a parameter in the url (e.g. tag=Ahegao)
+//If there is a parameter in the url
 if (tag_in_link) {
     //Get element with the parameter name
     $('#tag-list a').each(function () {
