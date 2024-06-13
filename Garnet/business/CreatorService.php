@@ -184,33 +184,6 @@ class CreatorService
         }
     }
 
-    public function verifyAge($first_appeared, $dob): bool
-    {
-        //return true if any of the dates are null
-        if (is_null($first_appeared) || $first_appeared == '' || $dob == '' || is_null($dob)) {
-            return true;
-        }
-
-        //make sure they are DT objects
-        if ($first_appeared instanceof DateTime === false) {
-            $first_appeared = new DateTime($first_appeared);
-        }
-
-        if ($dob instanceof DateTime === false) {
-            $dob = new DateTime($dob);
-        }
-
-        $diff = $dob->diff($first_appeared);
-
-        if ($diff->y >= 18) {
-            return true;
-        } else {
-            return false;
-        }
-
-
-    }
-
     public function getLatestVideosByCreator($creator): array
     {
         $creatorDAO = new CreatorDAO;

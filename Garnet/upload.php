@@ -28,11 +28,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'upload') {
     $arr_creators = explode(";", $creator_line) ?? [];
     $arr_creator_objects = [];
 
-    $first_appeared = null;
-    if (isset($_POST['first_appeared']) && $_POST['first_appeared'] !== '') {
-        $first_appeared = new DateTime(htmlspecialchars($_POST['first_appeared']));
-    }
-
     foreach ($arr_creators as $creator_name) {
         $creator = $creatorSvc->getCreatorByName($creator_name);
         $arr_creator_objects[] = $creator;
@@ -111,7 +106,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'upload') {
         //add thumbnail to the correct location
         rename($target_file_thumbnail, $contentPath . '/Thumbnails/' . $vid_hash . '.webp');
 
-        $uploaded_video_id = $videoSvc->addVideo((string) $vid_hash, 0, (string) htmlspecialchars($_POST['extension']), $first_appeared, (string) htmlspecialchars($_POST['description']), 0, (string) htmlspecialchars($_POST['title']), (string) htmlspecialchars($_POST['duration']), (int) htmlspecialchars($_POST['filesize']), (int) $user->getId());
+        $uploaded_video_id = $videoSvc->addVideo((string) $vid_hash, 0, (string) htmlspecialchars($_POST['extension']), (string) htmlspecialchars($_POST['description']), 0, (string) htmlspecialchars($_POST['title']), (string) htmlspecialchars($_POST['duration']), (int) htmlspecialchars($_POST['filesize']), (int) $user->getId());
         $video = $videoSvc->getVideoById($uploaded_video_id);
         $logSvc->log(unserialize($_COOKIE['user'], ['User'])->getId(), 'Uploaded video', $uploaded_video_id);
 

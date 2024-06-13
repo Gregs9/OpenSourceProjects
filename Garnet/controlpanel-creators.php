@@ -35,13 +35,6 @@ if ($user->getRole() == 'admin') {
             exit(0);
         }
 
-        //check if creator is at least 18 years old
-        if ($creator_dob !== '' && !$creatorSvc->verifyAge(date("Y/m/d"), $creator_dob)) {
-            $_SESSION['feedback'] = json_encode(['message' => $creator_name . ' is not at least 18 years old!', 'type' => 'error']);
-            header("Location: controlpanel-creators");
-            exit(0);
-        }
-
         $creator_social_in = '';
         $creator_social_x = '';
 

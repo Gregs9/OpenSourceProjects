@@ -358,17 +358,12 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_short') {
     $videoSvc->addView($video);
     $logSvc->log($user_id, 'View', $video->getId());
 
-    //if the video has no firstAppeared property, it will crash
-
-    $firstAppearedFormatted = $video->getFirstAppeared() ? $video->getFirstAppeared()->format('d/m/Y') : null;
-
     $video_simplified = [
         'source' => $contentPath . '/Videos/' . $video->getFilename() . $video->getExtension(),
         'id' => $video->getId(),
         'filename' => $video->getFilename(),
         'extension' => $video->getExtension(),
         'dateAdded' => $video->getDateAdded()->format('d/m/Y'),
-        'firstAppeared' => $firstAppearedFormatted,
         'score' => $video->getScore(),
         'description' => $video->getDescription(),
         'tags' => [],

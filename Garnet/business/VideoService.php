@@ -134,10 +134,10 @@ class VideoService
         }
     }
 
-    public function addVideo(string $filename, int $score, string $extension, $first_appeared, string $description, int $views, string $title, string $duration, int $filesize, int $uploaded_by): int
+    public function addVideo(string $filename, int $score, string $extension, string $description, int $views, string $title, string $duration, int $filesize, int $uploaded_by): int
     {
         $videoDAO = new VideoDAO();
-        return $videoDAO->addVideo($filename, $score, $extension, $first_appeared, $description, $views, $title, $duration, $filesize, $uploaded_by);
+        return $videoDAO->addVideo($filename, $score, $extension, $description, $views, $title, $duration, $filesize, $uploaded_by);
     }
 
     public function updateVideo(Video $video)
@@ -162,12 +162,6 @@ class VideoService
     {
         $videoDAO = new VideoDAO();
         return $videoDAO->getVideoCreatorsAsString($video_id);
-    }
-
-    public function verifyVideoCreatorAge(Video $video, Creator $creator): ?int
-    {
-        $videoDAO = new VideoDAO();
-        return $videoDAO->verifyVideoCreatorAge($video, $creator);
     }
 
     public function getShort() : Video

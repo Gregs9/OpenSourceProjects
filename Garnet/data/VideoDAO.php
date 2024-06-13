@@ -40,10 +40,7 @@ class VideoDAO
             //get all tags from this video as an array
             $arr_video_tags = $tagDAO->getAllTagsFromVideoByVideoId(intval($rij['video_id']));
 
-            //check if first_appeared is null
-            $firstAppeared = array_key_exists('first_appeared', $rij) && !is_null($rij['first_appeared']) ? new DateTime($rij['first_appeared']) : null;
-
-            $video = new Video((int) $rij['video_id'], (string) $rij['filename'], (string) $rij['extension'], new DateTime($rij['date_added']), $firstAppeared, (int) $rij['score'], (string) $rij['description'], (array) $arr_video_tags, (int) $rij['views'], (string) $rij['title'], (string) $rij['duration'], (int) $rij['filesize_kB'], (int) $rij['uploaded_by']);
+            $video = new Video((int) $rij['video_id'], (string) $rij['filename'], (string) $rij['extension'], new DateTime($rij['date_added']), (int) $rij['score'], (string) $rij['description'], (array) $arr_video_tags, (int) $rij['views'], (string) $rij['title'], (string) $rij['duration'], (int) $rij['filesize_kB'], (int) $rij['uploaded_by']);
             array_push($list_videos, $video);
         }
 
@@ -69,10 +66,7 @@ class VideoDAO
             //get all tags from this video as an array
             $arr_video_tags = $tagDAO->getAllTagsFromVideoByVideoId(intval($rij['video_id']));
 
-            //check if first_appeared is null
-            $firstAppeared = array_key_exists('first_appeared', $rij) && !is_null($rij['first_appeared']) ? new DateTime($rij['first_appeared']) : null;
-
-            $video = new Video((int) $rij['video_id'], (string) $rij['filename'], (string) $rij['extension'], new DateTime($rij['date_added']), $firstAppeared, (int) $rij['score'], (string) $rij['description'], (array) $arr_video_tags, (int) $rij['views'], (string) $rij['title'], (string) $rij['duration'], (int) $rij['filesize_kB'], (int) $rij['uploaded_by']);
+            $video = new Video((int) $rij['video_id'], (string) $rij['filename'], (string) $rij['extension'], new DateTime($rij['date_added']), (int) $rij['score'], (string) $rij['description'], (array) $arr_video_tags, (int) $rij['views'], (string) $rij['title'], (string) $rij['duration'], (int) $rij['filesize_kB'], (int) $rij['uploaded_by']);
             array_push($list_videos, $video);
         }
 
@@ -95,10 +89,7 @@ class VideoDAO
             $tagDAO = new TagDAO();
             $arr_video_tags = $tagDAO->getAllTagsFromVideoByVideoId(intval($rij['video_id']));
 
-            //check if first_appeared is null
-            $firstAppeared = array_key_exists('first_appeared', $rij) && !is_null($rij['first_appeared']) ? new DateTime($rij['first_appeared']) : null;
-
-            $video = new Video((int) $rij['video_id'], (string) $rij['filename'], (string) $rij['extension'], new DateTime($rij['date_added']), $firstAppeared, (int) $rij['score'], (string) $rij['description'], (array) $arr_video_tags, (int) $rij['views'], (string) $rij['title'], (string) $rij['duration'], (int) $rij['filesize_kB'], (int) $rij['uploaded_by']);
+            $video = new Video((int) $rij['video_id'], (string) $rij['filename'], (string) $rij['extension'], new DateTime($rij['date_added']), (int) $rij['score'], (string) $rij['description'], (array) $arr_video_tags, (int) $rij['views'], (string) $rij['title'], (string) $rij['duration'], (int) $rij['filesize_kB'], (int) $rij['uploaded_by']);
             return $video;
         }
     }
@@ -138,32 +129,21 @@ class VideoDAO
         $stmt->execute();
     }
 
-    public function addVideo(string $filename, int $score, string $extension, $first_appeared, string $description, int $views, string $title, string $duration, int $filesize, int $uploaded_by): int
+    public function addVideo(string $filename, int $score, string $extension, string $description, int $views, string $title, string $duration, int $filesize, int $uploaded_by): int
     {
         $now = new DateTime('now');
-
-        $first_appeared_formatted = null;
-        if ($first_appeared !== null) {
-            $first_appeared_formatted = $first_appeared->format('Y-m-d');
-        }
-        $sql = "insert into videos (filename, date_added, first_appeared, score, extension, description, views, title, duration, filesize_kB, uploaded_by) values (:filename, :date_added, :first_appeared, :score, :extension, :description, :views, :title, :duration, :filesize_kB, :uploaded_by)";
+        $sql = "insert into videos (filename, date_added, score, extension, description, views, title, duration, filesize_kB, uploaded_by) values (:filename, :date_added, :score, :extension, :description, :views, :title, :duration, :filesize_kB, :uploaded_by)";
         $stmt = $this->dbh->prepare($sql);
-        $stmt->execute(array(':filename' => $filename, ':date_added' => $now->format('Y-m-d H:i:s'), ':first_appeared' => $first_appeared_formatted, ':score' => $score, ':extension' => $extension, ':description' => $description, ':views' => $views, ':title' => $title, ':duration' => $duration, ':filesize_kB' => $filesize, ':uploaded_by' => $uploaded_by));	
+        $stmt->execute(array(':filename' => $filename, ':date_added' => $now->format('Y-m-d H:i:s'), ':score' => $score, ':extension' => $extension, ':description' => $description, ':views' => $views, ':title' => $title, ':duration' => $duration, ':filesize_kB' => $filesize, ':uploaded_by' => $uploaded_by));	
         $video_id = intval($this->dbh->lastInsertId());
         return $video_id;
     }
 
     public function updateVideo(Video $video)
-    {
-        $first_appeared_formatted = null;
-        if ($video->getFirstAppeared() !== null) {
-            $first_appeared_formatted = $video->getFirstAppeared()->format('Y-m-d');
-        }
-
-        
-        $sql = "update videos set filename = :filename, date_added = :date_added, first_appeared = :first_appeared, score = :score, extension = :extension, description = :description, views = :views, title = :title, duration = :duration, filesize_kB = :filesize_kB, uploaded_by = :uploaded_by where video_id = :video_id";
+    {   
+        $sql = "update videos set filename = :filename, date_added = :date_added, score = :score, extension = :extension, description = :description, views = :views, title = :title, duration = :duration, filesize_kB = :filesize_kB, uploaded_by = :uploaded_by where video_id = :video_id";
         $stmt = $this->dbh->prepare($sql);
-        $stmt->execute(array(':filename' => $video->getFilename(), ':date_added' => $video->getDateAdded()->format('Y/m/d H:i:s'), ':first_appeared' => $first_appeared_formatted, ':score' => $video->getScore(), ':extension' => $video->getExtension(), ':description' => $video->getDescription(), ':views' => $video->getViews(), ':title' => $video->getTitle(), ':duration' => $video->getDuration(), ':filesize_kB' => $video->getFileSize(), ':uploaded_by' => $video->getUploadedBy(), ':video_id' => $video->getId()));
+        $stmt->execute(array(':filename' => $video->getFilename(), ':date_added' => $video->getDateAdded()->format('Y/m/d H:i:s'), ':score' => $video->getScore(), ':extension' => $video->getExtension(), ':description' => $video->getDescription(), ':views' => $video->getViews(), ':title' => $video->getTitle(), ':duration' => $video->getDuration(), ':filesize_kB' => $video->getFileSize(), ':uploaded_by' => $video->getUploadedBy(), ':video_id' => $video->getId()));
     }
 
     public function deleteVideo(Video $video)
@@ -203,8 +183,7 @@ class VideoDAO
         foreach ($resultSet as $rij) {
             $tagDAO = new TagDAO();
             $arr_video_tags = $tagDAO->getAllTagsFromVideoByVideoId(intval($rij['video_id']));
-            $firstAppeared = array_key_exists('first_appeared', $rij) && !is_null($rij['first_appeared']) ? new DateTime($rij['first_appeared']) : null;
-            $video = new Video((int) $rij['video_id'], (string) $rij['filename'], (string) $rij['extension'], new DateTime($rij['date_added']), $firstAppeared, (int) $rij['score'], (string) $rij['description'], (array) $arr_video_tags, (int) $rij['views'], (string) $rij['title'], (string) $rij['duration'], (int) $rij['filesize_kB'], (int) $rij['uploaded_by']);
+            $video = new Video((int) $rij['video_id'], (string) $rij['filename'], (string) $rij['extension'], new DateTime($rij['date_added']), (int) $rij['score'], (string) $rij['description'], (array) $arr_video_tags, (int) $rij['views'], (string) $rij['title'], (string) $rij['duration'], (int) $rij['filesize_kB'], (int) $rij['uploaded_by']);
             array_push($arr_recommended_videos, $video);
         }
 
@@ -239,8 +218,7 @@ class VideoDAO
         //get all tags from this video as an array
         if ($result) {
             $arr_video_tags = $tagDAO->getAllTagsFromVideoByVideoId(intval($result['video_id']));
-            $firstAppeared = array_key_exists('first_appeared', $result) && !is_null($result['first_appeared']) ? new DateTime($result['first_appeared']) : null;
-            $video = new Video((int) $result['video_id'], (string) $result['filename'], (string) $result['extension'], new DateTime($result['date_added']), $firstAppeared, (int) $result['score'], (string) $result['description'], (array) $arr_video_tags, (int) $result['views'], (string) $result['title'], (string) $result['duration'], (int) $result['filesize_kB'], (int) $result['uploaded_by']);
+            $video = new Video((int) $result['video_id'], (string) $result['filename'], (string) $result['extension'], new DateTime($result['date_added']), (int) $result['score'], (string) $result['description'], (array) $arr_video_tags, (int) $result['views'], (string) $result['title'], (string) $result['duration'], (int) $result['filesize_kB'], (int) $result['uploaded_by']);
             return $this->getSimilarVideos($video);
         } else {
             return null;
@@ -282,26 +260,6 @@ class VideoDAO
         }
     }
 
-    public function verifyVideoCreatorAge(Video $video, Creator $creator): ?int
-    {
-        $sql = 'SELECT YEAR(FROM_DAYS(DATEDIFF(videos.first_appeared, creators.date_of_birth))) AS age_at_first_appearance_years
-        FROM videos
-        JOIN videocreators ON videos.video_id = videocreators.video_id
-        JOIN creators ON videocreators.creator_id = creators.creator_id
-        WHERE videos.video_id = ' . $video->getId() . '
-        AND creators.creator_id = ' . $creator->getId() . ';';
-
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (intval($result['age_at_first_appearance_years']) < 80) {
-            return intval($result['age_at_first_appearance_years']);
-        }
-        return null;
-
-    }
-
     public function getShort(): Video
     {
         $sql = 'SELECT videos.* FROM videos
@@ -317,8 +275,7 @@ class VideoDAO
 
         $tagDAO = new TagDAO();
         $arr_video_tags = $tagDAO->getAllTagsFromVideoByVideoId(intval($rij['video_id']));
-        $firstAppeared = array_key_exists('first_appeared', $rij) && !is_null($rij['first_appeared']) ? new DateTime($rij['first_appeared']) : null;
-        $video = new Video((int) $rij['video_id'], (string) $rij['filename'], (string) $rij['extension'], new DateTime($rij['date_added']), $firstAppeared, (int) $rij['score'], (string) $rij['description'], (array) $arr_video_tags, (int) $rij['views'], (string) $rij['title'], (string) $rij['duration'], (int) $rij['filesize_kB'], (int) $rij['uploaded_by']);
+        $video = new Video((int) $rij['video_id'], (string) $rij['filename'], (string) $rij['extension'], new DateTime($rij['date_added']), (int) $rij['score'], (string) $rij['description'], (array) $arr_video_tags, (int) $rij['views'], (string) $rij['title'], (string) $rij['duration'], (int) $rij['filesize_kB'], (int) $rij['uploaded_by']);
 
         return $video;
     }

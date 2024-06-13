@@ -117,12 +117,6 @@ declare(strict_types=1);
             <input class="input-element" title="Change this video's date added." type="datetime-local" name="date_added" id="date_added"
                 required value="<?= $video->getDateAdded()->format('Y-m-d H:i:s') ?>">
 
-            <!--first_appeared-->
-            <label for="first_appeared">First appeared</label>
-            <input class="input-element" title="Change when the video first surfaced online" type="date" name="first_appeared"
-                id="first_appeared"
-                value="<?= $video->getFirstAppeared() ? $video->getFirstAppeared()->format('Y-m-d') : ''; ?>">
-
             <!--Uploaded by-->
             <label for="uploaded_by">Uploaded by</label>
             <input class="input-element" title="The ID of the user who uploaded this video." readonly min="1" type="number" name="uploaded_by"

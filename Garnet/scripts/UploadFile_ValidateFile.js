@@ -36,8 +36,6 @@ function clearAll() {
     $('#thumbnailPreview').attr('src', ''); //might have to put an hashtag here
     $('#thumbnailPreview').css('display', 'none');
     $('#thumbnailPreviewContainer').css('display', 'none');
-
-    $('#first_appeared').val('');
 }
 
 function convertSecondsToDuration(seconds) {

@@ -33,12 +33,6 @@ if (($user->getRole() == 'admin') && isset($_GET['id']) && ($_GET['id'] !== ''))
         //update video here
         $date_uploaded = new DateTime($_POST['date_added']);
 
-        $first_appeared = null;
-        if (isset($_POST['first_appeared']) && $_POST['first_appeared'] !== '') {
-            $first_appeared = new DateTime($_POST['first_appeared']);
-        }
-
-
         //generate a new video object and update it
         //update tags
         $tagSvc->removeAllTagsFromVideo($video);
@@ -94,7 +88,7 @@ if (($user->getRole() == 'admin') && isset($_GET['id']) && ($_GET['id'] !== ''))
         }
 
         //create a new video object to update all data
-        $new_video_object = new Video($video->getId(), $video->getFilename(), $video->getExtension(), $date_uploaded, $first_appeared, $video_score, $video_description, array(), $video_views, $video_title, $video->getDuration(), $video_filesize, $video->getUploadedBy());
+        $new_video_object = new Video($video->getId(), $video->getFilename(), $video->getExtension(), $date_uploaded, $video_score, $video_description, array(), $video_views, $video_title, $video->getDuration(), $video_filesize, $video->getUploadedBy());
         $videoSvc->updateVideo($new_video_object);
 
         if (isset($_FILES["thumbnailToUpload"]) && $_FILES["thumbnailToUpload"]["error"] == UPLOAD_ERR_OK) {

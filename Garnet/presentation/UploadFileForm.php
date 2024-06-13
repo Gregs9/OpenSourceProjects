@@ -71,10 +71,6 @@ declare(strict_types=1);
       <input class="input-element" title="This video's filesize." type="number" name="filesize" id="filesize" required readonly
         placeholder="e.g. 146969" maxlength="8">
 
-      <label for="first_appeared">First appeared</label>
-      <input class="input-element" title="When this video first appeared online." type="date" name="first_appeared" id="first_appeared"
-        placeholder="e.g. 01/04/2020">
-
       <!--hide this element since it servers no real purpose other than using it as a post value
       <label for="tags">Tags</label>-->
       <input class="input-element" title="This video's tagline." type="text" name="tags" id="tags" onkeypress="return false;"
