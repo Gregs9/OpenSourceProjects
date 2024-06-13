@@ -32,7 +32,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'upload') {
         $creator = $creatorSvc->getCreatorByName($creator_name);
         $arr_creator_objects[] = $creator;
     }
-    print_r($arr_creator_objects);
     
     //if all checks succeed, upload file
 

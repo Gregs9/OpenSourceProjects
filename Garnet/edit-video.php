@@ -163,7 +163,7 @@ if (($user->getRole() == 'admin') && isset($_GET['id']) && ($_GET['id'] !== ''))
 
     }
 
-    include ('presentation/videoEditorForm.php');
+    include ('presentation/VideoEditorForm.php');
 
 } else {
     echo 'access denied.';

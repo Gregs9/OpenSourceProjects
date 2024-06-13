@@ -13,7 +13,10 @@ form {
     margin-top: 2rem;
     display: flex;
     flex-wrap: wrap;
+    color: white;
 }
+
+
 
 #video-preview, #thumbnail-preview {
     width: 100%;
@@ -25,6 +28,7 @@ label {
     margin-bottom: 1rem;
     display: grid;
     place-items: center left;
+    color: white;
 }
 
 input[type=text], input[type=number], input[type=file], input[type=datetime-local], input[type=date], input[type=url], textarea {
