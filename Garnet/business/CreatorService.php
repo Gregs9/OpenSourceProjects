@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-require_once('data/autoloader.php');
+require_once ('data/autoloader.php');
 
 class CreatorService
 {
@@ -77,7 +77,7 @@ class CreatorService
 
     public function deleteCreator(Creator $creator)
     {
-        $creatorDAO = new CreatorDAO();
+        $creatorDAO = new CreatorDAO;
         $creatorDAO->deleteCreator($creator);
     }
 
@@ -137,6 +137,7 @@ class CreatorService
 
     public function getBirthday($currentDate): array
     {
+
         //get all creators with a valid birthdate
         $all_creators = $this->getAll();
         $arr_of_all_creators_with_a_birthdate = array();
@@ -158,13 +159,13 @@ class CreatorService
 
             if (($creator_day == $current_day) && ($creator_month == $current_month)) {
                 array_push($arr_all_creators_with_birthday_today, $creator);
-            }   
+            }
         }
 
         return $arr_all_creators_with_birthday_today;
     }
 
-    public function isBirthday(Creator $creator) : bool
+    public function isBirthday(Creator $creator): bool
     {
 
         if ($creator->getDateOfBirth() !== '' && $creator->getDateOfBirth() !== null) {
@@ -172,7 +173,7 @@ class CreatorService
             $creator_month = date('m', strtotime($creator->getDateOfBirth()));
             $current_day = date('d');
             $current_month = date('m');
-    
+
             if (($creator_day == $current_day) && ($creator_month == $current_month)) {
                 return true;
             } else {
@@ -183,9 +184,69 @@ class CreatorService
         }
     }
 
-    public function getLatestVideosByCreator($creator) : array
+    public function verifyAge($first_appeared, $dob): bool
+    {
+        //return true if any of the dates are null
+        if (is_null($first_appeared) || $first_appeared == '' || $dob == '' || is_null($dob)) {
+            return true;
+        }
+
+        //make sure they are DT objects
+        if ($first_appeared instanceof DateTime === false) {
+            $first_appeared = new DateTime($first_appeared);
+        }
+
+        if ($dob instanceof DateTime === false) {
+            $dob = new DateTime($dob);
+        }
+
+        $diff = $dob->diff($first_appeared);
+
+        if ($diff->y >= 18) {
+            return true;
+        } else {
+            return false;
+        }
+
+
+    }
+
+    public function getLatestVideosByCreator($creator): array
     {
         $creatorDAO = new CreatorDAO;
         return $creatorDAO->getLatestVideosByCreator($creator);
+    }
+
+    public function verify_url(string $url): bool
+    {
+        //clean url
+        $url = filter_var($url, FILTER_SANITIZE_URL);
+
+        //list of valid prefixes
+        $prefixes = [
+            'https://www.twitter.com',
+            'https://twitter.com',
+            'https://www.x.com',
+            'https://x.com',
+            'https://instagram.com',
+            'https://www.instagram.com'
+        ];
+
+        
+        foreach ($prefixes as $prefix) {
+            //check if the first 20 characters of the url, contain the prefix
+            //if we just do a str_contains without using the first 20 characters, links like www.virus.com/https://www.instagram.com is also valid, and we don't want that.
+            if (str_contains(substr($url, 0, 30), $prefix)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getInPattern() {
+        return '^(https:\/\/www\.instagram\.com|https:\/\/\instagram\.com).*';
+    }
+    public function getXPattern() {
+        return '^(https:\/\/www\.twitter\.com|https:\/\/\.twitter\.com|https:\/\/\x\.com|https:\/\/www\.x\.com).*';
     }
 }

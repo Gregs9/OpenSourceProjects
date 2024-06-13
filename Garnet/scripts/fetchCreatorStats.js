@@ -14,7 +14,7 @@ fetch('api.php?action=fetch_creator_stats', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': 'a19e6ab21ff4ecf98a288be53fbd9acf45bc190a8f0824bd690ad1c7c3a8d1b9'
+        'X-CSRF-Token': csrfToken
     },
     body: JSON.stringify(dataToSend) // Convert data to JSON string
 })

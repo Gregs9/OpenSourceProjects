@@ -3,7 +3,6 @@
     margin: 1rem auto;
     overflow-x: scroll;
     scroll-behavior: smooth;
-    background-color: var(--housecolor-darkred);
     border-radius: 16px;
     white-space: nowrap;
 }

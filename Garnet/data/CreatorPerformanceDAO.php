@@ -26,7 +26,9 @@ class CreatorPerformanceDAO
         LOWER(p.alias) LIKE LOWER("%' . $query . '%")
         ) 
         
-        and creator_id != 0';
+        and creator_id != 0 and 
+        creator_id != 423 and 
+        creator_id != 424 ';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
@@ -51,6 +53,8 @@ class CreatorPerformanceDAO
         OR LOWER(creators.alias) LIKE LOWER("%' . $query . '%")
         ) 
         and creators.creator_id != 0 
+        and creators.creator_id != 423 
+        and creators.creator_id != 424 
         group by creators.creator_id' .
         ' order by ' . $order_by . '
         LIMIT ' . $start_from . ', ' . $results_per_page;
@@ -61,7 +65,6 @@ class CreatorPerformanceDAO
             $creator = new Creator((int) $rij['creator_id'], (string) $rij['name'], (string) $rij['alias'], $rij['date_of_birth'], (string) $rij['nationality'], (string) $rij['social_in'], (string) $rij['social_x'], (string) $rij['description']);
             array_push($list, $creator);
         }
-
         return $list;
     }
 }

@@ -1,58 +1,43 @@
-/* Color schemes */
-/*
-:root {
-    --housecolor-brightred: #800000;
-    --housecolor-darkred: #380000;
-    --housecolor-brownred: #160000;
-    --housecolor-white: #e9e9e9;
-    --housecolor-taggrey: #252525;
-    --housecolor-linkhover: #ff7d7d;
-}
-*/
-
 .menu {
     padding: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    background-color: rgba(0, 0, 0, 0.592);
-    
+    background-color: rgba(0, 0, 0, 0.592);  
 }
 
 nav {
     display: flex;
+
+    a {
+        text-decoration: none;
+        color: var(--hs-white);
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 0 0.5rem 0 0.5rem;
+        transition: all 200ms;
+    }
 }
-
-nav>a {
-    text-decoration: none;
-    color: var(--housecolor-white);
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin: 0 0.5rem 0 0.5rem;
-
-    transition: all 200ms;
-}
-
-
 
 #logo {
     width: 100px;
 }
 
-#control_panel_options, #profile_panel_options {
+#control_panel_options,
+#profile_panel_options {
     width: 80%;
     margin: 0 auto;
-    background-color: rgba(0, 0, 0, 0.592);
-    border-radius: 0 0 16px 16px;
-    /*display: none;*/
+    background-color: rgba(0, 0, 0, 0.592);  
 }
 
-#control_panel_options>nav>ul, #profile_panel_options>nav>ul {
+#control_panel_options>nav>ul,
+#profile_panel_options>nav>ul {
     display: flex;
     justify-content: space-around;
 }
 
-#control_panel_options>nav>ul>li>a, #profile_panel_options>nav>ul>li>a {
+#control_panel_options>nav>ul>li>a,
+#profile_panel_options>nav>ul>li>a {
     font-size: 1.5rem;
 }
 
@@ -60,22 +45,52 @@ nav>a {
     height: 1.5rem;
 }
 
-#control_panel_menu, #profile_panel_menu {
+#control_panel_menu,
+#profile_panel_menu {
     display: flex;
     justify-content: flex-end;
 }
 
-#control_panel_menu>a, #profile_panel_menu>a {
+#control_panel_menu>a,
+#profile_panel_menu>a {
     font-size: 1rem;
+}
+
+#pending-amount {
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    color: red;
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.41);
+}
+
+#controlpanel_reports {
+    position: relative;
+}
+
+#notification-container {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+#notification-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 
 
 
 
-
-/*--------------------------------underlining menu items-----------------------------------*/
-
+/*--------------Attempt at underlining menu items-----------------------------------*/
 a.linkHeader {
     text-decoration: none;
     padding: 10px 15px;
@@ -85,13 +100,12 @@ a.linkHeader {
 }
 
 /* Lijn onder actieve of hover-link */
-
 a.linkHeader::after {
     content: '';
     display: block;
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, rgba(56,0,0,1) 0%, rgba(128,0,0,1) 100%);
+    background: linear-gradient(90deg, var(--hs-darkred) 0%, var(--hs-brightred) 100%);
     position: absolute;
     bottom: 0;
     left: 0;
@@ -100,16 +114,17 @@ a.linkHeader::after {
 
 a.linkHeader:hover::after {
     width: 100%;
-    color: var(--housecolor-brightred);
+    color: var(--hs-brightred);
 }
 
 a.linkHeader.activePage {
     font-weight: bold;
     cursor: default;
 }
+
 a.linkHeader.activePage::after {
     width: 100%;
-    color: var(--housecolor-brightred);
+    color: var(--hs-brightred);
 }
 
 
@@ -127,7 +142,7 @@ a.linkHeader.activePage::after {
         display: block;
         justify-content: space-between;
         align-items: flex-start;
-        flex-direction: column;   
+        flex-direction: column;
     }
 
     nav {

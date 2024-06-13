@@ -24,24 +24,15 @@ declare(strict_types=1);
             <?php foreach ($recommended_tags as $tag) { ?>
                 <div class="category-info">
 
-                    <h1>
-                        <?php echo $tag->getName() ?>
-                    </h1>
+                    <h1><?= ucwords($tag->getName()) ?></h1>
                     <p>
-                        <?php
-                        if (array_key_exists($tag->getId(), $arr_tag_occurences)) {
-                            echo $arr_tag_occurences[$tag->getId()] > 0 ? $arr_tag_occurences[$tag->getId()] : 0;
-                        } else {
-                            echo 0;
-                        }
-                        ?>
-                        videos
+                        <?= $arr_tag_occurences[$tag->getId()] ?? 0; ?> videos
                     </p>
-                    <?php echo ($tagSvc->isNew($tag)) ? '<img class="new" src="assets/new.png" alt="new">' : null ?>
+                    <?= ($tagSvc->isNew($tag)) ? '<img class="new" src="assets/new.png" alt="new">' : null ?>
 
-                    <a href="home?tag=<?php echo urlencode($tag->getName()) ?> ">
-                        <img class="thumbnail" loading="lazy" src="<?php echo $tag->getThumbnail() ?>"
-                            title="<?php echo $tag->getDescription() ?>">
+                    <a href="home?tag=<?= urlencode($tag->getName()) ?> ">
+                        <img class="thumbnail" loading="lazy" src="<?= $tag->getThumbnail() ?>"
+                            title="<?= $tag->getDescription() ?>">
                     </a>
 
                 </div>
@@ -56,23 +47,16 @@ declare(strict_types=1);
                 <div class="category-info">
 
                     <h1>
-                        <?php echo $tag->getName() ?>
+                        <?= $tag->getName() ?>
                     </h1>
                     <p>
-                        <?php
-                        if (array_key_exists($tag->getId(), $arr_tag_occurences)) {
-                            echo $arr_tag_occurences[$tag->getId()] > 0 ? $arr_tag_occurences[$tag->getId()] : 0;
-                        } else {
-                            echo 0;
-                        }
-                        ?>
-                        videos
+                        <?= $arr_tag_occurences[$tag->getId()] ?? 0; ?> videos
                     </p>
-                    <?php echo ($tagSvc->isNew($tag)) ? '<img class="new" src="assets/new.png" alt="new">' : null ?>
+                    <?= ($tagSvc->isNew($tag)) ? '<img class="new" src="assets/new.png" alt="new">' : null ?>
 
-                    <a href="home?tag=<?php echo urlencode($tag->getName()) ?> ">
-                        <img class="thumbnail" loading="lazy" src="<?php echo $tag->getThumbnail() ?>"
-                            title="<?php echo $tag->getDescription() ?>">
+                    <a href="home?tag=<?= urlencode($tag->getName()) ?> ">
+                        <img class="thumbnail" loading="lazy" src="<?= $tag->getThumbnail() ?>"
+                            title="<?= $tag->getDescription() ?>">
                     </a>
 
                 </div>
@@ -87,31 +71,21 @@ declare(strict_types=1);
 
                 <div class="category-info">
 
-                    <h1>
-                        <?php echo ucfirst($tag->getName()) ?>
-                    </h1>
-                    <p>
-                        <?php
-                        if (array_key_exists($tag->getId(), $arr_tag_occurences)) {
-                            echo $arr_tag_occurences[$tag->getId()] > 0 ? $arr_tag_occurences[$tag->getId()] : 0;
-                        } else {
-                            echo 0;
-                        }
-                        ?>
-                        videos
-                    </p>
-                    <?php echo ($tagSvc->isNew($tag)) ? '<img class="new" src="assets/new.png" alt="new">' : null ?>
+                    <h1><?= $tag->getName() ?></h1>
+                    <p><?= $arr_tag_occurences[$tag->getId()] ?? 0; ?> videos</p>
 
-                    <a href="home?tag=<?php echo urlencode($tag->getName()) ?> ">
-                        <img class="thumbnail" loading="lazy" src="<?php echo $tag->getThumbnail() ?>"
-                            title="<?php echo $tag->getDescription() ?>">
+                    <?= ($tagSvc->isNew($tag)) ? '<img class="new" src="assets/new.png" alt="new">' : null ?>
+
+                    <a href="home?tag=<?= urlencode($tag->getName()) ?> ">
+                        <img class="thumbnail" loading="lazy" src="<?= $tag->getThumbnail() ?>"
+                            title="<?= $tag->getDescription() ?>">
                     </a>
 
                 </div>
             <?php } ?>
         </div>
     </div>
-
+    <?php require_once ('components/Notification.php'); ?>
     <?php include ('components/footer.php'); ?>
 </body>
 

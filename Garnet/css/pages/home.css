@@ -1,5 +1,5 @@
 /*TAGLIST PROPERTIES*/
-#tag-list {
+.tag-list {
     width: 90%;
     height: 20rem;
     margin: auto;
@@ -7,111 +7,76 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    
     border-radius: 16px;
+
+    .regular-link {
+        width: 10rem;
+        border-radius: 4px;
+        transition: all 200ms;
+        padding: 0.1rem;
+    }
+
+    .regular-link:hover {
+        background-color: var(--hs-dark-transparent);
+    }
 }
 
-#tag-list .regular-link {
-    width: 10rem;
-    border-radius: 4px;
-    transition: background-color 200ms;
-    display: grid;
-    place-items: center left;
-}
-
-#tag-list .regular-link:hover {
-    background-color: rgba(0, 0, 0, 0.404);
-}
-
-/*SELECTED TAGLIST PROPERTIES*/
-#search-by-tags {
+/*FILTERS FIELD*/
+.filters {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     width: 90%;
     margin: auto;
     border-radius: 8px;
-    
+
+    div {
+        margin-top: 1rem;
+    }
+
+    label {
+        padding: 0.5rem;
+        width: 20%;
+        margin-top: 1rem;
+        color: white;
+    }
+
+    #selected-tags {
+        display: flex;
+        width: 75%;
+        height: 2rem;
+        border-radius: 8px;
+        box-shadow: inset 10px 10px 10px -8px rgba(0, 0, 0, 0.75), inset -10px -10px 10px -8px rgba(0, 0, 0, 0.75);
+    }
+
+    #select-container {
+        width: 75%;
+        text-align: left;
+        height: 2rem;
+
+        select {
+            height: 2rem;
+            width: 20%;
+        }
+    }
+
+    #search-container {
+        width: 75%;
+        height: 2rem;
+
+        #search {
+            width: 20%;
+        }
+    }
 }
 
-#search-by-tags>div {
-    margin-top: 1rem;
-}
 
-#search-by-tags>label {
-    padding: 0.5rem;
-    width: 20%;
-    margin-top: 1rem;
-}
-
-#search-by-tags>#selected-tags {
-    display: flex;
-    width: 75%;
-    height: 2rem;
-
-    border-radius: 8px;
-
-    box-shadow: inset 10px 10px 10px -8px rgba(0,0,0,0.75), inset -10px -10px 10px -8px rgba(0,0,0,0.75);
-
-}
-
-#search-by-tags>#select-container {
-    width: 75%;
-    text-align: left;
-    height: 2rem;
-}
-
-#search-by-tags>#select-container>select {
-    height: 2rem;
-    width: 20%;
-}
-
-.tag {
-    background-color: #800000;
-}
-
-.tag:hover {
-    background-color: #aa0000;
-}
-
-
-#search-by-tags>#submit-button-container {
+.loading-icon {
     width: 100%;
+    height: 5rem;
+    object-fit: contain;
     text-align: center;
 }
-
-#search-container {
-    width: 75%;
-    height: 2rem;
-}
-
-#search {
-    width: 20%;
-}
-
-#search-by-tags>#submit-button-container>input[type=submit] {
-    display: inline-block;
-    height: 2rem;
-    padding: 5px;
-    width: 6rem;   
-}
-
-#random-video {
-    width: 10rem !important;
-    height: 2rem !important;
-    padding: 4px !important;
-    margin-top: 2rem !important;
-    margin-left: calc(50% - 5rem) !important;
-    display: grid;
-    place-items: center center;
-}
-
-.message-container {
-    width: 100%;
-    text-align: center;
-    margin-top: 4rem;
-}
-
 
 /*--------------------------------FOR MOBILE DEVICES--------------------------------*/
 @media (max-width: 1000px) {
@@ -120,30 +85,29 @@
         font-size: 4rem;
     }
 
-    #tag-list {
+    .tag-list {
         height: 80vh;
         justify-content: space-around;
-    }
 
-    #tag-list .regular-link {
-        width: 45%;
-        font-size: 2.8rem;
-        border: 1px solid white;
-        text-align: center;
-        margin-bottom: 1rem;
-        background-color: rgba(0, 0, 0, 0.579);
+        .regular-link {
+            width: 45%;
+            font-size: 2.8rem;
+            border: 1px solid white;
+            text-align: center;
+            margin-bottom: 1rem;
+            background-color: var(--hs-dark-transparent);
+        }
     }
 
     #selected-tags {
         flex-wrap: wrap;
         justify-content: space-between;
         height: auto !important;
-    }
 
-    #selected-tags>.tag {
-        font-size: 3rem;
-        width: 50%;
-        outline: 1px solid white;
+        .tag {
+            font-size: 3rem;
+            width: 50%;
+            outline: 1px solid var(--hs-white);
+        }
     }
-
 }

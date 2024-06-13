@@ -10,7 +10,4 @@ $creatorSvc = new CreatorService;
 
 $video_list = $userSvc->getWatchHistory($user);
 
-
-
-require_once('components/Notification.php');
 include('presentation/ProfileHistory.php');

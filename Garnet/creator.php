@@ -5,7 +5,7 @@ require_once('components/DBNameSnippet.php');
 require_once('data/autoloader.php');
 require_once('components/authManager.php');
 
-if ($_GET['creator'] == 0) {
+if ($_GET['creator'] == 0 || $_GET['creator'] == 423 || $_GET['creator'] == 424) {
     header('Location: 404');
     exit(0);
 }

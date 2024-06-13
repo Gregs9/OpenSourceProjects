@@ -23,71 +23,66 @@ declare(strict_types=1);
 
         <h1 class="title">Editing creator with id
             <strong>
-                <?php echo $creator->getId(); ?>
+                <?= $creator->getId(); ?>
             </strong>
         </h1>
 
-        <?php echo $feedback->getMessage(); ?>
-
-        <form action="edit-creator.php?id=<?php echo $creator->getId(); ?>&action=editcreator" method="post"
+        <form action="edit-creator.php?id=<?= $creator->getId(); ?>&action=editcreator" method="post"
             enctype="multipart/form-data">
 
             <!--profile picture preview-->
-            <img id="thumbnail-preview" alt="preview" src="<?php echo $creator->getProfilePic() ?>">
+            <img id="thumbnail-preview" alt="preview" src="<?= $creator->getProfilePic() ?>">
 
             <!--Change profile picture-->
             <label for="thumbnailToUpload">Change profile picture</label>
-            <input title="Change this creator's profile picture." type="file" name="thumbnailToUpload"
-                id="thumbnailToUpload" accept=".webp">
+            <input class="input-element" title="Change this creator's profile picture." type="file" name="thumbnailToUpload"
+                id="thumbnailToUpload" accept=".webp, .png, .jpg, .jpeg">
 
             <h2 id="title-socials">Creator information</h2>
 
             <!--Creator ID-->
             <label for="creator_ID">Creator ID</label>
-            <input readonly title="This creator's ID." type="number" name="creator_ID" id="creator_ID"
-                value="<?php echo $creator->getId() ?>">
-
+            <input class="input-element" readonly title="This creator's ID." type="number" name="creator_ID" id="creator_ID"
+                value="<?= $creator->getId() ?>">
 
 
             <!--Name-->
             <label for="creator_name">Name</label>
-            <input title="This creator's name." type="text" name="creator_name" id="creator_name"
-                value="<?php echo $creator->getName() ?>">
+            <input class="input-element" title="This creator's name." type="text" name="creator_name" id="creator_name"
+                value="<?= $creator->getName() ?>">
 
 
             <!--Alias-->
             <label for="creator_alias">Aliases</label>
-            <input placeholder="Enter this creator's alias.." title="Change this creator's aliases." maxlength="255" type="text" name="creator_alias"
-                id="creator_alias" value="<?php echo $creator->getAlias() ?>">
+            <input class="input-element" placeholder="Enter this creator's alias.." title="Change this creator's aliases." maxlength="255" type="text" name="creator_alias"
+                id="creator_alias" value="<?= $creator->getAlias() ?>">
 
             <!--Description-->
             <label for="creator_description">Description</label>
-            <textarea placeholder="Enter this creator's description.." title="Change this creator's description." maxlength="2500" type="text" name="creator_description"
-                id="creator_description"><?php echo $creator->getDescription() ?></textarea>
+            <textarea class="input-element" placeholder="Enter this creator's description.." title="Change this creator's description." maxlength="2500" type="text" name="creator_description"
+                id="creator_description"><?= $creator->getDescription() ?></textarea>
 
             <!--DOB-->
             <label for="creator_dob">Date of birth</label>
-            <input title="Change this creator's date of birth." maxlength="255" type="date" name="creator_dob"
-                id="creator_dob" value="<?php echo $creator->getDateOfBirth() ?>">
+            <input class="input-element" title="Change this creator's date of birth." maxlength="255" type="date" name="creator_dob"
+                id="creator_dob" value="<?= $creator->getDateOfBirth() ?>">
 
             <!--Nationality-->
             <label for="creator_nat">Nationality</label>
-            <input placeholder="Enter this creator's nationality.." title="Change this creator's nationality." maxlength="255" type="text" name="creator_nat"
-                id="creator_nat" value="<?php echo $creator->getNationality() ?>">
-
+            <?php include ('components/nationalitySelector.php')?>
 
             <!--SOCIALS-->
             <h2 id="title-socials">Socials</h2>
 
             <!--Instagram-->
             <label for="social_in">Instagram</label>
-            <input placeholder="Enter this creator's Instagram link.." title="Change this creator's Instagram link." maxlength="255" type="url" name="social_in"
-                id="social_in" value="<?php echo $creator->getSocialIn() ?>">
+            <input class="input-element" placeholder="Enter this creator's Instagram link.." title="Change this creator's Instagram link." maxlength="255" type="url" name="social_in"
+                id="social_in" value="<?= $creator->getSocialIn() ?>">
 
             <!--X-->
             <label for="social_x">X</label>
-            <input placeholder="Enter this creator's X link.." title="Change this creator's X link." maxlength="255" type="url" name="social_x" id="social_x"
-                value="<?php echo $creator->getSocialX() ?>">
+            <input class="input-element" placeholder="Enter this creator's X link.." title="Change this creator's X link." maxlength="255" type="url" name="social_x" id="social_x"
+                value="<?= $creator->getSocialX() ?>">
 
 
 
@@ -98,17 +93,18 @@ declare(strict_types=1);
 
                 <a title="Click to delete this creator." id="delete-creator-link" class="regular-link"
                     href="#"
-                    data-creatorid="<?php echo $creator->getId(); ?>">Delete creator</a>
+                    data-creatorid="<?= $creator->getId(); ?>">Delete creator</a>
 
                 <a title="Click to go to this creator's page." class="regular-link"
-                    href="creator?creator=<?php echo $creator->getId() ?>">Go to creator</a>
+                    href="creator?creator=<?= $creator->getId() ?>">Go to creator</a>
 
-                <a title="Return to control panel." class="regular-link" href="controlpanel_creators">Close</a>
+                <a title="Return to control panel." class="regular-link" href="controlpanel-creators">Close</a>
             </div>
 
         </form>
 
     </div>
+    <?php require_once ('components/Notification.php'); ?>
     <?php include('components/footer.php'); ?>
 </body>
 

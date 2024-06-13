@@ -27,13 +27,16 @@
 
   <section id="contact">
     <h2>Contact</h2>
-    <p>Gregory Hermans</p>
-    <p>3550 Heusden-Zolder</p>
-    <p>België</p>
+    <p>Mr. Cacodemon</p>
+    <p>Good-Intentions Road</p>
+    <p>E2M3 The Shores of Hell</p>
+    <p>Hell</p>
   </section>
 
   <section>
-    <p>2023-2024 Gregory Hermans</p>
+    <?= unserialize($_COOKIE['user'], ['User'])->getRole() == 'admin' ? '<img src="assets/cacodemon.gif" style="width: 50px;">' : null ?>
+    <p>© Copyright 2023-2024 Cacodemon All Rights Reserved.</p>
+
   </section>
 
 

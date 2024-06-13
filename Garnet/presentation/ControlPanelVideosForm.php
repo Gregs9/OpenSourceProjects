@@ -21,17 +21,10 @@ declare(strict_types=1);
 
     <div class="wrapper">
 
-        <?php echo $feedback->getMessage(); ?>
-
-
-
         <!--VIDEOS TABLE-->
         <h1 class="title">Videos</h1>
         <div id="container-table-videos" class="table-container">
-            <div class="searchbar">
-                <input class="search" id="search-videos" type="search" placeholder="Search.."
-                    title="Enter what you wish to search for.">
-            </div>
+        <?php include 'components/searchTable.php' ?>
             <table id="table-videos">
                 <thead>
                     <tr>
@@ -46,40 +39,23 @@ declare(strict_types=1);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
+                    <?php foreach ($videoSvc->getAllVideos() as $video) {
+                        //cut video title and description short if it exceeds 60 characters
+                        $video->getTitle() ? strlen($video->getTitle()) > 60 ? $video_title_formatted = substr($video->getTitle(), 0, 60) . '...' : $video_title_formatted = $video->getTitle() : $video_title_formatted = '';
+                        $video->getDescription() ? strlen($video->getDescription()) > 60 ? $video_description_formatted = substr($video->getDescription(), 0, 60) . '...' : $video_description_formatted = $video->getDescription() : $video_description_formatted = '';
+                        ?> 
 
-                    foreach ($videoSvc->getAllVideos() as $video) {
-
-                        #Cut title & description short if it exceeds 60 characters
-                        if ($video->getTitle()) {
-                            strlen($video->getTitle()) > 60 ? $video_title_formatted = substr($video->getTitle(), 0, 60) . '...' : $video_title_formatted = $video->getTitle();
-                        } else {
-                            $video_title_formatted = '';
-                        }
-
-                        if ($video->getDescription()) {
-                            strlen($video->getDescription()) > 60 ? $video_description_formatted = substr($video->getDescription(), 0, 60) . '...' : $video_description_formatted = $video->getDescription();
-                        } else {
-                            $video_description_formatted = '';
-                        }
-                        
-                       
-
-                        echo
-                            '
                     <tr>
-                        <td><a class="regular-link" title="Click to edit this video." href="edit-video?id=' . $video->getId() . '">' . $video->getId() . '</a></td>
-                        <td>' . $video_title_formatted . '</td>
-                        <td>' . $video_description_formatted . '</td>
-                        <td>' . $video->getDateAdded()->format('Y-m-d H:i:s') . '</td>
-                        <td>' . $video->getScore() . '</td>
-                        <td>' . $video->getViews() . '</td>
-                        <td>' . $video->getDuration() . '</td>
-                        <td>' . $arr_userIdsNamesList[$video->getUploadedBy()] . '</td>
-                    </tr>';
-                    }
-
-                    ?>
+                        <td><a class="regular-link" title="Click to edit this video." href="edit-video?id=<?= $video->getId() ?>"><?= $video->getId() ?></a></td>
+                        <td><?= $video_title_formatted ?></td>
+                        <td><?= $video_description_formatted ?></td>
+                        <td><?= $video->getDateAdded()->format('Y-m-d H:i:s') ?></td>
+                        <td><?= $video->getScore() ?></td>
+                        <td><?= $video->getViews() ?></td>
+                        <td><?= $video->getDuration() ?></td>
+                        <td><?= $arr_userIdsNamesList[$video->getUploadedBy()] ?></td>
+                    </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -87,7 +63,7 @@ declare(strict_types=1);
 
     </div>
     <!--END WRAPPER-->
-
+    <?php require_once ('components/Notification.php'); ?>
     <?php include ('components/footer.php'); ?>
 
 </body>

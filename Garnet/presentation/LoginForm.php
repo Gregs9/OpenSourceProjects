@@ -20,7 +20,7 @@
 
             <h1>LOG IN</h1>
 
-            <input type="text" id="log_username" name="log_username" placeholder="Username.." required maxlength="50">
+            <input type="text" id="log_username" name="log_username" placeholder="Username.." required maxlength="50" value="<?= $_COOKIE['rememberme'] ?? ''?>">
 
             <br>
 
@@ -28,6 +28,14 @@
                 maxlength="50" minlength="8">
 
             <br>
+
+            <div id="remember-me-container">
+                <label class="switch">
+                    <input id="rememberme" name="rememberme" type="checkbox" <?php echo isset($_COOKIE['rememberme']) ? 'checked' : null; ?>>
+                    <span class="slider round"></span>
+                </label>
+                <label>Remember me</label>
+            </div>
 
             <input type="submit" value="Login" class="button">
 
@@ -54,8 +62,12 @@
             <input type="submit" value="Register" class="button">
 
         </form>
-        <?php echo $feedback->getMessage(); ?>
+
     </div>
 </body>
 
 </html>
+
+<?php
+//component that checks if feedback session variable is set, and if so, display it using the CustomException entity.
+require_once ('components/Notification.php'); ?>

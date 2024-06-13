@@ -36,6 +36,8 @@ function clearAll() {
     $('#thumbnailPreview').attr('src', ''); //might have to put an hashtag here
     $('#thumbnailPreview').css('display', 'none');
     $('#thumbnailPreviewContainer').css('display', 'none');
+
+    $('#first_appeared').val('');
 }
 
 function convertSecondsToDuration(seconds) {
@@ -54,7 +56,7 @@ function convertSecondsToDuration(seconds) {
 }
 
 //EVENTS
-$('#fileToUpload').on('change', function() {
+$('#fileToUpload').on('change', function () {
     const selectedFile = $('#fileToUpload')[0].files[0];
 
 
@@ -122,18 +124,18 @@ $('#fileToUpload').on('change', function() {
     }
 });
 
-$('#thumbnailToUpload').on('change', function() {
+$('#thumbnailToUpload').on('change', function () {
     const selectedFile = $('#thumbnailToUpload')[0].files[0];
     if (selectedFile !== undefined) {
 
         const fileSize = selectedFile.size / 1024 / 1024; // in MiB
-        const allowedTypes = ['image/webp'];
+        const allowedTypes = ['image/webp', 'image/png', 'image/jpeg', 'image/jpg'];
         let validFile = true;
 
         if (!allowedTypes.includes(selectedFile.type)) {
             validFile = false;
             $('#thumbnailToUpload').val('');
-            alert('Invalid file type. Only WEBP files are allowed as thumbnails.');
+            alert('Invalid file type. Only PNG, JPG & WEBP files are allowed as thumbnails.');
         }
 
         if (fileSize > 20) {
@@ -154,3 +156,24 @@ $('#thumbnailToUpload').on('change', function() {
         clearAll();
     }
 });
+
+// $('#upload').on('click', function () {
+//     if ($('#creators').val() == '') {
+//         const options = {
+//             progress: true,
+//             interactive: true,
+//             timeout: 5000,
+//             appear_delay: 200,
+//             container: '.flash-container',
+//             theme: 'default',
+//             classes: {
+//                 container: 'flash-container',
+//                 flash: 'flash-message',
+//                 visible: 'is-visible',
+//                 progress: 'flash-progress',
+//                 progress_hidden: 'is-hidden'
+//             }
+//         };
+//         window.FlashMessage.error('Please select at least one creator.', options);
+//     }
+// });

@@ -71,10 +71,10 @@ class VideoService
             }
     
             $diff = round($diff);
-            $plural = ($diff > 1) ? "s" : ""; //check als meervoud nodig is of niet
+            $plural = ($diff > 1) ? "s" : ""; // Correct pluralization based on the value
             return $diff . " " . $strTime[$i] . $plural . " ago";
         }
-        return "Just now"; //als er geen groot verschil is
+        return "Just now"; // Handling for the case where there is no significant difference
     
     }
 
@@ -134,10 +134,10 @@ class VideoService
         }
     }
 
-    public function addVideo(string $filename, int $score, string $extension, string $description, int $views, string $title, string $duration, int $filesize, int $uploaded_by): int
+    public function addVideo(string $filename, int $score, string $extension, $first_appeared, string $description, int $views, string $title, string $duration, int $filesize, int $uploaded_by): int
     {
         $videoDAO = new VideoDAO();
-        return $videoDAO->addVideo($filename, $score, $extension, $description, $views, $title, $duration, $filesize, $uploaded_by);
+        return $videoDAO->addVideo($filename, $score, $extension, $first_appeared, $description, $views, $title, $duration, $filesize, $uploaded_by);
     }
 
     public function updateVideo(Video $video)
@@ -164,10 +164,15 @@ class VideoService
         return $videoDAO->getVideoCreatorsAsString($video_id);
     }
 
+    public function verifyVideoCreatorAge(Video $video, Creator $creator): ?int
+    {
+        $videoDAO = new VideoDAO();
+        return $videoDAO->verifyVideoCreatorAge($video, $creator);
+    }
+
     public function getShort() : Video
     {
         $videoDAO = new VideoDAO();
         return $videoDAO->getShort();
     }
-
 }

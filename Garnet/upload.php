@@ -5,26 +5,41 @@ require_once ('components/authManager.php');
 require_once ('data/autoloader.php');
 require_once ('components/DBNameSnippet.php');
 
-$VideoSvc = new VideoService();
-$tagSvc = new TagService();
-$creatorSvc = new CreatorService();
-$logSvc = new LogService();
+$videoSvc = new VideoService;
+$tagSvc = new TagService;
+$creatorSvc = new CreatorService;
+$logSvc = new LogService;
 
 if (isset($_GET['action']) && $_GET['action'] == 'upload') {
 
-    if ($user->getRole() !== 'admin') {
-        $_SESSION['feedback'] = 'Given the challenges associated with content moderation, file uploads to the website are restricted to administrators.';
-        $_SESSION['feedback_color'] = 'red';
+
+
+    //DONT UPLOAD IF CSRF PROTECTION FAILS
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        $_SESSION['feedback'] = json_encode(['message' => 'Invalid CSRF token.', 'type' => 'error']);
         header("Location: upload");
         exit(0);
     }
 
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        $_SESSION['feedback'] = 'An error has occurred.';
-        $_SESSION['feedback_color'] = 'red';
-        header("Location: upload");
-        exit(0);
+    //DONT UPLOAD IF VERIFICATION FAILS
+    //get creators and their ID's and add em to videocreators
+    $creator_line = htmlspecialchars($_POST['hidden-creators-field']);
+    
+    $arr_creators = explode(";", $creator_line) ?? [];
+    $arr_creator_objects = [];
+
+    $first_appeared = null;
+    if (isset($_POST['first_appeared']) && $_POST['first_appeared'] !== '') {
+        $first_appeared = new DateTime(htmlspecialchars($_POST['first_appeared']));
     }
+
+    foreach ($arr_creators as $creator_name) {
+        $creator = $creatorSvc->getCreatorByName($creator_name);
+        $arr_creator_objects[] = $creator;
+    }
+    print_r($arr_creator_objects);
+    
+    //if all checks succeed, upload file
 
     //target video file 🎥
     $target_file_video = $contentPath . "/Temp/" . basename($_FILES["fileToUpload"]["name"]);
@@ -43,17 +58,42 @@ if (isset($_GET['action']) && $_GET['action'] == 'upload') {
     $vid_extension = strtolower('.' . pathinfo($target_file_video, PATHINFO_EXTENSION));
     rename($target_file_video, $contentPath . "/Temp/" . $vid_hash . $vid_extension);
 
+    //get thumbnail's filetype
+    $thumbnail_filetype = $_FILES["thumbnailToUpload"]["type"];
+
+    switch ($thumbnail_filetype) {
+        case "image/jpeg":
+            $image = imagecreatefromjpeg($target_file_thumbnail);
+            break;
+        case "image/png":
+            $image = imagecreatefrompng($target_file_thumbnail);
+            break;
+        case "image/webp":
+            $image = imagecreatefromwebp($target_file_thumbnail);
+            break;
+        default:
+            $_SESSION['feedback'] = json_encode(['message' => 'Invalid thumbnail file format.', 'type' => 'error']);
+            header('location: edit-tag?id=' . $tag->getId());
+            exit(0);
+    }
+
+    //convert image object to webp
+    imagewebp($image, $target_file_thumbnail);
+
+    //clean up memory
+    imagedestroy($image);
+
     //rename thumbnail TO THE VIDEO'S MD5 HASH VALUE
     rename($target_file_thumbnail, $contentPath . "/Temp/" . $vid_hash . '.webp');
     $target_file_thumbnail = $contentPath . "/Temp/" . $vid_hash . '.webp';
+
 
     //Check if video already exists by checking it's hash value
     if (file_exists($contentPath . '/Videos/' . $vid_hash . $vid_extension)) {
         //if the file already exists:
 
-        //Tell user that this file already exist
-        $_SESSION['feedback'] = 'This video already exists!';
-        $_SESSION['feedback_color'] = 'red';
+        //Tell user that this file already exist and if they doubt my judgement they can go fuck themselves
+        $_SESSION['feedback'] = json_encode(['message' => 'This video already exists!', 'type' => 'error']);
 
         //delete video in temp folder
         unlink($contentPath . "/Temp/" . $vid_hash . $vid_extension);
@@ -71,45 +111,29 @@ if (isset($_GET['action']) && $_GET['action'] == 'upload') {
         //add thumbnail to the correct location
         rename($target_file_thumbnail, $contentPath . '/Thumbnails/' . $vid_hash . '.webp');
 
-        $uploaded_video_id = $VideoSvc->addVideo((string) $vid_hash, 0, (string) htmlspecialchars($_POST['extension']), (string) htmlspecialchars($_POST['description']), 0, (string) htmlspecialchars($_POST['title']), (string) htmlspecialchars($_POST['duration']), (int) htmlspecialchars($_POST['filesize']), (int) unserialize($_COOKIE['user'], ['User'])->getId());
-        $video = $VideoSvc->getVideoById($uploaded_video_id);
+        $uploaded_video_id = $videoSvc->addVideo((string) $vid_hash, 0, (string) htmlspecialchars($_POST['extension']), $first_appeared, (string) htmlspecialchars($_POST['description']), 0, (string) htmlspecialchars($_POST['title']), (string) htmlspecialchars($_POST['duration']), (int) htmlspecialchars($_POST['filesize']), (int) $user->getId());
+        $video = $videoSvc->getVideoById($uploaded_video_id);
         $logSvc->log(unserialize($_COOKIE['user'], ['User'])->getId(), 'Uploaded video', $uploaded_video_id);
 
         //get tags and their ID's and add em to videotags
         $tag_line = htmlspecialchars($_POST['tags']);
-        $arr_tags = explode(";", $tag_line);
+        $arr_tags = explode(";", $tag_line) ?? [];
 
-        if (count($arr_tags) > 0) {
-            foreach ($arr_tags as $tag_name) {
-                $tag = $tagSvc->getTagByName($tag_name);
-                if ($tag !== null) {
-
-                    $VideoSvc->addTagToVideo($tag, $video);
-                }
-            }
+        foreach ($arr_tags as $tag_name) {
+            $tag = $tagSvc->getTagByName($tag_name);
+            $tag !== null ? $videoSvc->addTagToVideo($tag, $video) : null;
         }
 
-
-        //get creators and their ID's and add em to videocreators
-        $creator_line = htmlspecialchars($_POST['creators-line']);
-        $arr_creators = explode(";", $creator_line);
-
-        if (count($arr_creators) > 0) {
-            foreach ($arr_creators as $creator_name) {
-                $creator = $creatorSvc->getCreatorByName($creator_name);
-                if ($creator !== null) {
-                    $creatorSvc->addCreatorToVideo($creator, $video);
-                }
-            }
-        }
+        //add creators to video
+        array_map(fn($creator) => $creatorSvc->addCreatorToVideo($creator, $video), $arr_creator_objects);
 
         //Tell the user the video has been uploaded to the database
-        $_SESSION['feedback'] = 'Your video has been uploaded! <a href="video?id=' . $uploaded_video_id . '">Go to video</a>';
-        $_SESSION['feedback_color'] = 'green';
+        $_SESSION['feedback'] = json_encode(['message' => 'Your video has been uploaded! <a class="regular-link" href="video?id=' . $uploaded_video_id . '">Go to video</a>', 'type' => 'success']);
+
     }
     header("Location: upload.php");
     exit(0);
 }
 
-require_once ('components/Notification.php');
+
 include ('presentation/UploadFileForm.php');

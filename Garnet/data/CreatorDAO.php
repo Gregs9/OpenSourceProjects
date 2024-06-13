@@ -151,17 +151,7 @@ class CreatorDAO
 
     public function deleteCreator(Creator $creator)
     {
-        //Delete creator from all the video's she's featured in
-        $sql = "delete from videocreators where creator_id = :creator_id";
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->execute(array(':creator_id' => $creator->getId()));
-
-        //delete creator from the favorites table
-        $sql = "delete from userfavoritecreators where creator_id = :creator_id";
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->execute(array(':creator_id' => $creator->getId()));
-
-        //Delete creator from creator table
+        //Delete creator from creators table
         $sql = "delete from creators where creator_id = :creator_id";
         $stmt = $this->dbh->prepare($sql);
         $stmt->execute(array(':creator_id' => $creator->getId()));
@@ -200,7 +190,7 @@ class CreatorDAO
         $list_videos = array();
 
         foreach ($resultSet as $row) {
-            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
+            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), null, (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
             array_push($list_videos, $video);
         }
 
@@ -222,7 +212,7 @@ class CreatorDAO
         $list_videos = array();
 
         foreach ($resultSet as $row) {
-            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
+            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), null, (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
             array_push($list_videos, $video);
         }
 

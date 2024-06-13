@@ -1,7 +1,8 @@
 "use strict";
 
-$(".HeartAnimation").click(function () {
+const csrfToken = 'a19e6ab21ff4ecf98a288be53fbd9acf45bc190a8f0824bd690ad1c7c3a8d1b9';
 
+$(".HeartAnimation").click(function () {
     const element = $(this);
 
     const dataToSend = {
@@ -11,9 +12,7 @@ $(".HeartAnimation").click(function () {
 
     if ($(this).hasClass('favorited')) {
         unfavoriteCreator(dataToSend, element);
-
     } else {
-
         favoriteCreator(dataToSend);
     }
 });
@@ -23,7 +22,7 @@ function favoriteCreator(dataToSend) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-Token': 'a19e6ab21ff4ecf98a288be53fbd9acf45bc190a8f0824bd690ad1c7c3a8d1b9'
+            'X-CSRF-Token': csrfToken
         },
         body: JSON.stringify(dataToSend) // Convert data to JSON string
     })
@@ -37,15 +36,13 @@ function favoriteCreator(dataToSend) {
             return response.json();
         })
         .then(data => {
-            console.log(data.message);
-            show_feedback(data.message);
+            flash(data.message, 'success');
             $('.HeartAnimation').addClass("animate");
             $('.HeartAnimation').addClass('favorited');
             $('.HeartAnimation').attr('title', 'Click to favorite this creator');
         })
         .catch(error => {
-            console.log(error.message);
-            show_feedback(error.message);
+            flash(error.message, 'error');
 
         });
 }
@@ -56,7 +53,7 @@ function unfavoriteCreator(dataToSend, element) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json', // Specify the content type
-            'X-CSRF-Token': 'a19e6ab21ff4ecf98a288be53fbd9acf45bc190a8f0824bd690ad1c7c3a8d1b9'
+            'X-CSRF-Token': csrfToken
         },
         body: JSON.stringify(dataToSend) // Convert data to JSON string
     })
@@ -70,8 +67,7 @@ function unfavoriteCreator(dataToSend, element) {
         return response.json();
     })
         .then(data => {
-            console.log(data.message);
-            show_feedback(data.message);
+            flash(data.message, 'success');
             element.removeClass('favorited');
             element.removeClass('animate');
             element.attr('title', 'Click to unfavorite this creator');
@@ -81,40 +77,32 @@ function unfavoriteCreator(dataToSend, element) {
             }
         })
         .catch(error => {
-            console.log('Error: ' + error);
+            flash(error.message, 'error')
         });
 
 }
 
-function show_feedback(data) {
-    //delete the feedback element if it already exists
-    if ($("#feedback").length) {
-        $("#feedback").remove();
-    }
+function flash(data, type) {
 
-    let feedback_element = $("<p></p>", {
-        id: "feedback",
-        text: data,
-        css: {
-            display: 'block',
-            textAlign: 'center',
-            marginBottom: '1rem',
-            cursor: 'pointer'
+    const options = {
+        progress: true,
+        interactive: true,
+        timeout: 5000,
+        appear_delay: 200,
+        container: '.flash-container',
+        theme: 'default',
+        classes: {
+            container: 'flash-container',
+            flash: 'flash-message',
+            visible: 'is-visible',
+            progress: 'flash-progress',
+            progress_hidden: 'is-hidden'
         }
-    });
+    };
 
-    // Make the feedback color red if it contains the word "error"
-    if (data.toLowerCase().includes("error")) {
-        feedback_element.css('color', 'red');
+    if (type == 'success') {
+        window.FlashMessage.success(data, options);
     } else {
-        feedback_element.css('color', 'green');
+        window.FlashMessage.error(data, options);
     }
-
-    // Hide feedback element when it is clicked
-    feedback_element.on("click", function () {
-        $(this).css('display', 'none');
-    });
-
-    // Add feedback element as the first child on the wrapper element
-    $(".wrapper").prepend(feedback_element);
 }

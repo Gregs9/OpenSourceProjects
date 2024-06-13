@@ -8,12 +8,14 @@
 
 /* Color schemes */
 :root {
-    --housecolor-brightred: #800000;
-    --housecolor-darkred: #101010;
-    --housecolor-brownred: #3d0000;
-    --housecolor-white: #e9e9e9;
-    --housecolor-taggrey: #252525;
-    --housecolor-linkhover: #ff7d7d;
+    --hs-brightred: #800000;
+    --hs-brightred-glow: #aa0000;
+    --hs-darkred: #380000;
+    --hs-brownred: #160000;
+    --hs-white: #e9e9e9;
+    --hs-taggrey: #252525;
+    --hs-linkhover: #ff7d7d;
+    --hs-dark-transparent: rgba(0, 0, 0, 0.430);
 }
 
 #img-404 {
@@ -42,24 +44,20 @@ body {
     background-size: cover;
 }
 
-/*CUSTOM SCROLLBAR GLOBALLY, EXCEPT THE BROWSER SCROLLBAR*/
-*:not(html):not(body)::-webkit-scrollbar {
+/*CUSTOM SCROLLBAR GLOBALLY*/
+::-webkit-scrollbar {
     width: 20px;
 }
 
-*:not(html):not(body)::-webkit-scrollbar-thumb {
-    background-color: #800000;
+::-webkit-scrollbar-thumb {
+    background-color: var(--hs-white);
     border-radius: 20px;
     border: 6px solid transparent;
     background-clip: content-box;
 }
 
-*:not(html):not(body)::-webkit-scrollbar-corner {
+::-webkit-scrollbar-corner {
     background: rgba(0, 0, 0, 0);
-}
-
-*:not(html):not(body)::-webkit-scrollbar-track {
-    display: none !important;
 }
 
 /*WRAPPER PROPERTIES*/
@@ -79,32 +77,29 @@ body {
     width: 90%;
     margin: 1rem auto;
     max-height: 100vh;
-    height: 70vh;
     overflow-y: scroll;
     scroll-behavior: smooth;
-    background-color: var(--housecolor-darkred);
     border-radius: 16px;
     grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
 }
 
 /*PROPERTY FOR ALL TAGS EXCEPT TAGLINKS IN THE MENU*/
 .tag {
-    background-color: #3d0000;
+    background-color: var(--hs-taggrey);
     width: 10rem;
     text-decoration: none;
-    transition: color 100ms;
-    color: white;
+    color: var(--hs-white);
     font-family: 'Nunito', sans-serif;
-    transition: background-color 100ms;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 8px;
     cursor: pointer;
+    /*No transition for the hover since it feels sluggish when selecting tags*/
 }
 
 .tag:hover {
-    background-color: rgb(109, 109, 109);
+    background-color: var(--hs-brightred);
 }
 
 .glow {
@@ -112,8 +107,8 @@ body {
 }
 
 .glow:hover {
-    -webkit-filter: drop-shadow(0px 0px 5px var(--housecolor-white));
-    filter: drop-shadow(0px 0px 5px var(--housecolor-white));
+    -webkit-filter: drop-shadow(0px 0px 5px var(--hs-white));
+    filter: drop-shadow(0px 0px 5px var(--hs-white));
 }
 
 .button {
@@ -121,20 +116,27 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-weight: lighter;
     padding: 10px;
-    background-color: var(--housecolor-brightred);
-    color: var(--housecolor-white);
+    background-color: var(--hs-brightred);
+    color: var(--hs-white);
     border-radius: 7px;
     border: 0;
     cursor: pointer;
     transition: background-color 200ms;
 }
 
+.button--centered {
+    width: 8rem;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
 .button:hover {
-    background-color: #aa0000;
+    background-color: var(--hs-brightred-glow);
 }
 
 .regular-link {
-    color: var(--housecolor-white);
+    color: var(--hs-white);
     text-decoration: none;
     transition: color 200ms;
     font-family: 'Nunito', sans-serif;
@@ -142,7 +144,7 @@ body {
 }
 
 .regular-link:hover {
-    color: var(--housecolor-linkhover);
+    color: var(--hs-linkhover);
 }
 
 .title {
@@ -151,30 +153,24 @@ body {
     font-weight: lighter;
     margin-left: 5%;
     padding-top: 2rem;
+    color: white;
 }
 
-input[type=text],
-input[type=number],
-input[type=search],
-input[type=file],
-input[type=date],
-input[type=datetime-local],
-input[type=url],
-textarea {
+.input-element {
     padding: 10px;
     background: rgba(0, 0, 0, 0.2);
     color: #fff;
     border-radius: 7px;
     border: 0;
-    cursor: text;
-    margin-bottom: 1rem;
+    cursor: text;   
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 0.5rem;
 }
 
 textarea {
     width: 70%;
     resize: none;
     height: 4rem;
-    font-family: 'Montserrat', sans-serif;
 }
 
 input[type=file] {
@@ -182,56 +178,75 @@ input[type=file] {
 }
 
 input[type=checkbox] {
-    accent-color: #800000;
+    accent-color: var(--hs-brightred);
     cursor: pointer;
-
-}
-
-input[type=checkbox]:hover {
-    accent-color: #aa0000;
+    height: 2rem;
+    margin-top: 1.1rem;
 }
 
 select {
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
     height: 100%;
-    background-color: var(--housecolor-brightred);
-    color: var(--housecolor-white);
+    background-color: var(--hs-brightred);
+    color: var(--hs-white);
     border-radius: 4px;
     transition: background-color 200ms;
 }
 
 select:hover {
-    background-color: #aa0000;
+    background-color: var(--hs-brightred-glow);
 }
 
-#page_numbers {
+
+.pagination {
     text-align: center;
     width: 100%;
     margin-bottom: 5rem;
+
+    .active-page {
+        background-color: var(--hs-brightred-glow);
+    }
+
+    a {
+        color: white;
+        margin: 0 0.1rem 0 0.1rem;
+        padding: 5px;
+        width: 2rem;
+        display: inline-block;
+        border-radius: 5px;
+        text-align: center;
+        background-color: var(--hs-dark-transparent);
+        transition: background-color 200ms;
+        margin-top: 0.2rem;
+    }
+
+    a:hover {
+        background-color: var(--hs-brightred-glow);
+    }
+
+    span {
+        margin: 0 0.1rem 0 0.1rem;
+        padding: 5px;
+        width: 1.5rem;
+        display: inline-block;
+        border-radius: 5px;
+        text-align: center;
+        margin-top: 0.2rem;
+    }
 }
 
-#page_numbers>.active-page {
-    background-color:#800000;
-}
+#feedback {
+    width: 50%; 
+    cursor: pointer; 
+    text-align: center; 
+    background-color: #00000067; 
+    border-radius: 8px; 
+    display: none;
+    padding: 0.5rem 0 0.5rem 0; 
+    margin: 1rem auto;
 
-#page_numbers>a {
-    color: white;
-    margin: 0 0.1rem 0 0.1rem;
-    padding: 5px;
-    width: 2rem;
-    display: inline-block;
-    border-radius: 5px;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.429);
-    transition: background-color 200ms;
-    margin-top: 0.2rem;
 }
-
-#page_numbers>a:hover {
-    background-color:#aa0000;
-}
-
 
 
 
@@ -240,6 +255,4 @@ select:hover {
     .wrapper {
         width: 100%;
     }
-
-
 }

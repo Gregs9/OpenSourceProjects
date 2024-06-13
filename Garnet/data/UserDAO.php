@@ -3,6 +3,7 @@ declare(strict_types=1);
 require_once ('data/autoloader.php');
 class UserDAO
 {
+
     protected $dbh;
 
     function __construct()
@@ -10,9 +11,9 @@ class UserDAO
         try {
             $this->dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"));
         } catch (Exception $e) {
+            $_SESSION['feedback'] = json_encode(['message' => 'There was an error connecting to the database.', 'type' => 'error']);
             header('location: login');
-            $_SESSION['feedback'] = 'There was a problem connecting to the database.';
-            $_SESSION['feedback_color'] = 'red';
+            exit(0);
         }
     }
 
@@ -29,8 +30,8 @@ class UserDAO
         $list = array();
         foreach ($resultSet as $rij) {
             $creation = array_key_exists('creation', $rij) && !is_null($rij['creation']) ? new DateTime($rij['creation']) : null;
-            $last_added_score = array_key_exists('last_added_score', $rij) && !is_null($rij['last_added_score']) ? new DateTime($rij['last_added_score']) : null;
-            $user = new User((int) $rij['id'], (string) $rij['username'], (string) $rij['password'], (string) $rij['role'], $creation, $rij['status'], $last_added_score);
+            $last_score = array_key_exists('last_added_score', $rij) && !is_null($rij['last_added_score']) ? new DateTime($rij['last_added_score']) : null;
+            $user = new User((int) $rij['id'], (string) $rij['username'], (string) $rij['password'], (string) $rij['role'], $creation, $rij['status'], $last_score);
             array_push($list, $user);
         }
 
@@ -98,10 +99,25 @@ class UserDAO
 
     public function removeUser(User $user)
     {
-        //delete user's log
-        $sql = "delete FROM log WHERE user_id=" . $user->getId();
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->execute();
+        //when deleting a user, get all their uploaded videos, and remove them through the videoDAO, otherwise they will stay on the server's storage.
+        $users_uploaded_videos = $this->getUploadedVideos($user);
+
+        $videoDAO = new VideoDAO;
+        require ('components/DBNameSnippet.php');
+
+        foreach ($users_uploaded_videos as $video) {
+
+            //Create the to be deleted paths
+            $video_path = $contentPath . '/Videos/' . $video->getFilename() . $video->getExtension();
+            $thumbnail_path = $contentPath . '/Thumbnails/' . $video->getFilename() . '.webp';
+            //1. DELETE VIDEO FROM CONTENT
+            file_exists($video_path) ? unlink($video_path) : null;
+
+            //2. DELETE VIDEO FROM THUMBNAILS
+            file_exists($thumbnail_path) ? unlink($thumbnail_path) : null;
+
+            $videoDAO->deleteVideo($video);
+        }
 
         $sql = "delete FROM users WHERE id=" . $user->getId();
         $stmt = $this->dbh->prepare($sql);
@@ -197,7 +213,7 @@ class UserDAO
         $list_videos = array();
 
         foreach ($resultSet as $row) {
-            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
+            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), null, (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
             array_push($list_videos, $video);
         }
 
@@ -241,7 +257,7 @@ class UserDAO
         $list_videos = array();
 
         foreach ($resultSet as $row) {
-            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
+            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), null, (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
             $date = new DateTime($row["timestamp"]);
             array_push($list_videos, ["video" => $video, "date" => $date->format('Y-m-d')]);
         }
@@ -262,10 +278,24 @@ class UserDAO
         $list_videos = array();
 
         foreach ($resultSet as $row) {
-            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
+            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), null, (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
             array_push($list_videos, $video);
         }
 
         return $list_videos;
+    }
+
+    public function getUploadedVideos(User $user): array
+    {
+        $sql = 'select * from videos where uploaded_by = ' . $user->getId();
+        $resultSet = $this->dbh->query($sql);
+
+        $list_videos = array();
+        foreach ($resultSet as $row) {
+            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), null, (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
+            array_push($list_videos, $video);
+        }
+        return $list_videos;
+
     }
 }

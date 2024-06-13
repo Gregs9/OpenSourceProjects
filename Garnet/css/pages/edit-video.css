@@ -27,7 +27,7 @@ label {
     place-items: center left;
 }
 
-input[type=text], input[type=number], input[type=file], input[type=datetime-local], input[type=date], textarea {
+input[type=text], input[type=number], input[type=file], input[type=datetime-local], input[type=date], input[type=url], textarea {
     width: 60%;
 }
 

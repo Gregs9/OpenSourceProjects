@@ -16,18 +16,16 @@ declare(strict_types=1);
 
 <body>
 
-    <?php include('components/header.php'); ?>
+    <?php include ('components/header.php'); ?>
 
 
     <div class="wrapper">
-
-        <?php echo $feedback->getMessage(); ?>
 
         <!--TAGS TABLE-->
         <h1 class="title">Tags</h1>
 
         <form onsubmit="return confirm('Are you sure you want to add this tag?');" id="tag-adder" method="post"
-            enctype="multipart/form-data" action="controlpanel_tags.php?action=add_tag">
+            enctype="multipart/form-data" action="controlpanel-tags.php?action=add_tag">
 
             <h2>Add a new tag</h2>
 
@@ -36,25 +34,26 @@ declare(strict_types=1);
 
             <!--NEW TAG NAME-->
             <label for="input-new-tag">Name</label>
-            <input title="Enter the name of the tag you want to add." id="input-new-tag" name="input-new-tag"
-                type="text" pattern="[a-zA-Z0-9- ]+" placeholder="Enter tag name.." minlength="3" maxlength="30"
-                required>
+            <input class="input-element" title="Enter the name of the tag you want to add." id="input-new-tag"
+                name="input-new-tag" type="text" pattern="[a-zA-Z0-9- ]+" placeholder="Enter tag name.." minlength="3"
+                maxlength="30" required>
 
             <!--NEW TAG THUMBNAIL-->
             <label for="thumbnailToUpload">Thumbnail</label>
-            <input title="Upload a thumbnail for this tag." type="file" name="thumbnailToUpload" id="thumbnailToUpload"
-                accept=".webp" required>
+            <input class="input-element" title="Upload a thumbnail for this tag." type="file" name="thumbnailToUpload"
+                id="thumbnailToUpload" accept=".webp, .png, .jpg, .jpeg" required>
 
 
             <!--NEW TAG WEIGHT-->
             <label for="input-new-tag-weight">Weight</label>
-            <input title="Enter the weight (importance) of this tag, value between 0 and 10." id="input-new-tag-weight"
-                name="input-new-tag-weight" type="number" placeholder="weight" min="0" max="10" required>
+            <input class="input-element" title="Enter the weight (importance) of this tag, value between 0 and 10."
+                id="input-new-tag-weight" name="input-new-tag-weight" type="number" placeholder="weight" min="0"
+                max="10" required>
 
 
             <!--NEW TAG DESCRIPTION-->
             <label for="input-new-tag-description">Description</label>
-            <input title="Enter the description of this new tag." id="input-new-tag-description"
+            <input class="input-element" title="Enter the description of this new tag." id="input-new-tag-description"
                 name="input-new-tag-description" type="text" placeholder="Description.." minlength="1" maxlength="255">
 
 
@@ -68,37 +67,38 @@ declare(strict_types=1);
 
 
         <div id="container-tag-info" class="table-container">
-        <div class="searchbar">
-                <input title="Enter what you wish to search for." class="search" id="search-tags" type="search"
-                    placeholder="Search..">
-            </div>
+            <?php include 'components/searchTable.php' ?>
             <table id="table-tag-info">
-                <tr>
-                    <th>ID</th>
-                    <th>Tagname</th>
-                    <th>Weight</th>
-                    <th>Description</th>
-                    <th>Date added</th>
-                </tr>
-                <?php
-                foreach ($tagSvc->getAllTags() as $tag) { ?>
+                <thead>
                     <tr>
-                        <td><a class="regular-link" href="edit-tag?id=<?php echo $tag->getId() ?>"><?php echo $tag->getId() ?></a></td>
-                        <td><?php echo $tag->getName() ?></td>
-                        <td><?php echo $tag->getWeight() ?></td>
-                        <td><?php echo $tag->getDescription() ?></td>
-                        <td><?php echo $tag->getDateAdded()->format('Y-m-d H:i:s') ?></td>
+                        <th>ID</th>
+                        <th>Tagname</th>
+                        <th>Weight</th>
+                        <th>Description</th>
+                        <th>Date added</th>
                     </tr>
-               <?php }
-                ?>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($tagSvc->getAllTags() as $tag) { ?>
+                        <tr>
+                            <td><a class="regular-link" href="edit-tag?id=<?= $tag->getId() ?>"><?= $tag->getId() ?></a>
+                            </td>
+                            <td><?= $tag->getName() ?></td>
+                            <td><?= $tag->getWeight() ?></td>
+                            <td><?= $tag->getDescription() ?></td>
+                            <td><?= $tag->getDateAdded()->format('Y-m-d H:i:s') ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
             </table>
         </div>
 
 
     </div>
     <!--END WRAPPER-->
-
-    <?php include('components/footer.php'); ?>
+    <?php require_once ('components/Notification.php'); ?>
+    <?php include ('components/footer.php'); ?>
 
 </body>
 

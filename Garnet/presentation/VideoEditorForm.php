@@ -21,67 +21,65 @@ declare(strict_types=1);
 
         <h1 class="title">Editing video with id
             <strong>
-                <?php echo $video->getId(); ?>
+                <?= $video->getId(); ?>
             </strong>
         </h1>
 
-        <?php echo $feedback->getMessage(); ?>
-
-        <form action="edit-video.php?id=<?php echo $video->getId(); ?>&action=editvideo" method="post"
+        <form action="edit-video.php?id=<?= $video->getId(); ?>&action=editvideo" method="post"
             enctype="multipart/form-data">
 
             <!--Video preview-->
             <label>Video preview </label>
             <video controls id="video-preview" alt="preview">
                 <source id="sourcePrev" controls type="video/mp4"
-                    src="<?php echo $contentPath . '/Videos/' . $video->getFilename() . $video->getExtension() ?>">
+                    src="<?= $contentPath . '/Videos/' . $video->getFilename() . $video->getExtension() ?>">
             </video>
 
 
             <!--Thumbnail preview-->
             <label>Thumbnail preview</label>
-            <img id="thumbnail-preview" alt="preview" src="<?php echo $video->getThumbnail() ?>">
+            <img id="thumbnail-preview" alt="preview" src="<?= $video->getThumbnail() ?>">
 
             <!--Change thumbnail-->
             <label for="thumbnailToUpload">Change thumbnail</label>
-            <input title="Change this video's thumbnail." type="file" name="thumbnailToUpload" id="thumbnailToUpload"
-                accept=".webp">
+            <input class="input-element" title="Change this video's thumbnail." type="file" name="thumbnailToUpload" id="thumbnailToUpload"
+                accept=".webp, .png, .jpg, .jpeg">
 
 
 
             <!--Video ID-->
             <label for="video_ID">Video ID</label>
-            <input readonly title="This video's ID." type="number" name="video_ID" id="video_ID"
-                value="<?php echo $video->getId() ?>">
+            <input class="input-element" readonly title="This video's ID." type="number" name="video_ID" id="video_ID"
+                value="<?= $video->getId() ?>">
 
 
 
             <!--Filename-->
             <label for="filename">Filename</label>
-            <input readonly title="This video's filename." type="text" name="filename" id="filename" maxlength="32"
-                value="<?php echo $video->getFilename() ?>">
+            <input class="input-element" readonly title="This video's filename." type="text" name="filename" id="filename" maxlength="32"
+                value="<?= $video->getFilename() ?>">
             <img id="copy-to-clipboard" class="button" src="assets/clipboard.png">
 
 
             <!--Extension-->
             <label for="extension">Extension</label>
-            <input title="This video's file extension." type="text" name="extension" id="extension" maxlength="5"
-                required readonly value="<?php echo $video->getExtension() ?>">
+            <input class="input-element" title="This video's file extension." type="text" name="extension" id="extension" maxlength="5"
+                required readonly value="<?= $video->getExtension() ?>">
 
 
 
             <!--Title-->
             <label for="title">Title</label>
-            <input title="Change this video's title." maxlength="255" type="text" name="title" id="title"
-                placeholder="Enter the video's title.." value="<?php echo $video->getTitle() ?>">
+            <input class="input-element" title="Change this video's title." maxlength="255" type="text" name="title" id="title"
+                placeholder="Enter the video's title.." value="<?= $video->getTitle() ?>">
 
 
 
             <!--Description-->
             <label for="description">Description</label>
-            <textarea placeholder="Enter the video's description.." title="Change this video's description."
+            <textarea class="input-element" placeholder="Enter the video's description.." title="Change this video's description."
                 maxlength="1000" type="text" name="description"
-                id="description"><?php echo $video->getDescription() ?></textarea>
+                id="description"><?= $video->getDescription() ?></textarea>
 
 
 
@@ -89,69 +87,75 @@ declare(strict_types=1);
 
             <!--Duration-->
             <label for="duration">Duration (hh:mm:ss)</label>
-            <input readonly required title="This video's duration." type="text" name="duration" id="duration"
+            <input class="input-element" readonly required title="This video's duration." type="text" name="duration" id="duration"
                 maxlength="8" pattern="[0-9][0-9]:[0-9][0-9]:[0-9][0-9]" required
-                value="<?php echo $video->getDuration() ?>">
+                value="<?= $video->getDuration() ?>">
 
 
 
             <!--Filesize-->
             <label for="filesize">Filesize (kB)</label>
-            <input readonly title="This video's filesize." required type="number" name="filesize" id="filesize" required
-                maxlength="8" value="<?php echo $video->getFileSize() ?>">
+            <input class="input-element" readonly title="This video's filesize." required type="number" name="filesize" id="filesize" required
+                maxlength="8" value="<?= $video->getFileSize() ?>">
 
 
             <!--Score-->
             <label for="score">Score</label>
-            <input title="Change this video's score." min="0" type="number" name="score" id="score" required
-                maxlength="11" value="<?php echo $video->getScore() ?>">
+            <input class="input-element" title="Change this video's score." min="0" type="number" name="score" id="score" required
+                maxlength="11" value="<?= $video->getScore() ?>">
 
 
 
             <!--Views-->
             <label for="views">Views</label>
-            <input title="Change this video's amount of views." min="0" type="number" name="views" id="views" required
-                maxlength="11" value="<?php echo $video->getViews() ?>">
+            <input class="input-element" title="Change this video's amount of views." min="0" type="number" name="views" id="views" required
+                maxlength="11" value="<?= $video->getViews() ?>">
 
 
             <!--Date Added-->
             <label for="date_added">Date added</label>
-            <input title="Change this video's date added." type="datetime-local" name="date_added" id="date_added"
-                required value="<?php echo $video->getDateAdded()->format('Y-m-d H:i:s') ?>">
+            <input class="input-element" title="Change this video's date added." type="datetime-local" name="date_added" id="date_added"
+                required value="<?= $video->getDateAdded()->format('Y-m-d H:i:s') ?>">
+
+            <!--first_appeared-->
+            <label for="first_appeared">First appeared</label>
+            <input class="input-element" title="Change when the video first surfaced online" type="date" name="first_appeared"
+                id="first_appeared"
+                value="<?= $video->getFirstAppeared() ? $video->getFirstAppeared()->format('Y-m-d') : ''; ?>">
 
             <!--Uploaded by-->
             <label for="uploaded_by">Uploaded by</label>
-            <input title="The ID of the user who uploaded this video." readonly min="1" type="number" name="uploaded_by"
-                id="uploaded_by" required value="<?php echo $video->getUploadedBy() ?>">
-            <input title="The name of the user who uploaded this video." readonly type="text"
+            <input class="input-element" title="The ID of the user who uploaded this video." readonly min="1" type="number" name="uploaded_by"
+                id="uploaded_by" required value="<?= $video->getUploadedBy() ?>">
+            <input class="input-element" title="The name of the user who uploaded this video." readonly type="text"
                 name="uploaded_by_username" id="uploaded_by_username" required
-                value="<?php echo $userSvc->getUserById($video->getUploadedBy())->getUsername() ?>">
+                value="<?= $userSvc->getUserById($video->getUploadedBy())->getUsername() ?>">
 
             <!--Tags-->
             <!--hide this element since it servers no real purpose other than using it as a post value-->
-            <input title="This video's tagline." readonly type="text" name="tags" id="tags" required minlength="3"
-                maxlength="500" value="<?php echo $video->getTagsAsString() ?>" hidden>
+            <input class="input-element" title="This video's tagline." readonly type="text" name="tags" id="tags" required minlength="3"
+                maxlength="500" value="<?= $video->getTagsAsString() ?>" hidden>
 
-            <?php include('components/tagBuilder.php')?>
+            <?php include ('components/tagBuilder.php') ?>
 
 
             <!--hide this element since it servers no real purpose other than using it as a post value-->
-            <input title="This video's creators." type="text" name="creators-line" id="creators-line" hidden required
+            <input class="input-element" title="This video's creators." type="text" name="hidden-creators-field" id="hidden-creators-field" required
                 onkeypress="return false;" minlength="3" maxlength="500"
-                value="<?php echo $videoSvc->getVideoCreatorsAsString($video->getId()) ?>" >
+                value="<?= $videoSvc->getVideoCreatorsAsString($video->getId()) ?>" hidden>
 
-                <?php include ('components/creatorBuilder.php') ?>
+            <?php include ('components/creatorBuilder.php') ?>
 
             <div id="actions">
                 <input title="Save changes made to this video." class="button" type="submit" value="Save changes">
 
                 <a title="Click to delete this video." id="delete-video-link" class="regular-link"
-                    data-videoId="<?php echo $video->getId(); ?>">Delete video</a>
+                    data-videoId="<?= $video->getId(); ?>">Delete video</a>
 
                 <a title="Click to go to this video." class="regular-link"
-                    href="video?id=<?php echo $video->getId() ?>">Go to video</a>
+                    href="video?id=<?= $video->getId() ?>">Go to video</a>
 
-                <a title="Return to control panel." class="regular-link" href="controlpanel_videos">Close</a>
+                <a title="Return to control panel." class="regular-link" href="controlpanel-videos">Close</a>
             </div>
 
 
@@ -162,7 +166,7 @@ declare(strict_types=1);
     </div>
 
 
-
+    <?php require_once ('components/Notification.php'); ?>
     <?php include ('components/footer.php'); ?>
 </body>
 

@@ -1,115 +1,115 @@
 "use strict";
+const csrfToken = 'a19e6ab21ff4ecf98a288be53fbd9acf45bc190a8f0824bd690ad1c7c3a8d1b9';
+
 const video_id = $('#add-tag').data('videoid');
 const user_id = $('#add-tag').data('userid');
 
-$('#add-tag').on('click', function () {
-    $(this).remove();
-    let tagInput = $('<input>').attr({
-        'type': 'text',
-        'placeholder': 'Add tag..',
-        'class': 'tageditor'
-    });
+$('#add-tag').on('click', function () { 
+    toggleVisibility($('#add-tag'), $('#add-new-tag-input-container'));
+});
 
-    // Create button tag
-    let buttonAdd = $('<button>').attr({
-        'type': 'button',
-        'class': 'button tiny_button'
-    }).text('+');
+$('#remove-tag').on('click', function () { 
+    toggleVisibility($('#remove-tag'), $('#remove-new-tag-input-container'));
+});
 
-    // Attach click event handler to button
-    buttonAdd.click(function () {
+
+$('#add-new-tag-submit').on('click', function() {
+    const suggestedTag = validateInput($('#add-new-tag-input'));
+    if (suggestedTag) {
         const dataToSend = {
             user_id: user_id,
             video_id: video_id,
-            tag_name: tagInput.val()
+            tag_name: suggestedTag
         };
-        api_AddTag(dataToSend);
-    });
+        api_edit_tag('add_tag', dataToSend);
+    }
+    $('#add-new-tag-input').val('');
+    toggleVisibility($('#add-tag'), $('#add-new-tag-input-container'));
+})
 
-    // Append input and button to container
-    $('#container-add-tag-label').append(tagInput).append(buttonAdd);
-
-});
-
-$('#remove-tag').on('click', function () {
-    $(this).remove();
-    let tagInput = $('<input>').attr({
-        'type': 'text',
-        'placeholder': 'Remove tag..',
-        'class': 'tageditor'
-    });
-
-    // Create button tag
-    let buttonRemove = $('<button>').attr({
-        'type': 'button',
-        'class': 'button tiny_button'
-    }).text('-');
-
-    // Attach click event handler to button
-    buttonRemove.click(function () {
+$('#remove-new-tag-submit').on('click', function() {
+    const suggestedTag = validateInput($('#remove-new-tag-input'));
+    if (suggestedTag) {
         const dataToSend = {
             user_id: user_id,
             video_id: video_id,
-            tag_name: tagInput.val()
+            tag_name: suggestedTag
         };
+        api_edit_tag('remove_tag', dataToSend);
+    }
+    $('#remove-new-tag-input').val('');
+    toggleVisibility($('#remove-tag'), $('#remove-new-tag-input-container'));
+})
 
-        api_RemoveTag(dataToSend);
-    });
-
-    // Append input and button to container
-    $('#container-remove-tag-label').append(tagInput).append(buttonRemove);
-});
-
-function api_AddTag(dataToSend) {
-    fetch('api.php?action=add_tag', {
+function api_edit_tag(action, dataToSend) {
+    fetch(`api.php?action=${action}`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json', // Specify the content type
-            'X-CSRF-Token': 'a19e6ab21ff4ecf98a288be53fbd9acf45bc190a8f0824bd690ad1c7c3a8d1b9'
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken
         },
-        body: JSON.stringify(dataToSend) // Convert data to JSON string
+        body: JSON.stringify(dataToSend)
     })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.error || 'Unknown error occurred');
-                });
-            }
-            // Return the parsed JSON data if the response is ok
-            return response.json();
-        })
-        .then(data => {
-            alert(data.message);
-        })
-        .catch(error => {
-            console.log(error.message);
-            alert('Error: ' + error.message);
-        });
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(errorData => {
+                throw new Error(errorData.error || 'Unknown error occurred');
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        flash(data.message, 'success');
+    })
+    .catch(error => {
+        flash(error.message, 'error');
+    });
 }
+function flash(data, type) {
 
-function api_RemoveTag(dataToSend) {
-    fetch('api.php?action=remove_tag', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json', // Specify the content type
-            'X-CSRF-Token': 'a19e6ab21ff4ecf98a288be53fbd9acf45bc190a8f0824bd690ad1c7c3a8d1b9'
-        },
-        body: JSON.stringify(dataToSend) // Convert data to JSON string
-    })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.error || 'Unknown error occurred');
-                });
-            }
-            // Return the parsed JSON data if the response is ok
-            return response.json();
-        })
-        .then(data => {
-            alert(data.message);
-        })
-        .catch(error => {
-            console.log(error.message);
-            alert('Error: ' + error.message);
-        });
+    const options = {
+        progress: true,
+        interactive: true,
+        timeout: 5000,
+        appear_delay: 200,
+        container: '.flash-container',
+        theme: 'default',
+        classes: {
+            container: 'flash-container',
+            flash: 'flash-message',
+            visible: 'is-visible',
+            progress: 'flash-progress',
+            progress_hidden: 'is-hidden'
+        }
+    };
+
+    if (type == 'success') {
+        window.FlashMessage.success(data, options);
+    } else {
+        window.FlashMessage.error(data, options);
+    }
+}
+function toggleVisibility(button, container) {
+    if (button.hasClass('toggle-hidden')) {
+        button.removeClass('toggle-hidden').addClass('toggle-visible');
+        button.parent().removeClass('toggle-hidden').addClass('toggle-visible')
+    } else {
+        button.removeClass('toggle-visible').addClass('toggle-hidden');
+        button.parent().removeClass('toggle-visible').addClass('toggle-hidden');
+    }
+
+    if (container.hasClass('toggle-hidden')) {
+        container.removeClass('toggle-hidden').addClass('toggle-visible');
+    } else {
+        container.removeClass('toggle-visible').addClass('toggle-hidden');
+    }
+}
+function validateInput(input, minLength = 2, maxLength = 25) {
+    const value = input.val();
+    if (value.length >= minLength && value.length <= maxLength) {
+        return value;
+    } else {
+        flash(`The suggested tag must be between ${minLength} and ${maxLength} characters long.`, 'error');
+        return null;
+    }
 }

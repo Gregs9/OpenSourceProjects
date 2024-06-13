@@ -21,20 +21,18 @@ declare(strict_types=1);
 
     <div class="wrapper">
 
-        <?php echo $feedback->getMessage() ?>
-
         <!--REPORTS TABLE-->
         <h1 class="title">User Activity Log</h1>
 
-        <form id="filters" method="post" action="controlpanel_log.php">
+        <form id="filters" method="post" action="controlpanel-log.php">
             <label for="filters">Activity</label>
             <select id="filter" name="filter">
-                <option <?php echo $filter == "Login|Logged out" ? 'selected' : '' ?> value="Login|Logged out">Login
+                <option <?= $filter == "Login|Logged out" ? 'selected' : '' ?> value="Login|Logged out">Login
                     activity</option>
-                <option <?php echo $filter == "View" ? 'selected' : '' ?> value="View"> View activity</option>
-                <option <?php echo $filter == "Failed uploading video|Uploaded video" ? 'selected' : '' ?>
+                <option <?= $filter == "View" ? 'selected' : '' ?> value="View"> View activity</option>
+                <option <?= $filter == "Failed uploading video|Uploaded video" ? 'selected' : '' ?>
                     value="Failed uploading video|Uploaded video">Upload activity</option>
-                <option <?php echo $filter == "Added tag|Removed tag" ? 'selected' : '' ?> value="Added tag|Removed tag">
+                <option <?= $filter == "Added tag|Removed tag" ? 'selected' : '' ?> value="Added tag|Removed tag">
                     Tag editing activity</option>
             </select>
 
@@ -45,9 +43,7 @@ declare(strict_types=1);
 
         <?php if (count($logSvc->getAllPerAction($filter)) > 0) { ?>
             <div id="container-log-info" class="table-container">
-                <div id="search-log-container">
-                    <input type="search" id="search-log" name="search-log" placeholder="Search..">
-                </div>
+                <?php include 'components/searchTable.php' ?>
                 <table id="table-log-info">
                     <tr>
                         <th>ID</th>
@@ -59,20 +55,20 @@ declare(strict_types=1);
                     <?php foreach ($logSvc->getAllPerAction($filter) as $log) { ?>
                         <tr>
                             <td>
-                                <?php echo $log->getId() ?>
+                                <?= $log->getId() ?>
                             </td>
                             <td>
-                                <?php echo $arr_userIdsNamesList[$log->getUserId()] ?>
+                                <?= $arr_userIdsNamesList[$log->getUserId()] ?>
                             </td>
                             <td>
-                                <?php echo $log->getAction() ?>
+                                <?= $log->getAction() ?>
                             </td>
                             <td>
-                                <?php echo $log->getTimestamp() ?>
+                                <?= $log->getTimestamp() ?>
                             </td>
                             <?php if ($log->getVideoId() !== 0) { ?>
-                                <td><a class="regular-link" href="video.php?id= <?php echo $log->getVideoId() ?>">
-                                        <?php echo $log->getVideoId() ?>
+                                <td><a class="regular-link" href="video.php?id= <?= $log->getVideoId() ?>">
+                                        <?= $log->getVideoId() ?>
                                     </a></td>
                             <?php } else { ?>
                                 <td></td>
@@ -90,7 +86,7 @@ declare(strict_types=1);
 
     </div>
     <!--END WRAPPER-->
-
+    <?php require_once ('components/Notification.php'); ?>
     <?php include('components/footer.php'); ?>
 
 </body>

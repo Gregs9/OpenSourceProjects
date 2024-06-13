@@ -26,17 +26,23 @@
       <video controls autoplay muted loop id="short">
         <source type="video/mp4" src="">
       </video>
+
+      <!--Tutorial icon-->
+      <div class="tutorial-image" id="tutorial">
+        <img class="box bounce-2" src="assets/shorts_tutorial.png" title="Click to hide tutorial" alt="">
+      </div>
+        
       <!--Video info here-->
       <div id="video-info">
 
         <img id="score" class="glow" src="assets/cntrl_Score.png" title="Click to add a score to this video."
-          data-userid="<?php echo $user->getId(); ?>">
+          data-userid="<?= $user->getId(); ?>">
 
         <img id="favorite" class="glow" src="assets/favorite.png" title="Click to favorite this video.">
 
 
         <div>
-          <img id="star-icon" src="assets/star.png" alt="" title="The amount of scores this video has">
+          <img id="star-icon" src="assets/star.png" alt="" title="The score of this video">
           <p id="video-score"></p>
         </div>
 
@@ -50,17 +56,13 @@
 
       </div>
 
-      <img id="scroll-icon" src="assets/scroll.png" title="Scroll down to go to the next video." alt="scroll-tutorial" onclick="this.style.display='none';">
-
     </div>
-
-    
 
 
 
 
 
   </div>
-
+  <?php require_once ('components/Notification.php'); ?>
   <?php include ('components/footer.php'); ?>
 </body>

@@ -27,18 +27,22 @@ class ReportService
         $string_status = 'pending';
 
         if ($report->getStatus() == 'pending') {
-            $string_status = 'pending <a title="Click to set status to handled." class="regular-link" href="controlpanel_reports?update_report_id=' . $report->getReportId() . '">(Update)</a>';
+            $string_status = 'pending <a title="Click to set status to handled." class="regular-link" href="controlpanel-reports?update_report_id=' . $report->getReportId() . '">(Update)</a>';
         } elseif ($report->getStatus() == 'handled') {
-            $string_status = 'handled  <a title="Click to remove report." class="regular-link" href="controlpanel_reports?delete_report_id=' . $report->getReportId() . '">(Delete)</a>';
+            $string_status = 'handled  <a title="Click to remove report." class="regular-link" href="controlpanel-reports?delete_report_id=' . $report->getReportId() . '">(Delete)</a>';
         }
         return $string_status;
     }
 
     public function updateReport(int $report_id)
     {
-
         $reportDAO = new ReportDAO();
         $reportDAO->updateReport($report_id);
+    }
 
+    public function getPendingReports() : array
+    {
+        $reportDAO = new ReportDAO();
+        return $reportDAO->getPendingReports();
     }
 }

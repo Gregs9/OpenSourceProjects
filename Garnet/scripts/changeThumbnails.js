@@ -15,13 +15,13 @@ $('#thumbnailToUpload').on('change', function () {
     const selectedFile = $('#thumbnailToUpload')[0].files[0];
     if (selectedFile !== undefined) {
         const fileSize = selectedFile.size / 1024 / 1024; // in MiB
-        const allowedTypes = ['image/webp'];
+        const allowedTypes = ['image/webp', 'image/png', 'image/jpeg', 'image/jpg'];
         let validFile = true;
 
         if (!allowedTypes.includes(selectedFile.type)) {
             validFile = false
             $('#thumbnailToUpload').val('');
-            alert('Invalid file type. Only webp files are allowed as thumbnails.');
+            alert('Invalid file type. Only png, jpg & webp files are allowed as thumbnails.');
         }
 
         if (fileSize > 20) {

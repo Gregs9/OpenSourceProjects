@@ -9,7 +9,7 @@
     <div id="available-creators-container">
         <h2>Available creators</h2>
         <div id="available-creators">
-            <input type="search" id="search-creators" placeholder="Search.." title="Search for a creator">
+            <input class="input-element" type="search" id="search-creators" placeholder="Search.." title="Search for a creator">
             <!--Populated with JS CreatorBuilder-->
         </div>
     </div>

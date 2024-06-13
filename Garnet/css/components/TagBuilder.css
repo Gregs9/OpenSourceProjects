@@ -18,8 +18,8 @@
     width: 100%;
     height: 20rem;
     overflow-y: scroll;
-    border-top: 1px solid var(--housecolor-white);
-    border-bottom: 1px solid var(--housecolor-white);
+    border-top: 1px solid var(--hs-white);
+    border-bottom: 1px solid var(--hs-white);
     border-radius: 5px;
 }
 
@@ -28,15 +28,7 @@
     height: 3rem;
     width: 100%;
     font-size: 1vw;
-    background-color: var(--housecolor-brownred);
 }
-
-#available-tags a:hover,
-#submitted-tags a:hover {
-    background: #800000;
-}
-
-
 
 /*--------------------------------FOR MOBILE DEVICES--------------------------------*/
 @media (max-width: 1000px) {

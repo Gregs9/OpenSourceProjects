@@ -11,5 +11,4 @@ $videoSvc = new VideoService;
 
 $favorite_videos = $userSvc->getFavoriteVideos($user);
 
-require_once('components/Notification.php');
 include('presentation/ProfileFavoriteVideos.php');

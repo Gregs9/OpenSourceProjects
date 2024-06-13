@@ -1,29 +1,26 @@
 footer {
-    height: 10rem;
+    height: 9rem;
     padding: 1rem;
     display: flex;
     justify-content: space-around;
-    background-color: rgba(0, 0, 0, 0.592);
-    margin-top: 1rem;
+    background-color: var(--hs-dark-transparent);
+    color: white;
+
+    h2 {
+        font-size: 1rem;
+    }
+
+    p {
+        font-size: 0.8rem;
+    }
+
+    section {
+        height: 100%;
+        width: 20%;
+
+        * {
+            float: left;
+            clear: both;
+        }
+    }
 }
-
-footer h2 {
-    font-size: 1rem;
-}
-
-footer p {
-    font-size: 0.8rem;
-}
-
-footer section {
-    height: 100%;
-    width: 20%;
-}
-
-footer section > * {
-    float: left;
-    clear: both;
-}
-
-
-

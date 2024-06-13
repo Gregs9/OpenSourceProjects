@@ -17,23 +17,14 @@ class ReportDAO
 
     public function getReports(): array
     {
-        $sql = 'select * from reports where status like "pending" order by creation asc';
+        $sql = 'select * from reports order by creation asc, status asc';
         $resultSet = $this->dbh->query($sql);
         $list_reports = array();
 
-        foreach ($resultSet as $rij) {
-            $report = new Report((int) $rij['report_id'], (int) $rij['video_id'], (string) $rij['reason'], (string) $rij['comment'], new DateTime($rij['creation']), (string) $rij['status']);
+        foreach ($resultSet as $row) {
+            $report = new Report((int) $row['report_id'], (int) $row['video_id'], (string) $row['reason'], (string) $row['comment'], new DateTime($row['creation']), (string) $row['status']);
             array_push($list_reports, $report);
         }
-
-        $sql = 'select * from reports where status like "handled" order by creation asc';
-
-        $resultSet = $this->dbh->query($sql);
-        foreach ($resultSet as $rij) {
-            $report = new Report((int) $rij['report_id'], (int) $rij['video_id'], (string) $rij['reason'], (string) $rij['comment'], new DateTime($rij['creation']), (string) $rij['status']);
-            array_push($list_reports, $report);
-        }
-
         return $list_reports;
     }
 
@@ -57,5 +48,18 @@ class ReportDAO
         $sql = "delete FROM reports WHERE report_id=" . $report_id;
         $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
+    }
+
+    public function getPendingReports() : array
+    {
+        $sql = 'select * from reports where status like "pending" order by creation asc, status asc';
+        $resultSet = $this->dbh->query($sql);
+        $list_reports = array();
+
+        foreach ($resultSet as $row) {
+            $report = new Report((int) $row['report_id'], (int) $row['video_id'], (string) $row['reason'], (string) $row['comment'], new DateTime($row['creation']), (string) $row['status']);
+            array_push($list_reports, $report);
+        }
+        return $list_reports ?? [];
     }
 }

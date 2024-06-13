@@ -7,13 +7,11 @@ class TagDAO
 
     protected $dbh;
 
-    function __construct()
-    {
+    function __construct() {
         $this->dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
     }
-
-    function __destruct()
-    {
+    
+    function __destruct() {
         $this->dbh = null;
     }
 
@@ -61,7 +59,7 @@ class TagDAO
         return $list;
     }
 
-    public function getAllRecommendedTags(int $limit, User $user): array
+       public function getAllRecommendedTags(int $limit, User $user): array
     {
         $sql = 'SELECT 
         vt.tag_id, 
@@ -113,7 +111,6 @@ class TagDAO
 
         return $tagOccurrences;
     }
-
     public function getTagByName(string $tag_name): ?Tag
     {
         $sql = "select * from tags";
@@ -201,9 +198,6 @@ class TagDAO
         $stmt = $this->dbh->prepare($sql);
         $stmt->execute(array(':tag_name' => $tag->getName(), ':weight' => $tag->getWeight(), ':description' => $tag->getDescription(), ':date_added' => $tag->getDateAdded(), ':tag_id' => $tag->getId()));
     }
-
-
-
 
 
 }

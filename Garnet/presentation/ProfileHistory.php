@@ -19,7 +19,6 @@ declare(strict_types=1);
 
     <!--START WRAPPER-->
     <div class="wrapper">
-        <?php echo $feedback->getMessage(); ?>
 
         <!--Title-->
         <h1 class="title">Watch history</h1>
@@ -71,5 +70,5 @@ declare(strict_types=1);
     </div>
 
 </body>
-
+<?php require_once ('components/Notification.php'); ?>
 <?php include ('components/footer.php'); ?>

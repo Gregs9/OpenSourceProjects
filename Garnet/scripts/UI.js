@@ -4,20 +4,6 @@ $('#feedback').click(function () {
     $(this).hide();
 });
 
-//For adult notification
-$('#accept-disclaimer').on('click', function () {
-    let now = new Date();
-    const expireTime = now.getTime() + 1000 * 36000;
-    now.setTime(expireTime);
-    document.cookie = 'disclaimer=true;expires=' + now.toUTCString();
-    $('#blur-overlay').css('display', 'none');
-});
-
-//For declining the adult notification
-$('#decline-disclaimer').on('click', function () {
-    window.location.replace("http://www.google.com");
-});
-
 //For cookies
 $('#accept-cookies').on('click', function () {
     let now = new Date();
@@ -42,20 +28,20 @@ $('#control_panel').click(function () {
     //if profile panel is open, hide it
     if ($('#profile_panel_options').is(':visible')) {
         $('#profile_panel_options').toggle();
-        sessionStorage.setItem("popout-profile", "false");
+        sessionStorage.setItem("popout-profile", $('#profile_panel_options').is(':visible') ? "true" : "false");
     }
 });
 
 //For popping in & out the profile panel
 $('#profile_panel_options').toggle(false);
-sessionStorage.getItem("popout-profile") ? $('#profile_panel_options').toggle(sessionStorage.getItem("popout-profile") === "true") : null;
+sessionStorage.getItem("popout") ? $('#profile_panel_options').toggle(sessionStorage.getItem("popout-profile") === "true") : null;
 $('#profile').click(function () {
     $('#profile_panel_options').toggle();
     sessionStorage.setItem("popout-profile", $('#profile_panel_options').is(':visible') ? "true" : "false");
     //if control panel is open, hide it
     if ($('#control_panel_options').is(':visible')) {
         $('#control_panel_options').toggle();
-        sessionStorage.setItem("popout", "false");
+        sessionStorage.setItem("popout", $('#control_panel_options').is(':visible') ? "true" : "false");
     }
 });
 
@@ -152,6 +138,7 @@ const videoDescriptionPlaceholders = [
     "Bananas are berries, but strawberries aren't.",
     "Polar bears' skin is black, and their fur is not actually white; it's translucent.",
     "The Eiffel Tower can be 15 cm taller during the summer due to the expansion of the iron in the heat.",
+    "The shortest war in history was between Britain and Zanzibar on August 27, 1896. Zanzibar surrendered after 38 minutes.",
     "A day on Venus is longer than a year on Venus. It takes Venus 243 Earth days to complete one rotation and 225 Earth days to orbit the Sun.",
     "Hippopotamus milk is pink.",
     "The 'S' in Harry S. Truman's name doesn't stand for anything. His parents gave him the middle initial as a tribute to both of his grandfathers, Anderson Shipp Truman and Solomon Young.",
@@ -190,6 +177,7 @@ const videoDescriptionPlaceholders = [
     "Cows have best friends and can become stressed when they are separated from them.",
     "The Eiffel Tower can be 15 cm taller during the summer due to the expansion of the iron in the heat.",
     "Polar bears' skin is black, and their fur is not actually white; it's translucent.",
+    "The shortest war in history was between Britain and Zanzibar on August 27, 1896. Zanzibar surrendered after 38 minutes.",
     "Cows have best friends and can become stressed when they are separated from them.",
     "A group of flamingos is called a 'flamboyance.'",
     "The dot over the letter 'i' is called a 'tittle.'",

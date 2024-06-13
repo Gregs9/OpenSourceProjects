@@ -9,6 +9,4 @@ $userSvc = new UserService;
 $creatorSvc = new CreatorService;
 $favorite_creators = $userSvc->getFavoriteCreators($user);
 
-
-require_once('components/Notification.php');
 include('presentation/ProfileFavoriteCreators.php');

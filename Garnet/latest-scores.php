@@ -11,6 +11,4 @@ $creatorSvc = new CreatorService;
 $video_list = $userSvc->getLatestScores($user);
 
 
-
-require_once('components/Notification.php');
 include('presentation/ProfileLatestScoresForm.php');

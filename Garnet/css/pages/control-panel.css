@@ -1,34 +1,24 @@
-/* Color schemes */
-/*
-:root {
-    --housecolor-brightred: #800000;
-    --housecolor-darkred: #380000;
-    --housecolor-brownred: #160000;
-    --housecolor-white: #e9e9e9;
-    --housecolor-taggrey: #252525;
-    --housecolor-linkhover: #ff7d7d;
-}
-*/
 .table-container {
     margin: 0 auto;
     height: 80vh;
-    width: 90%;
-    overflow: scroll;
+    overflow-y: scroll;
     border-radius: 16px;
     padding: 1rem;
+    width: 95%;
+    color: white;
 }
 
 thead {
     font-size: 1.1rem;
 }
 
+
+
 th {
     position: sticky;
     top: -0.5rem;
-    background-color: var(--housecolor-brownred);
-    padding: 1rem 0 1rem 0;
+    padding: 1rem 0;
     border-left: 1px solid rgba(255, 255, 255, 0.073);
-    
 }
 
 tr {
@@ -42,48 +32,37 @@ tr {
 #table-report-info,
 #table-creator-searcher,
 #table-log-info {
-    width: 100%;
+    width: 100%; /* Ensure table uses full width of the container */
     border-collapse: collapse;
     position: relative;
-    overflow-y: scroll;
     max-height: 100vh;
-
 }
-
-
 
 #table-tag-info {
-    table-layout: auto;
-}
-
-#table-tag-info tr td:nth-child(1),
-#table-tag-info tr td:nth-child(3) {
-    width: 2rem;
+    table-layout: auto; /* Allow table to adjust column widths based on content */
 }
 
 td {
-
-    padding: 1rem 0.2rem 1rem 0.2rem;
+    padding: 1rem 0.2rem;
     color: rgba(255, 255, 255, 0.534);
+
+}
+
+/*Cheat code to auto-width the cells*/
+td.last {
+    width: 1px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 #filters {
     width: 90%;
     margin: 1rem auto;
     text-align: right;
+
+    select {
+        height: 2rem;
+    }
 }
-
-#filters>select {
-    height: 2rem;
-}
-
-
-
-
-
 
 #creator-adder,
 #tag-adder {
@@ -96,8 +75,8 @@ td {
     flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 3rem;
+    color: white;
 }
-
 
 #creator-adder>h2,
 #tag-adder>h2 {
@@ -130,22 +109,9 @@ form>h2:not(:first) {
     margin-top: 2rem;
 }
 
-#input-new-creator-nat {
-    background: rgba(0, 0, 0, 0.2);
-    color: #fff;
-    border: 0;
-    height: 2.2rem;
-    width: calc(70% + 1.2rem);
-    transition: all 200ms ease-in-out;
-}
 
-#input-new-creator-nat>option {
-    background: var(--housecolor-brightred);
-    cursor: pointer;
-}
-
-#input-new-creator-nat:hover {
-    background: var(--housecolor-brightred);
+#creator_nat {
+    width: calc(70% + 1.2rem) !important;
 }
 
 #creator-adder>input[type=submit],
@@ -170,4 +136,8 @@ form>h2:not(:first) {
 .profile-pic {
     border-radius: 50%;
     height: 3rem;
+}
+
+label {
+    color: white;
 }

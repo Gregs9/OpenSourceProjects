@@ -1,8 +1,9 @@
 "use strict";
 
 //Load all available creators given by PHP
-let available_creators = $('#available-creators>.creator');
+let available_creators = $('#availablecreators>.creator');
 let creator_list = [];
+const csrfToken = 'a19e6ab21ff4ecf98a288be53fbd9acf45bc190a8f0824bd690ad1c7c3a8d1b9';
 
 
 //get creators and their info require for the creator builder
@@ -10,7 +11,7 @@ fetch('api.php?action=fetch_creator_data', {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': 'a19e6ab21ff4ecf98a288be53fbd9acf45bc190a8f0824bd690ad1c7c3a8d1b9'
+        'X-CSRF-Token': csrfToken
     }
 })
     .then(response => {
@@ -27,7 +28,7 @@ fetch('api.php?action=fetch_creator_data', {
         creator_list = data.message;
 
         //populate already submitted creators
-        for (const creatorName of $('#creators-line').val().split(';')) {
+        for (const creatorName of $('#hidden-creators-field').val().split(';')) {
             for (const creator of creator_list) {
                 if (creatorName.toLowerCase() == creator['creator_name'].toLowerCase()) {
                     createSubmittedCreator(creator);
@@ -123,7 +124,7 @@ function reloadAvailableCreators() {
 
     $('#available-creators > .creator').remove();
 
-    let arr_creators_in_creatorline = $('#creators-line').val().split(";");
+    let arr_creators_in_creatorline = $('#hidden-creators-field').val().split(";");
 
     for (const available_creator of creator_list) {
         if (!arr_creators_in_creatorline.includes(available_creator['creator_name'])) {
@@ -136,12 +137,12 @@ function reloadAvailableCreators() {
 }
 function updateCreatorLine() {
 
-    $('#creators-line').val('');
+    $('#hidden-creators-field').val('');
 
     $('#submitted-creators a').each(function () {
-        $('#creators-line').val($('#creators-line').val() + $(this).text() + ';');
+        $('#hidden-creators-field').val($('#hidden-creators-field').val() + $(this).text() + ';');
     });
 
-    $('#creators-line').val($('#creators-line').val().slice(0, -1));
+    $('#hidden-creators-field').val($('#hidden-creators-field').val().slice(0, -1));
 }
 

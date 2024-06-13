@@ -21,13 +21,12 @@ declare(strict_types=1);
 
     <!--START WRAPPER-->
     <div class="wrapper">
-        <?php echo $feedback->getMessage(); ?>
 
         <!--Title-->
         <h1 class="title">Favorited Creators</h1>
         <div class="search-container">
             <label for="search-favorited-creators">Search</label>
-            <input id="search-favorited-creators" name="search-favorited-creators" title="search for creators"
+            <input id="search-favorited-creators" class="input-element" name="search-favorited-creators" title="search for creators"
                 placeholder="Search.." type="search">
         </div>
 
@@ -37,23 +36,23 @@ declare(strict_types=1);
                 <div class="creator-box">
 
                     <!--creator profile pic-->
-                    <a class="image-link" href="<?php echo "creator?creator=" . $creator->getId(); ?>">
-                        <img class="profile-pic" src="<?php echo $creator->getProfilePic() ?>">
+                    <a class="image-link" href="<?= "creator?creator=" . $creator->getId(); ?>">
+                        <img class="profile-pic" src="<?= $creator->getProfilePic() ?>">
                     </a>
 
 
                     <!--creator name & aliases-->
                     <div class="creator-names">
-                        <h1 class="creator-name"><?php echo $creator->getName() ?></h1>
+                        <h1 class="creator-name"><?= $creator->getName() ?></h1>
                         <p class="creator-alias"><strong>
-                                <?php echo $creator->getAlias() ? 'aka ' . $creator->getAlias() : null; ?>
+                                <?= $creator->getAlias() ? 'aka ' . $creator->getAlias() : null; ?>
                             </strong></p>
                     </div>
 
                     <!--FAVORITE BUTTON-->
-                    <div data-userid="<?php echo $user->getId() ?>" data-creatorid="<?php echo $creator->getId() ?>"
-                        class="HeartAnimation <?php echo $userSvc->isCreatorFavorited($user, $creator) ? 'favorited' : null; ?>"
-                        title="<?php echo $userSvc->isCreatorFavorited($user, $creator) ? 'Click to unfavorite this creator.' : 'Click to favorite this creator.'; ?>">
+                    <div data-userid="<?= $user->getId() ?>" data-creatorid="<?= $creator->getId() ?>"
+                        class="HeartAnimation <?= $userSvc->isCreatorFavorited($user, $creator) ? 'favorited' : null; ?>"
+                        title="<?= $userSvc->isCreatorFavorited($user, $creator) ? 'Click to unfavorite this creator.' : 'Click to favorite this creator.'; ?>">
                     </div>
 
                     <!--creator latetest videos-->
@@ -80,5 +79,5 @@ declare(strict_types=1);
     </div>
 
 </body>
-
+<?php require_once ('components/Notification.php'); ?>
 <?php include ('components/footer.php'); ?>

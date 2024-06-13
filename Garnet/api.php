@@ -6,27 +6,21 @@ require_once ('data/autoloader.php');
 
 function validateCsrfToken($token)
 {
-    /*
-    Token is currently hardcoded for simplicity, in a real scenario, I would store a user's session hash in the database.
-    I would then generate a new hash in javascript, containing the user's session, a part of the (sensitive) data and a the timestamp of the request and mold this into a hash
-    for optimal security. 
-    */
     return $token == 'a19e6ab21ff4ecf98a288be53fbd9acf45bc190a8f0824bd690ad1c7c3a8d1b9';
 }
 
-//For adding a tag to a video -- DONE
+$headers = getallheaders();
+$csrfToken = $headers['X-CSRF-Token'] ?? '';
+
+if (!validateCsrfToken($csrfToken)) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Invalid CSRF token']);
+    exit;
+}
+
+//For adding a tag to a video
 if (isset($_GET['action']) && $_GET['action'] === 'add_tag') {
 
-    $headers = getallheaders();
-    $csrfToken = $headers['X-CSRF-Token'] ?? '';
-
-    /*
-    if (!validateCsrfToken($csrfToken)) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-        exit;
-    }
-*/
     $tagSvc = new TagService();
     $videoSvc = new VideoService();
     $logSvc = new LogService();
@@ -39,7 +33,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_tag') {
 
     if (!$tag) {
         http_response_code(400);
-        echo json_encode(['error' => $postData['tag_name'] . ' is not a valid tag.']);
+        echo json_encode(['error' => '"' . ucfirst($postData['tag_name']) . '" is not a valid tag.']);
         return;
     }
 
@@ -51,7 +45,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_tag') {
     foreach ($video_tags as $check_tag) {
         if (strtolower($check_tag->getName()) == strtolower($postData['tag_name'])) {
             http_response_code(400);
-            echo json_encode(['error' => $postData['tag_name'] . ' is already added to this video.']);
+            echo json_encode(['error' => '"' . ucfirst($postData['tag_name']) . '" is already added to this video.']);
             return;
         }
     }
@@ -65,21 +59,12 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_tag') {
 
     // Send response back to JavaScript
     http_response_code(200);
-    echo json_encode(['message' => $postData['tag_name'] . ' added to video id ' . $postData['video_id']]);
+    echo json_encode(['message' => '"' . ucfirst($postData['tag_name']) . '" added to this video.']);
 
 }
-//For removing a tag to a video -- DONE
+//For removing a tag to a video
 if (isset($_GET['action']) && $_GET['action'] === 'remove_tag') {
 
-    $headers = getallheaders();
-    $csrfToken = $headers['X-CSRF-Token'] ?? '';
-    /*
-        if (!validateCsrfToken($csrfToken)) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-            exit;
-        }
-    */
     $tagSvc = new TagService();
     $videoSvc = new VideoService();
     $logSvc = new LogService();
@@ -92,7 +77,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'remove_tag') {
 
     if (!$tag) {
         http_response_code(400);
-        echo json_encode(['error' => $postData['tag_name'] . ' is not a valid tag.']);
+        echo json_encode(['error' => '"' . ucfirst($postData['tag_name']) . '" is not a valid tag.']);
         return;
     }
 
@@ -111,30 +96,21 @@ if (isset($_GET['action']) && $_GET['action'] === 'remove_tag') {
 
             // Send response back to JavaScript
             http_response_code(200);
-            echo json_encode(['message' => $postData['tag_name'] . ' removed from video id ' . $postData['video_id']]);
+            echo json_encode(['message' => '"' . ucfirst($postData['tag_name']) . '" removed from this video.']);
             return;
         }
     }
     http_response_code(400);
-    echo json_encode(['error' => $postData['tag_name'] . ' is not added to this video.']);
+    echo json_encode(['error' =>'"' . ucfirst($postData['tag_name']) . '" could not be added to this video.']);
     return;
 
 
 
 
 }
-//For displaying the score button if the user has not scored a video in the last 8 hours -- DONE
+//For displaying the score button if the user has not scored in the last 8 hours
 if (isset($_GET['action']) && $_GET['action'] === 'get_last_score') {
 
-    $headers = getallheaders();
-    $csrfToken = $headers['X-CSRF-Token'] ?? '';
-    /*
-        if (!validateCsrfToken($csrfToken)) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-            exit;
-        }
-    */
     //Retrieve user data
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
@@ -143,11 +119,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_last_score') {
     $user = $userSvc->getUserById(intval($postData['user_id']));
 
     //check that it has at least been 8 hours
-    $last_added_score = $user->getLastScore();
-    if ($last_added_score) {
+    $last_score = $user->getLastScore();
+    if ($last_score) {
 
         $current_datetime = new DateTime();
-        $interval = $current_datetime->diff($last_added_score);
+        $interval = $current_datetime->diff($last_score);
         $hoursDifference = $interval->h + ($interval->days * 24);
         http_response_code(200);
         echo $hoursDifference < 8 ? json_encode(0) : json_encode(1);
@@ -161,18 +137,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_last_score') {
 
 
 }
-//For adding a score to a video -- DONE
+//For adding a score to a video
 if (isset($_GET['action']) && $_GET['action'] === 'add_score') {
 
-    $headers = getallheaders();
-    $csrfToken = $headers['X-CSRF-Token'] ?? '';
-    /*
-        if (!validateCsrfToken($csrfToken)) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-            exit;
-        }
-    */
     // Retrieve posted data
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
@@ -183,11 +150,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_score') {
     $user = $userSvc->getUserById(intval($postData['user_id']));
 
     //check that it has at least been 8 hours
-    $last_added_score = $user->getLastScore();
+    $last_score = $user->getLastScore();
 
-    if ($last_added_score) {
+    if ($last_score) {
         $current_datetime = new DateTime();
-        $interval = $current_datetime->diff($last_added_score);
+        $interval = $current_datetime->diff($last_score);
         $hoursDifference = $interval->h + ($interval->days * 24);
 
         if ($hoursDifference < 8) {
@@ -206,22 +173,12 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_score') {
 
     http_response_code(200);
     echo json_encode(['message' => 'Score succesfully added to video!']);
-
     return;
 
 }
-//For fetching creator stats -- DONE
+//For fetching creator stats
 if (isset($_GET['action']) && $_GET['action'] === 'fetch_creator_stats') {
 
-    $headers = getallheaders();
-    $csrfToken = $headers['X-CSRF-Token'] ?? '';
-    /*
-        if (!validateCsrfToken($csrfToken)) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-            exit;
-        }
-    */
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
     $creatorSvc = new CreatorService;
@@ -234,7 +191,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'fetch_creator_stats') {
                 '<ul>
             <li>Starred in <strong>' . $creatorSvc->getAmountStarredIn($creator) . '</strong> videos</li>
             <li><strong>' . $creatorSvc->getTotalViewsOfCreator($creator) . '</strong> total views</li>
-            <li><strong>Score: ' . $creatorSvc->getTotalScoreOfCreator($creator) . '</strong></li>
+            <li><strong>' . $creatorSvc->getTotalScoreOfCreator($creator) . '</strong> total score</li>
         </ul>'
         ]);
     } else {
@@ -242,18 +199,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'fetch_creator_stats') {
         echo json_encode(['error' => 'Creator not found.']);
     }
 }
-//For fetching creator data -- DONE
+//For fetching creator data
 if (isset($_GET['action']) && $_GET['action'] === 'fetch_creator_data') {
 
-    $headers = getallheaders();
-    $csrfToken = $headers['X-CSRF-Token'] ?? '';
-    /*
-        if (!validateCsrfToken($csrfToken)) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-            exit;
-        }
-    */
     $creatorSvc = new CreatorService;
     $arr_simplified_creators = [];
     foreach ($creatorSvc->getAll() as $creator) {
@@ -271,18 +219,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'fetch_creator_data') {
     echo json_encode(['message' => $arr_simplified_creators]);
 
 }
-//For favoriting a creator -- DONE
+//For favoriting a creator
 if (isset($_GET['action']) && $_GET['action'] === 'favorite_creator') {
 
-    $headers = getallheaders();
-    $csrfToken = $headers['X-CSRF-Token'] ?? '';
-    /*
-        if (!validateCsrfToken($csrfToken)) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-            exit;
-        }
-    */
     // Retrieve posted data
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
@@ -303,18 +242,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'favorite_creator') {
     return;
 
 }
-//For unfavoriting a creator -- DONE
+//For unfavoriting a creator
 if (isset($_GET['action']) && $_GET['action'] === 'unfavorite_creator') {
 
-    $headers = getallheaders();
-    $csrfToken = $headers['X-CSRF-Token'] ?? '';
-    /*
-        if (!validateCsrfToken($csrfToken)) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-            exit;
-        }
-    */
     // Retrieve posted data
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
@@ -334,18 +264,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'unfavorite_creator') {
     echo json_encode(['message' => 'Creator succesfully unfavorited!']);
     return;
 }
-//For favoriting a video -- DONE
+//For favoriting a video
 if (isset($_GET['action']) && $_GET['action'] === 'favorite_video') {
 
-    $headers = getallheaders();
-    $csrfToken = $headers['X-CSRF-Token'] ?? '';
-    /*
-        if (!validateCsrfToken($csrfToken)) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-            exit;
-        }
-    */
     // Retrieve posted data
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
@@ -367,18 +288,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'favorite_video') {
     return;
 
 }
-//For unfavoriting a video -- DONE
+//For unfavoriting a video
 if (isset($_GET['action']) && $_GET['action'] === 'unfavorite_video') {
 
-    $headers = getallheaders();
-    $csrfToken = $headers['X-CSRF-Token'] ?? '';
-    /*
-        if (!validateCsrfToken($csrfToken)) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-            exit;
-        }
-    */
     // Retrieve posted data
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
@@ -398,59 +310,40 @@ if (isset($_GET['action']) && $_GET['action'] === 'unfavorite_video') {
     echo json_encode(['message' => 'Video succesfully unfavorited!']);
     return;
 }
-//For searching a video in the favorited videos page -- DONE
+//For searching a video in the favorited videos page
 if (isset($_GET['action']) && $_GET['action'] === 'search_favorited_video') {
-
-    $headers = getallheaders();
-    $csrfToken = $headers['X-CSRF-Token'] ?? '';
-    /*
-        if (!validateCsrfToken($csrfToken)) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-            exit;
-        }
-    */
     // Retrieve posted data
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
 
-    $videoSvc = new VideoService();
-
-    $video = $videoSvc->getVideoById(intval($postData['video_id']));
+    $videoSvc = new VideoService;
+    $userSvc = new UserService;
+    $user = $userSvc->getUserById(intval($postData['user_id']));
     $query = $postData['search_query'];
 
-    if (
-
-        strpos(strtolower($video->getFilename()), $query) !== false ||
-        strpos(strtolower($video->getTitle()), $query) !== false ||
-        strpos(strtolower($video->getDescription()), $query) !== false ||
-        strpos(strtolower($video->getTitle()), $query) !== false ||
-        strpos(strtolower($video->getTagsAsString()), $query) !== false ||
-        strpos(strtolower($videoSvc->getVideoCreatorsAsString($video->getId())), $query) !== false
-
-    ) {
-        http_response_code(200);
-        echo json_encode(['message' => 'true']);
-        return;
+    $user_favorites_videos = $userSvc->getFavoriteVideos($user);
+    $arr_found_video_ids = [];
+    foreach ($user_favorites_videos as $video) {
+        if ( strpos(strtolower($video->getFilename()), $query) !== false ||
+             strpos(strtolower($video->getTitle()), $query) !== false ||
+             strpos(strtolower($video->getDescription()), $query) !== false ||
+             strpos(strtolower($video->getTagsAsString()), $query) !== false ||
+             strpos(strtolower($videoSvc->getVideoCreatorsAsString($video->getId())), $query) !== false 
+             ) 
+         {
+           array_push($arr_found_video_ids, $video->getId());      
+         }
+          
     }
+
+    echo json_encode($arr_found_video_ids);
     http_response_code(200);
-    echo json_encode(['message' => 'false']);
     return;
 }
-//For fetching a short -- DONE
+//For fetching a short
 if (isset($_GET['action']) && $_GET['action'] === 'get_short') {
 
-    $headers = getallheaders();
-    $csrfToken = $headers['X-CSRF-Token'] ?? '';
-    /*
-        if (!validateCsrfToken($csrfToken)) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-            exit;
-        }
-    */
     //no data is currently being received, but I implemented it in case we do want to send data, like when we want to pick videos depending on user preferences.
     $postData = json_decode(file_get_contents('php://input'), true); // Decode JSON data sent from JavaScript
-
     require ('components/DBNameSnippet.php');
     $videoSvc = new VideoService;
     $userSvc = new UserService;
@@ -465,7 +358,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_short') {
     $videoSvc->addView($video);
     $logSvc->log($user_id, 'View', $video->getId());
 
+    //if the video has no firstAppeared property, it will crash
 
+    $firstAppearedFormatted = $video->getFirstAppeared() ? $video->getFirstAppeared()->format('d/m/Y') : null;
 
     $video_simplified = [
         'source' => $contentPath . '/Videos/' . $video->getFilename() . $video->getExtension(),
@@ -473,6 +368,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_short') {
         'filename' => $video->getFilename(),
         'extension' => $video->getExtension(),
         'dateAdded' => $video->getDateAdded()->format('d/m/Y'),
+        'firstAppeared' => $firstAppearedFormatted,
         'score' => $video->getScore(),
         'description' => $video->getDescription(),
         'tags' => [],
@@ -484,7 +380,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_short') {
         'aspectRatio' => $video->getAspectRatio(),
         'thumbnail' => $video->getThumbnail(),
         'is_favorited' => $userSvc->isVideoFavorited($user, $video),
-        'creators' => []
+        'creators' => [],
     ];
 
     foreach ($video->getTags() as $tag) {
@@ -509,28 +405,15 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_short') {
 
     http_response_code(200);
     echo json_encode(['message' => $video_simplified]);
+
+    //echo json_encode(get_object_vars($video));
 }
-
-
-
-
 //For fetching home page video results
 if (isset($_GET['action']) && $_GET['action'] === 'getAllVideosPerPageWithFilter') {
-
-    $headers = getallheaders();
-    $csrfToken = $headers['X-CSRF-Token'] ?? '';
-    /*
-        if (!validateCsrfToken($csrfToken)) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Invalid CSRF token: ' . $csrfToken]);
-            exit;
-        }
-    */
-
     //required components
     require ('components/DBNameSnippet.php');
     $videoSvc = new VideoService;
-    $videoPerformanceDAO = new VideoPerformanceDAO();
+    $videoPerformanceDAO = new VideoPerformanceDAO;
     $creatorSvc = new CreatorService;
     $tagSvc = new TagService;
 
@@ -606,9 +489,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'getAllVideosPerPageWithFilter
     }
 
     http_response_code(200);
-
-    echo 
-    json_encode([
+    echo json_encode([
         'result' => $results,
         'total_records' => $total_records,
         'total_pages' => $total_pages,
@@ -616,4 +497,51 @@ if (isset($_GET['action']) && $_GET['action'] === 'getAllVideosPerPageWithFilter
 
 
 }
+//For fetching creators
+if (isset($_GET['action']) && $_GET['action'] === 'getAllCreatorsPerPageWithFilter') {
 
+    //required components
+    require ('components/DBNameSnippet.php');
+    $creatorSvc = new CreatorService;
+    $creatorPerformanceDAO = new CreatorPerformanceDAO;
+
+    $postData = json_decode(file_get_contents('php://input'), true);
+    $page_no = (int) $postData['page_no'];
+    $query = $postData['query'];
+    $order_by = $postData['order_by'];
+    $results_per_page = 25;
+
+    //Get total records and calculate total pages required
+    $total_records = $creatorPerformanceDAO->getTotalRecords($query);
+    $creator_list = $creatorPerformanceDAO->getAllCreatorsPerPage($page_no, $results_per_page, $order_by, $query);
+    $total_pages = ceil($total_records / $results_per_page);
+
+    $results = [];
+
+
+    foreach ($creator_list as $creator) {
+        $creator_simplified = [
+            'id' => $creator->getId(),
+            'name' => $creator->getName(),
+            'alias' => $creator->getAlias(),
+            'dob' => $creator->getDateOfBirth(),
+            'nationality' => $creator->getNationality(),
+            'social_in' => $creator->getSocialIn(),
+            'social_x' => $creator->getSocialX(),
+            'description' => $creator->getDescription(),
+            'profile_pic' => $creator->getProfilePic(),
+            'starred_in' => $creatorSvc->getAmountStarredIn($creator)
+        ];
+
+        array_push($results, $creator_simplified);
+    }
+
+    http_response_code(200);
+
+    echo json_encode([
+        'result' => $results,
+        'total_records' => $total_records,
+        'total_pages' => $total_pages,
+    ]);
+
+}

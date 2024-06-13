@@ -21,16 +21,14 @@ declare(strict_types=1);
 
     <!--START WRAPPER-->
     <div class="wrapper">
-        <?php echo $feedback->getMessage(); ?>
 
         <!--Title-->
         <h1 class="title">Favorited Videos</h1>
         <div class="search-container">
             <label for="search-favorited-videos">Search</label>
-            <input id="search-favorited-videos" name="search-favorited-videos" title="search for creators"
-                placeholder="Search.." type="search">
+            <input id="search-favorited-videos" data-userid="<?= $user->getId() ?>" class="input-element"
+                name="search-favorited-videos" title="search for creators" placeholder="Search.." type="search">
         </div>
-
 
         <?php if (count($favorite_videos) > 0) { ?>
             <div class="video-list">
@@ -49,5 +47,5 @@ declare(strict_types=1);
     </div>
 
 </body>
-
+<?php require_once ('components/Notification.php'); ?>
 <?php include ('components/footer.php'); ?>

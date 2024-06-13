@@ -16,7 +16,7 @@ class CustomException
     {
         if ($this->message !== '') {
             return '<p id="feedback" 
-            style="color:' . $this->color . '; width: 90%; cursor: pointer; text-align: center; background-color: #00000067; border-radius: 8px; display: block; padding: 0.5rem 0 0.5rem 0; margin: 0 auto;">' . $this->message . '</p>';
+            style="color:' . $this->color . '; width: 50%; cursor: pointer; text-align: center; background-color: #00000067; border-radius: 8px; display: block; padding: 0.5rem 0 0.5rem 0; margin: 0 auto;">' . $this->message . '</p>';
         } else {
             return '<p id="feedback"></p>';
         }

@@ -34,8 +34,8 @@ input[type=search]:focus {
     width: 100%;
     height: 20rem;
     overflow-y: scroll;
-    border-top: 1px solid var(--housecolor-white);
-    border-bottom: 1px solid var(--housecolor-white);
+    border-top: 1px solid var(--hs-white);
+    border-bottom: 1px solid var(--hs-white);
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -45,7 +45,7 @@ input[type=search]:focus {
 .creator {
     line-height: 3rem;
     display: flex;
-    background-color: var(--housecolor-brownred);
+    background-color: rgb(28, 28, 28);
     padding: 0.5rem;
     border-radius: 8px;
     color: white;
@@ -56,7 +56,7 @@ input[type=search]:focus {
     
 }
 .creator:hover {
-    background-color: #800000;
+    background-color: var(--hs-brightred);
 }
 
 

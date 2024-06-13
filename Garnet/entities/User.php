@@ -8,9 +8,9 @@ class User
     private string $role;
     private dateTime $creation;
     private string $status;
-    private ?dateTime $last_added_score;
+    private ?dateTime $last_score;
 
-    public function __construct(int $id, string $username, string $password, string $role, DateTime $creation, string $status, ?dateTime $last_added_score)
+    public function __construct(int $id, string $username, string $password, string $role, DateTime $creation, string $status, ?dateTime $last_score)
     {
         $this->id = $id;
         $this->username = $username;
@@ -18,7 +18,7 @@ class User
         $this->role = $role;
         $this->creation = $creation;
         $this->status = $status;
-        $this->last_added_score = $last_added_score;
+        $this->last_score = $last_score;
     }
 
     public function getId() : int
@@ -52,6 +52,6 @@ class User
     }
     public function getLastScore() : ?DateTime
     {
-        return $this->last_added_score;
+        return $this->last_score;
     }
 }

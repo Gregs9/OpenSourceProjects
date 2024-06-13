@@ -18,12 +18,8 @@ if (($user->getRole() == 'admin') && isset($_GET['id']) && ($_GET['id'] !== ''))
     $video = $videoSvc->getVideoById((int) $_GET['id']);
 
     if ($video == null) {
-        //ADD FEEDBACK TO SESSION STORAGE
-        $_SESSION['feedback'] = 'Video does not exist.';
-        $_SESSION['feedback_color'] = 'red';
-
-        //go to nice page
-        header('location: controlpanel_videos');
+        $_SESSION['feedback'] = json_encode(['message' => 'Video does not exist!', 'type' => 'error']);
+        header('location: controlpanel-videos');
         exit(0);
     }
 
@@ -36,6 +32,12 @@ if (($user->getRole() == 'admin') && isset($_GET['id']) && ($_GET['id'] !== ''))
     if (isset($_GET['action']) && $_GET['action'] == 'editvideo') {
         //update video here
         $date_uploaded = new DateTime($_POST['date_added']);
+
+        $first_appeared = null;
+        if (isset($_POST['first_appeared']) && $_POST['first_appeared'] !== '') {
+            $first_appeared = new DateTime($_POST['first_appeared']);
+        }
+
 
         //generate a new video object and update it
         //update tags
@@ -53,13 +55,13 @@ if (($user->getRole() == 'admin') && isset($_GET['id']) && ($_GET['id'] !== ''))
         //update creators
         //delete all creators from video
         $creatorSvc->removeAllCreatorsFromVideo($video);
-        $arr_creators = explode(';', $_POST['creators-line']);
+        $arr_creators = explode(';', $_POST['hidden-creators-field']);
 
         //for each creator in the post value, add it to the video again
         foreach ($arr_creators as $creator_name) {
             $obj_creator = $creatorSvc->getCreatorByName($creator_name);
             if ($obj_creator !== null) {
-                $creatorSvc->addCreatorToVideo($obj_creator, $video);
+                $creatorSvc->addCreatorToVideo($obj_creator, $video);         
             }
         }
 
@@ -70,47 +72,73 @@ if (($user->getRole() == 'admin') && isset($_GET['id']) && ($_GET['id'] !== ''))
         $video_filesize = (int) htmlspecialchars($_POST['filesize']);
 
         if (!is_numeric($video_score) || $video_score < 0) {
-            $_SESSION['feedback'] = 'Video score must be greater than 0!';
-            $_SESSION['feedback_color'] = 'red';
+            $_SESSION['feedback'] = json_encode(['message' => 'Video score must be greater than 0!', 'type' => 'error']);
             header('location: edit-video?id=' . $video->getId());
             exit(0);
         }
 
         if (!is_numeric($video_views) || $video_views < 0) {
-            $_SESSION['feedback'] = 'Video views must be greater than 0!';
-            $_SESSION['feedback_color'] = 'red';
+            $_SESSION['feedback'] = json_encode(['message' => 'Video views must be greater than 0!', 'type' => 'error']);
             header('location: edit-video?id=' . $video->getId());
             exit(0);
         }
 
         if (!is_numeric($video_filesize) || $video_filesize <= 10) {
-            $_SESSION['feedback'] = 'Video filesize must be greater than 10 Kb!';
-            $_SESSION['feedback_color'] = 'red';
+            $_SESSION['feedback'] = json_encode(['message' => 'Video filesize must be greater than 10kB!', 'type' => 'error']);
             header('location: edit-video?id=' . $video->getId());
             exit(0);
         }
 
+        if ($video_description == '') {
+            $video_description = null;
+        }
+
         //create a new video object to update all data
-        $new_video_object = new Video($video->getId(), $video->getFilename(), $video->getExtension(), $date_uploaded, $video_score, $video_description, array(), $video_views, $video_title, $video->getDuration(), $video_filesize, $video->getUploadedBy());
+        $new_video_object = new Video($video->getId(), $video->getFilename(), $video->getExtension(), $date_uploaded, $first_appeared, $video_score, $video_description, array(), $video_views, $video_title, $video->getDuration(), $video_filesize, $video->getUploadedBy());
         $videoSvc->updateVideo($new_video_object);
 
+        if (isset($_FILES["thumbnailToUpload"]) && $_FILES["thumbnailToUpload"]["error"] == UPLOAD_ERR_OK) {
+            //target thumbnail file
+            $target_file_thumbnail = $contentPath . "/Temp/" . basename($_FILES["thumbnailToUpload"]["name"]);
 
-        //target thumbnail file
-        $target_file_thumbnail = $contentPath . "/Temp/" . basename($_FILES["thumbnailToUpload"]["name"]);
+            //move thumbnail to temporary folder to validate
+            move_uploaded_file($_FILES["thumbnailToUpload"]["tmp_name"], $target_file_thumbnail);
 
-        //move thumbnail to temporary folder to validate
-        move_uploaded_file($_FILES["thumbnailToUpload"]["tmp_name"], $target_file_thumbnail);
+            //get thumbnail's filetype
+            $thumbnail_filetype = $_FILES["thumbnailToUpload"]["type"];
 
-        //rename thumbnail TO THE VIDEO'S MD5 HASH VALUE
-        rename($target_file_thumbnail, $contentPath . "/Temp/" . $_POST['filename'] . '.webp');
-        $target_file_thumbnail = $contentPath . "/Temp/" . $_POST['filename'] . '.webp';
+            switch ($thumbnail_filetype) {
+                case "image/jpeg":
+                    $image = imagecreatefromjpeg($target_file_thumbnail);
+                    break;
+                case "image/png":
+                    $image = imagecreatefrompng($target_file_thumbnail);
+                    break;
+                case "image/webp":
+                    $image = imagecreatefromwebp($target_file_thumbnail);
+                    break;
+                default:
+                    die("Unsupported thumbnail file format.");
+            }
 
-        //add thumbnail to the correct location - it overwrites the current thumbnail by default
-        rename($target_file_thumbnail, $contentPath . '/Thumbnails/' . $_POST['filename'] . '.webp');
+            //convert image object to webp
+            imagewebp($image, $target_file_thumbnail);
+
+            //clean up memory
+            imagedestroy($image);
+
+            //rename thumbnail TO THE VIDEO'S MD5 HASH VALUE
+            rename($target_file_thumbnail, $contentPath . "/Temp/" . $_POST['filename'] . '.webp');
+            $target_file_thumbnail = $contentPath . "/Temp/" . $_POST['filename'] . '.webp';
+
+            //add thumbnail to the correct location - it overwrites the current thumbnail by default
+            rename($target_file_thumbnail, $contentPath . '/Thumbnails/' . $_POST['filename'] . '.webp');
+        }
+
+
 
         //ADD FEEDBACK TO SESSION STORAGE
-        $_SESSION['feedback'] = 'Changes saved.';
-        $_SESSION['feedback_color'] = 'green';
+        $_SESSION['feedback'] = json_encode(['message' => 'Changes saved.', 'type' => 'success']);
 
         //go to nice page
 
@@ -135,15 +163,13 @@ if (($user->getRole() == 'admin') && isset($_GET['id']) && ($_GET['id'] !== ''))
         $videoSvc->deleteVideo($video_in_question);
 
         //go to nice page
-        $_SESSION['feedback'] = 'Video successfully deleted.';
-        $_SESSION['feedback_color'] = 'green';
-        header('location: controlpanel_videos');
+        $_SESSION['feedback'] = json_encode(['message' => 'Video successfully deleted!', 'type' => 'success']);
+        header('location: controlpanel-videos');
         exit(0);
 
     }
 
-    require_once ('components/Notification.php');
-    include ('presentation/VideoEditorForm.php');
+    include ('presentation/videoEditorForm.php');
 
 } else {
     echo 'access denied.';

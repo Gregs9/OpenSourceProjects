@@ -7,6 +7,7 @@ class Video
     private string $filename;
     private string $extension;
     private DateTime $dateAdded;
+    private ?DateTime $first_appeared;
     private int $score;
     private ?string $description;
     private ?array $tags;
@@ -16,12 +17,13 @@ class Video
     private int $filesize;
     private int $uploaded_by;
 
-    public function __construct(int $id, string $filename, string $extension, DateTime $dateAdded, int $score, ?string $description, ?array $tags, int $views, string $title, string $duration, int $filesize, int $uploaded_by)
+    public function __construct(int $id, string $filename, string $extension, DateTime $dateAdded, ?DateTime $first_appeared, int $score, ?string $description, ?array $tags, int $views, string $title, string $duration, int $filesize, int $uploaded_by)
     {
         $this->id = $id;
         $this->filename = $filename;
         $this->extension = $extension;
         $this->dateAdded = $dateAdded;
+        $this->first_appeared = $first_appeared;
         $this->score = $score;
         $this->description = $description;
         $this->tags = $tags;
@@ -30,7 +32,6 @@ class Video
         $this->duration = $duration;
         $this->filesize = $filesize;
         $this->uploaded_by = $uploaded_by;
-
     }
 
     public function getId(): int
@@ -52,6 +53,10 @@ class Video
     {
         return $this->dateAdded;
     }
+    public function getFirstAppeared(): ?DateTime
+    {
+        return $this->first_appeared;
+    }
 
     public function getScore(): int
     {
@@ -71,7 +76,9 @@ class Video
     public function getTagsAsString(): string
     {
         $stringBuilder = '';
-        foreach ($this->tags as $tag) {
+        $tagDAO = new TagDAO;
+        $arr_video_tags = $tagDAO->getAllTagsFromVideoByVideoId($this->id);
+        foreach ($arr_video_tags as $tag) {
             $stringBuilder .= $tag->getName() . ';';
         }
 
@@ -155,9 +162,5 @@ class Video
         }
         return 'assets/thumbnail_error.png';
     }
-
-
-
-
 
 }

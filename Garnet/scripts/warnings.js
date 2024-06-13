@@ -8,18 +8,18 @@ $('#delete-video-link').on('click', function () {
 //FOR DELETING PRIMARY TAGS
 $('#delete-tag-link').on('click', function() {
     if (confirm("Are you sure you want to delete this primary tag? All videos containing this tag will have it removed.")) {
-        window.location.href = 'controlpanel_tags.php?remove_tag=' + $('#tag_ID').val();
+        window.location.href = 'controlpanel-tags.php?remove_tag=' + $('#tag_ID').val();
     }
 });
 
 //FOR DELETING CREATORS
 $('#delete-creator-link').on('click', function () {
     if (confirm("Are you sure you want to delete this creator? This creator will be removed from every video she may be featured in.")) {
-        window.location.href = 'controlpanel_creators?delete_creator=' + $('#creator_ID').val();
+        window.location.href = 'controlpanel-creators?delete_creator=' + $('#creator_ID').val();
     }
 });
 
 //FOR DELETING USERS
 $('.delete-user-link').on('click', function() {
-    confirm("Are you sure you want to delete this user?") ? window.location.href = 'controlpanel_users.php?delete_user=' + $(this).data('userid') : null;
+    confirm("Are you sure you want to delete this user?") ? window.location.href = 'controlpanel-users.php?delete_user=' + $(this).data('userid') : null;
 });

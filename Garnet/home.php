@@ -5,10 +5,9 @@ require_once ('data/autoloader.php');
 require_once ('components/DBNameSnippet.php');
 require_once ('components/authManager.php');
 
-$tagSvc = new TagService();
-$videoSvc = new VideoService();
-$creatorSvc = new CreatorService();
-$videoPerformanceDAO = new VideoPerformanceDAO();
+$tagSvc = new TagService;
+$videoSvc = new VideoService;
+$creatorSvc = new CreatorService;
 
 
 
@@ -20,8 +19,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'random') {
 
 /*Check if current date is the birthday of a creator*/
 $arr_creators_with_birthday = $creatorSvc->getBirthday(date('Y-m-d'));
-
+/*Get recommended videos*/
 $recommendedVideos = $videoSvc->getRecommendedVideos($user->getId());
 
-require_once ('components/Notification.php');
+
 include ('presentation/HomeForm.php');

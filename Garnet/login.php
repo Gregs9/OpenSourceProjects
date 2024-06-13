@@ -29,8 +29,7 @@ if (isset($_GET["action"]) && $_GET["action"] === "login") {
     $password = (string) htmlspecialchars(strtolower($_POST['log_password']));
 
     if (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {
-        $_SESSION['feedback'] = 'Only letters and numbers are allowed in the username.';
-        $_SESSION['feedback_color'] = 'red';
+        $_SESSION['feedback'] = json_encode(['message' => 'Username contains illegal characters.', 'type' => 'error']);
         header('Location: login');
         exit(0);
     }
@@ -40,27 +39,35 @@ if (isset($_GET["action"]) && $_GET["action"] === "login") {
 
     if ($user !== null) {
         if ($userSVC->checkUserStatus($user)) {
+
+
             //generate & set CSRF token 🔒
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+            //set user cookie
             setcookie('user', serialize($user), time() + 28800); //cookie expires after 8 hours
+
+            //set remember me cookie if user enabled it
+            if (isset($_POST['rememberme'])) {
+                setcookie('rememberme', $user->getUsername(), time() + 1209600); //cookie expires after 14 days
+            } else {
+                setcookie('rememberme', '', time() - 3600); //remove cookie
+            }
+
             /*Log the user logging in*/
             $logSvc->log($user->getId(), "Login");  
             header('Location: home');
             exit(0);  
         } else {
-            $_SESSION['feedback'] = 'Your account has been suspended.';
-            $_SESSION['feedback_color'] = 'red';
+            $_SESSION['feedback'] = json_encode(['message' => 'Your account has been suspended.', 'type' => 'error']);
             header('Location: login');
             exit(0);
         }
     } else {
-        $_SESSION['feedback'] = 'Unable to log in with these crendentials.';
-        $_SESSION['feedback_color'] = 'red';
+        $_SESSION['feedback'] = json_encode(['message' => 'Unable to log in with these credentials.', 'type' => 'error']);
         header('Location: login');
         exit(0);
     }
-
-
 }
 
 
@@ -74,24 +81,25 @@ if (isset($_GET["action"]) && $_GET["action"] === "register") {
     if ($userSVC->validatePasswordRepetition($password, $password2)) {
         if ($userSVC->validateUsername($username)) {
             $userSVC->addUser($username, password_hash($password, PASSWORD_DEFAULT));
-            $_SESSION['feedback'] = 'Account created, you may now log in.';
-            $_SESSION['feedback_color'] = 'green';
+            $_SESSION['feedback'] = json_encode(['message' => 'Account created, you may now log in.', 'type' => 'success']);
         } else {
-            $_SESSION['feedback'] = 'This username already exists.';
-            $_SESSION['feedback_color'] = 'red';
+            $_SESSION['feedback'] = json_encode(['message' => 'This username already exists.', 'type' => 'error']);
         }
     } else {
-        $_SESSION['feedback'] = 'Passwords don\'t match.';
-        $_SESSION['feedback_color'] = 'red';
+        $_SESSION['feedback'] = json_encode(['message' => htmlspecialchars('The given passwords don\'t match.'), 'type' => 'error']);
     }
     header('Location: login');
     exit(0);
-}
 
+}
 
 if (!isset($_COOKIE["accept-cookie"]) || $_COOKIE["accept-cookie"] == 'false') {
     include('components/cookie.html');
 }
 
-require_once('components/Notification.php');
+
+
+
+
+
 include('presentation/LoginForm.php');

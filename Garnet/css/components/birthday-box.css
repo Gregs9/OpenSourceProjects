@@ -1,5 +1,5 @@
 .birthday-box {
-    background-color: rgba(0, 0, 0, 0.651);
+    background-color: var(--hs-dark-transparent);
     border-radius: 5px;
     padding: 1rem;
     display: inline;
@@ -9,41 +9,39 @@
     animation: 1s ease-out 0s 1 slideInFromLeft;
     overflow: hidden;
     z-index: 9;
+
+    h2 {
+        margin-bottom: 1rem;
+    }
 }
 
-.birthday-box>h2 {
-    margin-bottom: 1rem;
-}
-
-  
 /*creator boxes here*/
 #video-creators {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 
-}
+    .creator-container>a {
+        display: flex;
+        background-color: rgb(182, 133, 0);
+        margin-bottom: 1rem;
+    
+        padding: 0.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        color: var(--hs-white);
 
-#video-creators>.creator-container>a {
-    display: flex;
-    background-color: rgb(182, 133, 0);
-    margin-bottom: 1rem;
+        img {
+            border-radius: 50%;
+            height: 3rem;
+            object-fit: contain;
+        }
 
-    padding: 0.5rem;
-    border-radius: 8px;
-    cursor: pointer;
-    color: white;
-}
-
-.creator-container>a>img {
-    border-radius: 50%;
-    height: 3rem;
-    object-fit: contain;
-}
-
-.creator-container>a>p {
-    display: grid;
-    place-items: center center;
-    margin-left: 1rem;
-    cursor: pointer;
+        p {
+            display: grid;
+            place-items: center center;
+            margin-left: 1rem;
+            cursor: pointer;
+        }
+    }
 }

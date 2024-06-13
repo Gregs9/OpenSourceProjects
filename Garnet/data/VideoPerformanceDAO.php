@@ -29,7 +29,8 @@ class VideoPerformanceDAO
 
         foreach ($resultSet as $rij) {
             $arr_video_tags = $tagDAO->getAllTagsFromVideoByVideoId(intval($rij['video_id']));
-            $video = new Video((int) $rij['video_id'], (string) $rij['filename'], (string) $rij['extension'], new DateTime($rij['date_added']), (int) $rij['score'], (string) $rij['description'], (array) $arr_video_tags, (int) $rij['views'], (string) $rij['title'], (string) $rij['duration'], (int) $rij['filesize_kB'], (int) $rij['uploaded_by']);
+            $firstAppeared = array_key_exists('first_appeared', $rij) && !is_null($rij['first_appeared']) ? new DateTime($rij['first_appeared']) : null;
+            $video = new Video((int) $rij['video_id'], (string) $rij['filename'], (string) $rij['extension'], new DateTime($rij['date_added']), $firstAppeared, (int) $rij['score'], (string) $rij['description'], (array) $arr_video_tags, (int) $rij['views'], (string) $rij['title'], (string) $rij['duration'], (int) $rij['filesize_kB'], (int) $rij['uploaded_by']);
             array_push($list_videos, $video);
         }
 
@@ -195,9 +196,16 @@ class VideoPerformanceDAO
         $tagDAO = new TagDAO();
 
         foreach ($resultSet as $rij) {
+
+
             //get all tags from this video as an array
             $arr_video_tags = $tagDAO->getAllTagsFromVideoByVideoId(intval($rij['video_id']));
-            $video = new Video((int) $rij['video_id'], (string) $rij['filename'], (string) $rij['extension'], new DateTime($rij['date_added']), (int) $rij['score'], (string) $rij['description'], (array) $arr_video_tags, (int) $rij['views'], (string) $rij['title'], (string) $rij['duration'], (int) $rij['filesize_kB'], (int) $rij['uploaded_by']);
+
+            $firstAppeared = array_key_exists('first_appeared', $rij) && !is_null($rij['first_appeared']) ? new DateTime($rij['first_appeared']) : null;
+
+
+            $video = new Video((int) $rij['video_id'], (string) $rij['filename'], (string) $rij['extension'], new DateTime($rij['date_added']), $firstAppeared, (int) $rij['score'], (string) $rij['description'], (array) $arr_video_tags, (int) $rij['views'], (string) $rij['title'], (string) $rij['duration'], (int) $rij['filesize_kB'], (int) $rij['uploaded_by']);
+
             array_push($list_videos, $video);
 
         }

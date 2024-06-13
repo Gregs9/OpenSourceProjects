@@ -1,21 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Montserrat&family=Nunito:wght@300&display=swap');
-
+/*IMPORTANT -- LOGIN PAGE DOESN'T INHERIT CSS FROM GLOBAL FILE*/
 * {
     margin: 0;
     padding: 0;
 }
 
 /* Color schemes */
-
 :root {
-    --housecolor-brightred: #800000;
-    --housecolor-darkred: #380000;
-    --housecolor-brownred: #160000;
-    --housecolor-white: #e9e9e9;
-    --housecolor-taggrey: #252525;
-    --housecolor-linkhover: #ff7d7d;
-}
-
+    --hs-brightred: #800000;
+    --hs-brightred-glow: #aa0000;
+    --hs-darkred: #380000;
+    --hs-brownred: #160000;
+    --hs-white: #e9e9e9;
+    --hs-taggrey: #252525;
+    --hs-linkhover: #ff7d7d;
+    --hs-dark-transparent: rgba(0, 0, 0, 0.430);
+  }
 
 body {
     background-image: url("../../assets/background.webp");
@@ -23,7 +23,7 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    background-color: #464646;
+    background-color: var(--hs-dark-transparent);
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -40,13 +40,13 @@ body {
 form {
     width: 100%;
     margin: 1rem 0 1rem 0;
-    padding: 10%;
+    padding: 10%; 
     border-radius: 8px;
-    background-color: rgba(0, 0, 0, 0.551);
+    background-color: rgba(0, 0, 0, 0.438);
 }
 
 h1 {
-    color: var(--housecolor-white);
+    color: var(--hs-white);
     font-weight: 1;
     font-size: 2.5rem;
     width: 100%;
@@ -54,21 +54,6 @@ h1 {
     margin-top: -5%;
     margin-bottom: 5%;
 }
-
-.regular-link {
-    color: var(--housecolor-white);
-    text-decoration: none;
-    transition: color 200ms;
-    font-family: 'Nunito', sans-serif;
-    cursor: pointer;
-    width: 100%;
-    text-align: center;
-}
-
-.regular-link:hover {
-    color: var(--housecolor-linkhover);
-}
-
 
 form input[type=text],
 form input[type=password] {
@@ -78,19 +63,18 @@ form input[type=password] {
     border-radius: 4px;
     box-sizing: border-box;
     margin-bottom: 16px;
-    background-color: #00000067;
+    background-color: var(--hs-dark-transparent);
     color: rgb(255, 255, 255);
     font-family: 'Nunito', sans-serif;
 }
 
 ::placeholder {
     color: rgb(161, 161, 161);
-    opacity: 1;
-    /* Firefox */
+    opacity: 1;/* Firefox */
 }
 
 form input[type=submit] {
-    background-color: var(--housecolor-darkred);
+    background-color: var(--hs-darkred);
     color: white;
     padding: 12px 20px;
     border: none;
@@ -104,7 +88,7 @@ form input[type=submit] {
 }
 
 form input[type=submit]:hover {
-    background-color: var(--housecolor-brightred);
+    background-color: var(--hs-brightred);
 }
 
 #logo {
@@ -112,4 +96,78 @@ form input[type=submit]:hover {
     height: 100px;
     object-fit: contain;
     margin-bottom: 1rem;
+}
+
+
+
+
+
+
+
+
+
+
+#remember-me-container {
+    display: flex;
+    color: var(--hs-white);
+    margin-bottom: 1rem;
+}
+
+/*REMEMBER ME SWITCH*/
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 20px;
+    margin-right: 0.5rem;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--hs-darkred);
+    -webkit-transition: .4s;
+    transition: .4s; 
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--hs-white);
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: var(--hs-brightred)
+}
+
+
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
 }

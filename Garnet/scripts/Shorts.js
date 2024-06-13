@@ -1,5 +1,5 @@
 "use strict";
-
+const csrfToken = 'a19e6ab21ff4ecf98a288be53fbd9acf45bc190a8f0824bd690ad1c7c3a8d1b9';
 const data = {
     'user_id': $('#score').data('userid')
 };
@@ -11,17 +11,28 @@ let allow_scroll = true;
 getVideo();
 
 $(document).on('mousewheel', function (event) {
+    user_input(event);
+});
+
+$(document).keydown(function(event) {
+    user_input(event);
+});
+
+$('#tutorial').on('click', function() {
+    $(this).fadeOut();
+})
+
+function user_input(event) {
     if (allow_scroll) {
 
-        //  on mousewheel down
-        if (event.originalEvent.deltaY > 0) {
+        //  on mousewheel down or arrow key down
+        if ((event.originalEvent.deltaY > 0) || (event.which === 40)) {
             if (current_index >= 0) {
 
                 /*event.preventDefault();*/
                 current_index++;
                 allow_scroll = false;
                 if (current_index < (previous_videos.length - 1)) {
-                    ;
                     display_video(previous_videos[current_index]);
                 } else {
                     getVideo();
@@ -30,15 +41,17 @@ $(document).on('mousewheel', function (event) {
         }
 
         //on mousewheel up
-        if (event.originalEvent.deltaY < 0) {
+        if ((event.originalEvent.deltaY < 0) || (event.which === 38)) {
             if (current_index > 0) {
                 /*event.preventDefault();*/
                 current_index--;
                 display_video(previous_videos[current_index]);
             }
         }
+
+        //on arr
     }
-});
+}
 
 
 function pushToArray(value) {
@@ -60,7 +73,7 @@ function getVideo() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-Token': 'a19e6ab21ff4ecf98a288be53fbd9acf45bc190a8f0824bd690ad1c7c3a8d1b9'
+            'X-CSRF-Token': csrfToken
         },
         body: JSON.stringify(data)
     })
@@ -121,7 +134,7 @@ function sleep(time) {
 
 function resizeVid() {
     $('#short').height('100%');
-    $('#short-container').height('100%');  
+    $('#short-container').height('100%');
 }
 
 function add_creator(creator) {

@@ -1,18 +1,105 @@
 "use strict";
 
+
+//Get possible selected tag from url
+const urlParams = new URLSearchParams(window.location.search);
+let tag_in_link = urlParams.get('tag');
 let page_no = 1;
+let fetchTimeout;
 
-fetchVideoList();
 
-$('#filter').on('click', function () {
-    page_no = 1;
-    fetchVideoList();
+
+
+$('.tag-list a').on('click', function () {
+    let already_exists = false;
+    const clicked_tag = $(this);
+
+    //check that this tag wasn't already selected
+    $('#selected-tags a').each(function () {
+        if (clicked_tag.text().substring(1) === $(this).text()) {
+            already_exists = true;
+            return false;
+        }
+    });
+
+    //only add tag if there are less than 5, and doesn't already exist
+    if (($('#selected-tags a').length < 5) && (already_exists === false)) {
+        let selected_tag_element = $('<a></a>');
+        selected_tag_element.text($(this).text().replace('+', ''));
+        selected_tag_element.addClass('tag');
+        $('#selected-tags').append(selected_tag_element);
+
+        //add event handlers -- make sure they're not added multiple times
+        $('#selected-tags a').on('click', function () {
+            $(this).remove();
+            updateSelectedTags();
+        });
+
+        updateSelectedTags();
+
+    }
+});
+
+$('#selected-tags a').on('click', function () {
+    $(this).remove();
+    updateSelectedTags();
 });
 
 
+//If there is a parameter in the url
+if (tag_in_link) {
+    //Get element with the parameter name
+    $('.tag-list a').each(function () {
+        if ($(this).text().toLowerCase() == '+' + tag_in_link.toLowerCase()) {
+            //Simulate a click on this link if parameter is found
+            $(this).click();
+            return false;
+        }
+    });
+} else {
+    updateSelectedTags();
+}
 
+function updateSelectedTags() {
+    
+    //update hidden inputbox for php request
+    const hidden_input_field = $('#input-selected-tags');
+    hidden_input_field.val('');
+
+    $('#selected-tags>.tag').each(function () {
+        hidden_input_field.val(hidden_input_field.val() + $(this).text() + ';')
+    });
+
+    hidden_input_field.val(hidden_input_field.val().slice(0, -1));
+    filter_onChange();
+}
+
+
+/*Debounce to prevent the fetch from triggering too quickly*/
+function debounceFetch(func, wait) {
+    
+    return function(...args) {
+        clearTimeout(fetchTimeout);
+        fetchTimeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+
+
+
+$('#search').on('input', filter_onChange);
+$('#order-by').on('change', filter_onChange);
+$('#exclude-shorts').on('change', filter_onChange);
+
+function filter_onChange() {
+    page_no = 1;
+    debounceFetch(fetchVideoList(), 500);
+}
 
 function fetchVideoList() {
+
+    $('main.video-list').empty();
+    showLoadingAnimation();
+
 
     const selected_tags = $('#input-selected-tags').val().split(';');
 
@@ -23,7 +110,6 @@ function fetchVideoList() {
         exclude_shorts: $('#exclude-shorts').prop('checked'),
         page_no: page_no
     };
-
 
     fetch('api.php?action=getAllVideosPerPageWithFilter', {
         method: 'POST',
@@ -54,8 +140,6 @@ function fetchVideoList() {
 function displayVideoResults(data, total_records) {
 
     const container = $('main.video-list');
-    //empty old results first
-    container.empty();
 
     if (total_records === 0) {
         displayNoResults();
@@ -126,24 +210,47 @@ function displayVideoResults(data, total_records) {
 
     //scroll video-list back to top
     document.querySelector('main').scrollTop = 0;
+    $('.loading-icon').remove();
+
+
 }
 
 function displayPagination(total_records, total_pages) {
-    const pagination_container = $('#page_numbers');
+    const pagination_container = $('.pagination');
     $('#total-results').text(total_records + ' Results');
-
-    //Clear the pagination container before appending new elements
+    
+    // Clear the pagination container before appending new elements
     pagination_container.empty();
-
-    //if page_no is not on the first page, create a back arrow
+    
+    // Calculate the start and end page numbers
+    let start_page = page_no;
+    let end_page = Math.min(total_pages, page_no + 5);
+    
+    // If page_no is not on the first page, create a back arrow
     if (page_no > 1) {
         let previous_page = $('<a></a>');
         previous_page.on('click', previousPage);
         previous_page.text('<');
         pagination_container.append(previous_page);
     }
-
-    for (let i = 1; i <= total_pages; i++) {
+    
+    // Always show the first page
+    let first_page = $('<a></a>');
+    first_page.on('click', () => setPage(1));
+    first_page.text(1);
+    if (page_no === 1) {
+        first_page.addClass('active-page');
+    }
+    pagination_container.append(first_page);
+    
+    // Add an ellipsis if there's a gap between the first page and the start page
+    if (start_page > 2) {
+        let ellipsis = $('<span></span>').text('...');
+        pagination_container.append(ellipsis);
+    }
+    
+    for (let i = start_page; i <= end_page; i++) {
+        if (i === 1) continue; // Skip the first page as it is already added
         let page = $('<a></a>');
         page.on('click', () => setPage(i));
         page.text(i);
@@ -151,18 +258,28 @@ function displayPagination(total_records, total_pages) {
             page.addClass('active-page');
         }
         pagination_container.append(page);
-
     }
-
-    //if current page_no is smaller than the total amount of pages, show next button
+    
+    // Always show the final page if it's not already included
+    if (end_page < total_pages) {
+        // Add an ellipsis if there's a gap between the end_page and the final page
+        if (end_page < total_pages - 1) {
+            let ellipsis = $('<span></span>').text('...');
+            pagination_container.append(ellipsis);
+        }
+        let final_page = $('<a></a>');
+        final_page.on('click', () => setPage(total_pages));
+        final_page.text(total_pages);
+        pagination_container.append(final_page);
+    }
+    
+    // If current page_no is smaller than the total amount of pages, show next button
     if (page_no < total_pages) {
         let next_page = $('<a></a>');
         next_page.on('click', nextPage);
         next_page.text('>');
         pagination_container.append(next_page);
     }
-
-    
 }
 
 function previousPage() {
@@ -190,5 +307,13 @@ function displayNoResults() {
     message_container.append(message_detailed);
     message_container.addClass('message-container');
 
-    $('main.video-list').append(message_container);
+    $('.video-list').append(message_container);
+    $('.loading-icon').remove();
+}
+
+function showLoadingAnimation() {
+    let loading_icon = $('<img>');
+    loading_icon.attr('src', 'assets/loading.gif');
+    loading_icon.addClass('loading-icon');
+    $('.video-list').append(loading_icon);
 }

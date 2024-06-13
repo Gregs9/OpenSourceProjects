@@ -5,6 +5,7 @@
     padding: 1rem;
     display: grid;
     place-items: center center;
+    color: white;
 }
 
 .about-info h1 {

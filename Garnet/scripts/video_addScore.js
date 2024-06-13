@@ -9,7 +9,7 @@ fetch('api.php?action=get_last_score', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': 'a19e6ab21ff4ecf98a288be53fbd9acf45bc190a8f0824bd690ad1c7c3a8d1b9'
+        'X-CSRF-Token': csrfToken //token variable already imported from video_AddOrRemoveTag.js
     },
     body: JSON.stringify(dataToSend)
 })
@@ -32,7 +32,7 @@ fetch('api.php?action=get_last_score', {
     })
     .catch(error => {
         $('#score').css('display', 'none');
-        console.log(error.message);
+        flash(error.message, 'error');
     });
 
 
@@ -56,12 +56,11 @@ function api_addVideoScore(dataToSend) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-Token': 'a19e6ab21ff4ecf98a288be53fbd9acf45bc190a8f0824bd690ad1c7c3a8d1b9'
+            'X-CSRF-Token': csrfToken //token variable already imported from video_AddOrRemoveTag.js
         },
         body: JSON.stringify(dataToSend) // Convert data to JSON string
     })
         .then(response => {
-            console.log(response);
             if (!response.ok) {
                 return response.json().then(errorData => {
                     throw new Error(errorData.error || 'Unknown error occurred');
@@ -71,13 +70,12 @@ function api_addVideoScore(dataToSend) {
             return response.json();
         })
         .then(data => {
-            show_feedback(data.message);
+            flash(data.message, 'success');
             hide_score_button();
             $('#video-score').text(parseInt($('#video-score').text()) + 1);
         })
         .catch(error => {
-            console.log(error.message);
-            alert('Error: ' + error.message);
+            flash(error.message, 'error');
         });
 }
 
@@ -123,4 +121,32 @@ function hide_score_button() {
         }, speed);
     }
     removeFadeOut(document.getElementById('score'), 1000);
+}
+
+
+
+
+function flash(data, type) {
+
+    const options = {
+        progress: true,
+        interactive: true,
+        timeout: 5000,
+        appear_delay: 200,
+        container: '.flash-container',
+        theme: 'default',
+        classes: {
+            container: 'flash-container',
+            flash: 'flash-message',
+            visible: 'is-visible',
+            progress: 'flash-progress',
+            progress_hidden: 'is-hidden'
+        }
+    };
+
+    if (type == 'success') {
+        window.FlashMessage.success(data, options);
+    } else {
+        window.FlashMessage.error(data, options);
+    }
 }
