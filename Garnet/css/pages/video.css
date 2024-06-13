@@ -151,7 +151,8 @@
 
 #video-description {
     border-radius: 16px;
-    background-color: var(--hs-brownred);
+    background-color: rgba(32, 32, 32, 0.586);
+    color: white;
     width: calc(100% - 4rem);
     margin: 1rem auto;
     padding: 1rem;
@@ -166,7 +167,8 @@
     justify-content: space-between;
     border-radius: 16px;
     margin: 1rem auto;
-    background-color: var(--hs-brownred);
+    background-color: rgba(32, 32, 32, 0.586);
+    color: white;
     width: calc(100% - 3rem);
 }
 
