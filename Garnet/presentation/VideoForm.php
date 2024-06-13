@@ -115,7 +115,7 @@
             <a <?= !in_array($creator->getId(), [0, 423, 424]) ? 'href="creator?creator=' . $creator->getId() . '"' : null; ?>>
               <img class="creator-thumbnail" src="<?= $creator->getProfilePic(); ?>">
               <p class="creator-name">
-                <?= $creator->getName(); ?>
+                <?= $creator->getName() ?? 'Unknown' ?>
               </p>
             </a>
           </div>
