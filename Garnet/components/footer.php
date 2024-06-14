@@ -21,7 +21,7 @@
     <h2>Useful links</h2>
     <a class="regular-link" href="#">Legal Stuff</a>
     <a class="regular-link" href="#">Privacy Policy</a>
-    <a class="regular-link" href="presentation/cookieInformation">Cookie Policy</a>
+    <a class="regular-link" href="presentation/cookie">Cookie Policy</a>
     <a class="regular-link" href="#">Security</a>
   </section>
 
