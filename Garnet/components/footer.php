@@ -32,7 +32,7 @@
   </section>
 
   <section>
-    <p>© Copyright 2023-2024 Cacodemon All Rights Reserved.</p>
+    <p>© Copyright 2023-2024</p>
 
   </section>
 
