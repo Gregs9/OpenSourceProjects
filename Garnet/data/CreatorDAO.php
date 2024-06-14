@@ -190,7 +190,7 @@ class CreatorDAO
         $list_videos = array();
 
         foreach ($resultSet as $row) {
-            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), null, (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
+            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
             array_push($list_videos, $video);
         }
 
@@ -212,7 +212,7 @@ class CreatorDAO
         $list_videos = array();
 
         foreach ($resultSet as $row) {
-            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), null, (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
+            $video = new Video((int) $row['video_id'], (string) $row['filename'], (string) $row['extension'], new DateTime($row['date_added']), (int) $row['score'], (string) $row['description'], null, (int) $row['views'], (string) $row['title'], (string) $row['duration'], (int) $row['filesize_kB'], (int) $row['uploaded_by']);
             array_push($list_videos, $video);
         }
 

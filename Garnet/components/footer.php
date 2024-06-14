@@ -27,14 +27,11 @@
 
   <section id="contact">
     <h2>Contact</h2>
-    <p>Mr. Cacodemon</p>
-    <p>Good-Intentions Road</p>
-    <p>E2M3 The Shores of Hell</p>
-    <p>Hell</p>
+    <p>Gregory Hermans</p>
+    <p>Belgium</p>
   </section>
 
   <section>
-    <?= unserialize($_COOKIE['user'], ['User'])->getRole() == 'admin' ? '<img src="assets/cacodemon.gif" style="width: 50px;">' : null ?>
     <p>© Copyright 2023-2024 Cacodemon All Rights Reserved.</p>
 
   </section>

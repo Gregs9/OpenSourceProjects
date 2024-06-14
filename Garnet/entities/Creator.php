@@ -84,8 +84,7 @@ class Creator
     public function getFlag() : string
     {
 
-
-        if (file_exists('assets/flags/' . $this->nationality . '.png')) {
+        if (file_exists('assets/flags/' . strtolower($this->nationality) . '.png')) {
           return 'assets/flags/' . $this->nationality . '.png';
         }
 
